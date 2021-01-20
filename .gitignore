@@ -41,3 +41,8 @@
 
 *.exp
 *.ilk
+
+# c#
+
+*.AssemblyAttributes.cs
+*AssemblyInfo.cs
