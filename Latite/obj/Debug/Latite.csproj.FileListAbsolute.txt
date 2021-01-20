@@ -1,0 +1,10 @@
+C:\vs\Latite\Latite\bin\Debug\Latite.exe.config
+C:\vs\Latite\Latite\bin\Debug\Latite.exe
+C:\vs\Latite\Latite\bin\Debug\Latite.pdb
+C:\vs\Latite\Latite\obj\Debug\Latite.csprojAssemblyReference.cache
+C:\vs\Latite\Latite\obj\Debug\Latite.LatiteForm.resources
+C:\vs\Latite\Latite\obj\Debug\Latite.Properties.Resources.resources
+C:\vs\Latite\Latite\obj\Debug\Latite.csproj.GenerateResource.cache
+C:\vs\Latite\Latite\obj\Debug\Latite.csproj.CoreCompileInputs.cache
+C:\vs\Latite\Latite\obj\Debug\Latite.exe
+C:\vs\Latite\Latite\obj\Debug\Latite.pdb
