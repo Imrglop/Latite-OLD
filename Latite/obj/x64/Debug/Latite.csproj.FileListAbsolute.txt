@@ -8,3 +8,4 @@ C:\vs\Latite\Latite\obj\x64\Debug\Latite.csproj.CoreCompileInputs.cache
 C:\vs\Latite\Latite\obj\x64\Debug\Latite.exe
 C:\vs\Latite\Latite\obj\x64\Debug\Latite.pdb
 C:\vs\Latite\Latite\obj\x64\Debug\Latite.csprojAssemblyReference.cache
+C:\vs\Latite\Latite\obj\x64\Debug\Latite.Overlay.resources

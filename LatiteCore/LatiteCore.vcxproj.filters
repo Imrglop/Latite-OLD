@@ -13,30 +13,48 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Mods">
+      <UniqueIdentifier>{a42b5fbf-9f30-488e-9949-f5c0e50123f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{6496c1e4-6d1a-46f7-87cb-7987e490f300}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Config.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="dllmain.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\ModManager.h">
+      <Filter>Source Files\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\Zoom.h">
+      <Filter>Source Files\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="LocalPlayer.h">
+      <Filter>Source Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Mods\ModManager.cpp">
+      <Filter>Source Files\Mods</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\Zoom.cpp">
+      <Filter>Source Files\Mods</Filter>
     </ClCompile>
     <ClCompile Include="Config.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="LocalPlayer.cpp">
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

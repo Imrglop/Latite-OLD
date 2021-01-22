@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Latite
 {
@@ -23,14 +24,27 @@ namespace Latite
         // extern "C" LATITE_API bool connectedToMinecraft(int type = 2);
         [DllImport("LatiteCore.dll")]
         static extern bool connectedToMinecraft(int type = 2);
+        [DllImport("LatiteCore.dll")]
+        static extern void detach();
+        [DllImport("LatiteCore.dll")]
+        static extern void loop();
+        /*
+         * 
+extern "C" LATITE_API void mod_zoom_setBind(char bind);
+extern "C" LATITE_API void mod_zoom_setAmount(float amount);
+         */
+        [DllImport("LatiteCore.dll")]
+        static extern void mod_zoom_setBind(char bind);
+        [DllImport("LatiteCore.dll")]
+        static extern void mod_zoom_setAmount(float amount);
         public LatiteForm()
         {
             InitializeComponent();
         }
 
-        string[] Commands = { "help", "info", "print <text>", "clear", "connect" };
-        string Info = "Latite Client\r\n\r\nLicense: GPLv3\r\n\r\nSource: github.com/Imrglop/Latite\r\n\r\nMade by Imrglop";
-        bool IsConsole = false;
+        readonly string[] Commands = { "help", "info", "print <text>", "clear", "connect", "disconnect" };
+        readonly string Info = "Latite Client\r\n\r\nLicense: GPLv3\r\n\r\nSource: github.com/Imrglop/Latite\r\n\r\nMade by Imrglop";
+        private bool IsConsole = false;
 
         public void Cout(string OutputString)
         {
@@ -43,27 +57,61 @@ namespace Latite
 
         private void ConnectToMc()
         {
-            if (!connectedToMinecraft())
+            try
             {
-                var Status = attach();
-                if (Status == 0)
+                if (!connectedToMinecraft())
                 {
-                    MessageBox.Show("Connected to Minecraft!");
-                    if (settingsUseConsole.Checked)
+                    if (!IsConsole && settingsUseConsole.Checked)
                     {
                         consoleMain();
                         IsConsole = true;
                     }
-                    connectButton.Visible = false;
-                    connectedToMinecraft(1); // true
-                    connectedLabel.Visible = true;
-                    // have to put 1 cuz C#
+                    var Status = attach();
+                    if (Status == 0)
+                    {
+                        connectButton.Visible = false;
+                        connectedToMinecraft(1); // true
+                        connectedLabel.Visible = true;
+                        // have to put 1 cuz C#
+                        moduleWorker.RunWorkerAsync();
+                        disconnectButton.Visible = true;
+                        Coutln("Connected to Minecraft!");
+                        MessageBox.Show("Connected to Minecraft!");
+                    }
+                    else
+                    {
+                        Coutln("Couldn't connect to Minecraft! Error code: " + Status.ToString());
+                        var Result = MessageBox.Show("Could not connect to Minecraft! Error Code: " + Status.ToString(), "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                        if (Result == DialogResult.Retry)
+                        {
+                            ConnectToMc();
+                        }
+                    }
                 }
-                else
+            } catch (DllNotFoundException)
+            {
+                var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                Coutln("DllNotFoundException occured while attempting to import LatiteCore.dll");
+                if (Result == DialogResult.Retry)
                 {
-                    MessageBox.Show("Could not connect to Minecraft! Error Code: " + Status.ToString());
-                    Coutln("Couldn't connect to Minecraft! Error code: " + Status.ToString());
+                    ConnectToMc();
                 }
+            }
+        }
+
+        private void DisconnectFromMc()
+        {
+            if (connectedToMinecraft())
+            {
+                if (moduleWorker.IsBusy)
+                {
+                    moduleWorker.CancelAsync();
+                }
+                disconnectButton.Visible = false;
+                connectButton.Visible = true;
+                connectedToMinecraft(0); // false
+                connectedLabel.Visible = false;
+                detach();
             }
         }
 
@@ -78,6 +126,11 @@ namespace Latite
             {
                 DispatchCommand(consoleInput.Text);
             }
+        }
+
+        private char GetBind(string Str)
+        {
+            return Str.ToUpper()[0];
         }
 
         private void DispatchCommand(string Command)
@@ -105,6 +158,10 @@ namespace Latite
                 case "info":
                     Coutln(Info);
                     break;
+                case "disconnect":
+                    DisconnectFromMc();
+                    Coutln("Disconnected!");
+                    break;
                 default:
                     Coutln("Error: unknown command \"" + Label + "\"");
                     break;
@@ -118,7 +175,7 @@ namespace Latite
 
         private void DRPButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This feature is coming soon");
+            System.Diagnostics.Process.Start("https://discord.gg/DfYUSJspcn");
         }
 
         private void optionsButton_Click(object sender, EventArgs e)
@@ -134,6 +191,47 @@ namespace Latite
         private void consoleButton_Click(object sender, EventArgs e)
         {
             modsControl.SelectedTab = consoleTab;
+        }
+
+        private void zaSlider_Scroll(object sender, EventArgs e)
+        {
+            var FOVAmount = (zaSlider.Value + 2) * 5;
+            zaSliderLabel.Text = $"Amount ({FOVAmount})";
+            mod_zoom_setAmount(FOVAmount);
+            Coutln("try set amt to " + FOVAmount);
+        }
+
+        private void moduleWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                loop();
+                if (moduleWorker.CancellationPending) break;
+                Thread.Sleep(50);
+            }
+        }
+
+        private void OnClosing(object sender, FormClosingEventArgs e)
+        {
+            DisconnectFromMc();
+        }
+
+        private void disconnectButton_Click(object sender, EventArgs e)
+        {
+            DisconnectFromMc();
+        }
+
+        private void zoomBindBox_TextChanged(object sender, EventArgs e)
+        {
+            string SetStr = zoomBindBox.Text.ToUpper();
+            if (SetStr.Length > 0)
+                mod_zoom_setBind(SetStr[0]);
+        }
+
+        private void LatiteForm_Load(object sender, EventArgs e)
+        {
+            Overlay OverlayForm = new Overlay();
+            OverlayForm.Show();
         }
     }
 }
