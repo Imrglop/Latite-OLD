@@ -17,17 +17,22 @@ Use Visual Studio 2019
 
 ## Zoom
 Hold a key to zoom in. This key can be changed
+
  ![Zoom settings](/images/zoom-settings.png)
 
 ## Keystrokes
 Show what keys you're pressing
+
  ![Key strokes](/images/keystrokes.png)
 
 ## Motion/Position Display:
 Show your position and how fast you move
+
  ![Position display](/images/position.png)
+
 - The lower numbers are the motion display, the top one is horizontal and the lower one is vertical
 
 ## LookBehind
- ![Look behind settings](/images/position.png)
+ ![Look behind settings](/images/lookbehind-settings.png)
+
 Look behind you like in F3 while holding a key
