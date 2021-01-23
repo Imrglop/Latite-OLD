@@ -48,6 +48,14 @@ namespace Latite
             this.keystrokeLabel = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.secondRunner = new System.ComponentModel.BackgroundWorker();
+            this.motionLabel = new System.Windows.Forms.Label();
+            this.motionYLabel = new System.Windows.Forms.Label();
+            this.posPanel = new System.Windows.Forms.Panel();
+            this.zPosLabel = new System.Windows.Forms.Label();
+            this.yPosLabel = new System.Windows.Forms.Label();
+            this.xPosLabel = new System.Windows.Forms.Label();
+            this.motionTopLabel = new System.Windows.Forms.Label();
+            this.toggleSprintLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.Keystrokes_RMB.SuspendLayout();
             this.Keystrokes_LMB.SuspendLayout();
@@ -55,6 +63,7 @@ namespace Latite
             this.keyStrokes_A.SuspendLayout();
             this.keyStrokes_S.SuspendLayout();
             this.keyStrokes_W.SuspendLayout();
+            this.posPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -176,7 +185,7 @@ namespace Latite
             // kLabel3
             // 
             this.kLabel3.AutoSize = true;
-            this.kLabel3.Location = new System.Drawing.Point(16, 17);
+            this.kLabel3.Location = new System.Drawing.Point(19, 17);
             this.kLabel3.Name = "kLabel3";
             this.kLabel3.Size = new System.Drawing.Size(21, 23);
             this.kLabel3.TabIndex = 3;
@@ -227,11 +236,98 @@ namespace Latite
             // 
             this.secondRunner.DoWork += new System.ComponentModel.DoWorkEventHandler(this.secondRunner_DoWork);
             // 
+            // motionLabel
+            // 
+            this.motionLabel.AutoSize = true;
+            this.motionLabel.Location = new System.Drawing.Point(6, 98);
+            this.motionLabel.Name = "motionLabel";
+            this.motionLabel.Size = new System.Drawing.Size(81, 23);
+            this.motionLabel.TabIndex = 1;
+            this.motionLabel.Text = "Motion X";
+            // 
+            // motionYLabel
+            // 
+            this.motionYLabel.AutoSize = true;
+            this.motionYLabel.Location = new System.Drawing.Point(6, 121);
+            this.motionYLabel.Name = "motionYLabel";
+            this.motionYLabel.Size = new System.Drawing.Size(80, 23);
+            this.motionYLabel.TabIndex = 2;
+            this.motionYLabel.Text = "Motion Y";
+            // 
+            // posPanel
+            // 
+            this.posPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.posPanel.Controls.Add(this.zPosLabel);
+            this.posPanel.Controls.Add(this.yPosLabel);
+            this.posPanel.Controls.Add(this.xPosLabel);
+            this.posPanel.Controls.Add(this.motionTopLabel);
+            this.posPanel.Controls.Add(this.motionLabel);
+            this.posPanel.Controls.Add(this.motionYLabel);
+            this.posPanel.Location = new System.Drawing.Point(12, 296);
+            this.posPanel.Name = "posPanel";
+            this.posPanel.Size = new System.Drawing.Size(155, 155);
+            this.posPanel.TabIndex = 4;
+            this.posPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.posPanel_Paint);
+            // 
+            // zPosLabel
+            // 
+            this.zPosLabel.AutoSize = true;
+            this.zPosLabel.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.zPosLabel.Location = new System.Drawing.Point(6, 78);
+            this.zPosLabel.Name = "zPosLabel";
+            this.zPosLabel.Size = new System.Drawing.Size(28, 23);
+            this.zPosLabel.TabIndex = 6;
+            this.zPosLabel.Text = "??";
+            // 
+            // yPosLabel
+            // 
+            this.yPosLabel.AutoSize = true;
+            this.yPosLabel.ForeColor = System.Drawing.Color.Lime;
+            this.yPosLabel.Location = new System.Drawing.Point(6, 55);
+            this.yPosLabel.Name = "yPosLabel";
+            this.yPosLabel.Size = new System.Drawing.Size(28, 23);
+            this.yPosLabel.TabIndex = 5;
+            this.yPosLabel.Text = "??";
+            // 
+            // xPosLabel
+            // 
+            this.xPosLabel.AutoSize = true;
+            this.xPosLabel.ForeColor = System.Drawing.Color.Red;
+            this.xPosLabel.Location = new System.Drawing.Point(6, 32);
+            this.xPosLabel.Name = "xPosLabel";
+            this.xPosLabel.Size = new System.Drawing.Size(28, 23);
+            this.xPosLabel.TabIndex = 4;
+            this.xPosLabel.Text = "??";
+            // 
+            // motionTopLabel
+            // 
+            this.motionTopLabel.AutoSize = true;
+            this.motionTopLabel.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.motionTopLabel.ForeColor = System.Drawing.Color.LightBlue;
+            this.motionTopLabel.Location = new System.Drawing.Point(25, 2);
+            this.motionTopLabel.Name = "motionTopLabel";
+            this.motionTopLabel.Size = new System.Drawing.Size(102, 33);
+            this.motionTopLabel.TabIndex = 3;
+            this.motionTopLabel.Text = "Position";
+            // 
+            // toggleSprintLabel
+            // 
+            this.toggleSprintLabel.AutoSize = true;
+            this.toggleSprintLabel.Location = new System.Drawing.Point(8, 615);
+            this.toggleSprintLabel.Name = "toggleSprintLabel";
+            this.toggleSprintLabel.Size = new System.Drawing.Size(153, 23);
+            this.toggleSprintLabel.TabIndex = 5;
+            this.toggleSprintLabel.Text = "Sprinting (toggled)";
+            this.toggleSprintLabel.Visible = false;
+            // 
             // Overlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
             this.ClientSize = new System.Drawing.Size(1133, 666);
+            this.Controls.Add(this.toggleSprintLabel);
+            this.Controls.Add(this.posPanel);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
@@ -254,7 +350,10 @@ namespace Latite
             this.keyStrokes_S.PerformLayout();
             this.keyStrokes_W.ResumeLayout(false);
             this.keyStrokes_W.PerformLayout();
+            this.posPanel.ResumeLayout(false);
+            this.posPanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -279,5 +378,13 @@ namespace Latite
         private System.Windows.Forms.Label RMBLabel;
         private System.Windows.Forms.Label LMBLabel;
         private System.ComponentModel.BackgroundWorker secondRunner;
+        private System.Windows.Forms.Label motionLabel;
+        private System.Windows.Forms.Label motionYLabel;
+        private System.Windows.Forms.Panel posPanel;
+        private System.Windows.Forms.Label zPosLabel;
+        private System.Windows.Forms.Label yPosLabel;
+        private System.Windows.Forms.Label xPosLabel;
+        private System.Windows.Forms.Label motionTopLabel;
+        private System.Windows.Forms.Label toggleSprintLabel;
     }
 }

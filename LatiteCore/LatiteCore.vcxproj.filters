@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dllmain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -38,6 +35,9 @@
     </ClInclude>
     <ClInclude Include="LocalPlayer.h">
       <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="LookBehind.h">
+      <Filter>Source Files\Mods</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="LocalPlayer.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="LookBehind.cpp">
+      <Filter>Source Files\Mods</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

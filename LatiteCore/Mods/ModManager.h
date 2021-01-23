@@ -7,6 +7,7 @@
 
 #include "../dllmain.h"
 #include "Zoom.h"
+#include "../LookBehind.h"
 
 class Mod {
 //	void onEnable();
@@ -18,5 +19,6 @@ public:
 };
 
 Zoom getZoomModule();
+LookBehind getLookBehindModule();
 
 #endif

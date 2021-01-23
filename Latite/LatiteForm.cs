@@ -18,12 +18,14 @@ namespace Latite
     public partial class LatiteForm : Form
     {
         [DllImport("LatiteCore.dll")]
+        static extern void setEnabled(uint modId, bool enabled);
+        [DllImport("LatiteCore.dll")]
         static extern void consoleMain();
         [DllImport("LatiteCore.dll")]
         static extern ulong attach();
         // extern "C" LATITE_API bool connectedToMinecraft(int type = 2);
         [DllImport("LatiteCore.dll")]
-        static extern bool connectedToMinecraft(int type = 2);
+        public static extern bool connectedToMinecraft(int type = 2);
         [DllImport("LatiteCore.dll")]
         static extern void detach();
         [DllImport("LatiteCore.dll")]
@@ -37,10 +39,14 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         static extern void mod_zoom_setBind(char bind);
         [DllImport("LatiteCore.dll")]
         static extern void mod_zoom_setAmount(float amount);
+        [DllImport("LatiteCore.dll")]
+        static extern void mod_lookBehind_setBind(char bind);
         public LatiteForm()
         {
             InitializeComponent();
         }
+
+        private Overlay OverlayForm = new Overlay();
 
         readonly string[] Commands = { "help", "info", "print <text>", "clear", "connect", "disconnect" };
         readonly string Info = "Latite Client\r\n\r\nLicense: GPLv3\r\n\r\nSource: github.com/Imrglop/Latite\r\n\r\nMade by Imrglop";
@@ -55,7 +61,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             consoleOutput.Text += (OutputString + "\r\n");
         }
 
-        private void ConnectToMc()
+        private void ConnectToMc(bool show = true)
         {
             try
             {
@@ -76,15 +82,24 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                         moduleWorker.RunWorkerAsync();
                         disconnectButton.Visible = true;
                         Coutln("Connected to Minecraft!");
-                        MessageBox.Show("Connected to Minecraft!");
+                        if (this.OverlayForm.IsDisposed)
+                        {
+                            this.OverlayForm = new Overlay();
+                        }
+                        this.OverlayForm.Show();
+                        if (show)
+                            MessageBox.Show("Connected to Minecraft!");
                     }
                     else
                     {
-                        Coutln("Couldn't connect to Minecraft! Error code: " + Status.ToString());
-                        var Result = MessageBox.Show("Could not connect to Minecraft! Error Code: " + Status.ToString(), "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
-                        if (Result == DialogResult.Retry)
+                        if (show)
                         {
-                            ConnectToMc();
+                            Coutln("Couldn't connect to Minecraft! Error code: " + Status.ToString());
+                            var Result = MessageBox.Show("Could not connect to Minecraft! Error Code: " + Status.ToString(), "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                            if (Result == DialogResult.Retry)
+                            {
+                                ConnectToMc();
+                            }
                         }
                     }
                 }
@@ -111,6 +126,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 connectButton.Visible = true;
                 connectedToMinecraft(0); // false
                 connectedLabel.Visible = false;
+                this.OverlayForm.Close();
                 detach();
             }
         }
@@ -230,8 +246,36 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         private void LatiteForm_Load(object sender, EventArgs e)
         {
-            Overlay OverlayForm = new Overlay();
-            OverlayForm.Show();
+            ConnectToMc(false); // silently connect on launch
+        }
+
+        private void transparentOverlayToggle_CheckedChanged(object sender, EventArgs e)
+        {
+            this.OverlayForm.TransparentPanels(transparentOverlayToggle.Checked); ;
+        }
+
+        private void launchButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("minecraft://");
+            Thread.Sleep(100);
+            ConnectToMc(false);
+        }
+
+        private void zoomCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            setEnabled(1, zoomCheckbox.Checked);
+        }
+
+        private void lookBehindEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            setEnabled(2, lookBehindEnabled.Checked);
+        }
+
+        private void lookBehindBind_TextChanged(object sender, EventArgs e)
+        {
+            string SetStr = zoomBindBox.Text.ToUpper();
+            if (SetStr.Length > 0)
+                mod_lookBehind_setBind(SetStr[0]);
         }
     }
 }

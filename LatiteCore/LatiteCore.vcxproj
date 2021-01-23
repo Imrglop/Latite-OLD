@@ -153,8 +153,8 @@
   <ItemGroup>
     <ClInclude Include="Config.h" />
     <ClInclude Include="dllmain.h" />
-    <ClInclude Include="framework.h" />
     <ClInclude Include="LocalPlayer.h" />
+    <ClInclude Include="LookBehind.h" />
     <ClInclude Include="Mods\ModManager.h" />
     <ClInclude Include="Mods\Zoom.h" />
   </ItemGroup>
@@ -162,6 +162,7 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="LocalPlayer.cpp" />
+    <ClCompile Include="LookBehind.cpp" />
     <ClCompile Include="Mods\ModManager.cpp" />
     <ClCompile Include="Mods\Zoom.cpp" />
   </ItemGroup>

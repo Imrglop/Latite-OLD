@@ -18,6 +18,18 @@ namespace Latite
         bool W_Pressed, A_Pressed, S_Pressed, D_Pressed, LMB_Pressed, RMB_Pressed;
         int lcps, rcps = 0;
 
+        [DllImport("LatiteCore.dll")]
+        static extern float LPGetYMotion();
+        [DllImport("LatiteCore.dll")]
+        static extern float LPGetXPos();
+        [DllImport("LatiteCore.dll")]
+        static extern float LPGetYPos();
+        [DllImport("LatiteCore.dll")]
+        static extern float LPGetZPos();
+
+        [DllImport("LatiteCore.dll")]
+        static extern float LPGetMotion();
+
         [DllImport("user32.dll")]
         public static extern short GetKeyState(int nVirtKey);
         // winuser.h
@@ -38,10 +50,26 @@ namespace Latite
 
         public static IntPtr hWnd = FindWindowA(null, "Minecraft"); // find minecraft 
         public static RECT rect;
-
+        
         public struct RECT
         {
             public int left, top, right, bottom;
+        }
+
+        private void posPanel_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+
+        public void TransparentPanels(bool b)
+        {
+            if (b)
+            {
+                posPanel.BackColor = Color.Transparent;
+            } else
+            {
+                posPanel.BackColor = Color.FromArgb(50, 60, 70);
+            }
         }
 
         private void secondRunner_DoWork(object sender, DoWorkEventArgs e)
@@ -58,6 +86,10 @@ namespace Latite
             }
         }
 
+        public void toggleSprint(bool val = true)
+        {
+            toggleSprintLabel.Visible = val;
+        }
         public Overlay()
         {
             InitializeComponent();
@@ -66,13 +98,6 @@ namespace Latite
         private void Overlay_Load(object sender, EventArgs e)
         {
             this.KeyPreview = true;
-            if (hWnd != (IntPtr)0)
-            {
-
-            } else
-            {
-                MessageBox.Show("Please open Minecraft first for the keystrokes and other things to work");
-            }
             // cause transparency
             BackColor = Color.Brown;
             TransparencyKey = Color.Brown;
@@ -130,10 +155,10 @@ namespace Latite
             }
 
             if (LMB_Pressed) Keystrokes_LMB.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            else Keystrokes_LMB.BackColor = Color.FromArgb(NotPressedColor[0], PressedColor[1], PressedColor[2]);
+            else Keystrokes_LMB.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
 
             if (RMB_Pressed) Keystrokes_RMB.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            else Keystrokes_RMB.BackColor = Color.FromArgb(NotPressedColor[0], PressedColor[1], PressedColor[2]);
+            else Keystrokes_RMB.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
             //MessageBox.Show("Updated kEystrokes");
         }
 
@@ -142,6 +167,15 @@ namespace Latite
             while (true)
             {
                 Thread.Sleep(10); // Cooldown
+                if (LatiteForm.connectedToMinecraft())
+                {
+                    xPosLabel.Text = Math.Round(LPGetXPos(), 2) + "";
+                    yPosLabel.Text = Math.Round(LPGetYPos(), 2) + "";
+                    zPosLabel.Text = Math.Round(LPGetZPos(), 2) + "";
+                    motionLabel.Text = Math.Round(LPGetMotion(), 3) + "";
+                    motionYLabel.Text = Math.Round(LPGetYMotion(), 3) + "";
+                }
+
                 if (GetForegroundWindow() != hWnd)
                 {
                     IntPtr hWnd = FindWindowA(null, "Minecraft");

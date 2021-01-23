@@ -44,6 +44,7 @@ namespace Latite
             this.zoomCheckbox = new System.Windows.Forms.CheckBox();
             this.zoomLabel = new System.Windows.Forms.Label();
             this.optionsTabControl = new System.Windows.Forms.TabPage();
+            this.transparentOverlayToggle = new System.Windows.Forms.CheckBox();
             this.settingsUseConsole = new System.Windows.Forms.CheckBox();
             this.consoleTab = new System.Windows.Forms.TabPage();
             this.cinGo = new System.Windows.Forms.Button();
@@ -59,6 +60,13 @@ namespace Latite
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.LatiteIcon1 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.launchButton = new System.Windows.Forms.Button();
+            this.lookBehindLabel = new System.Windows.Forms.Label();
+            this.lookBehindEnabled = new System.Windows.Forms.CheckBox();
+            this.lookBehindPanel = new System.Windows.Forms.Panel();
+            this.lookBehindBind = new System.Windows.Forms.TextBox();
+            this.lookBehindBindLabel = new System.Windows.Forms.Label();
+            this.lookBehindDesc = new System.Windows.Forms.Label();
             this.modsControl.SuspendLayout();
             this.modsTabPage.SuspendLayout();
             this.zoomPanel.SuspendLayout();
@@ -68,6 +76,7 @@ namespace Latite
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LatiteIcon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.lookBehindPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // LatiteLabel1
@@ -113,7 +122,10 @@ namespace Latite
             // modsTabPage
             // 
             this.modsTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.modsTabPage.Controls.Add(this.lookBehindDesc);
+            this.modsTabPage.Controls.Add(this.lookBehindLabel);
             this.modsTabPage.Controls.Add(this.zoomPanel);
+            this.modsTabPage.Controls.Add(this.lookBehindPanel);
             this.modsTabPage.Controls.Add(this.zoomLabel);
             this.modsTabPage.Location = new System.Drawing.Point(4, 35);
             this.modsTabPage.Name = "modsTabPage";
@@ -138,11 +150,12 @@ namespace Latite
             // 
             // zoomBindBox
             // 
-            this.zoomBindBox.Location = new System.Drawing.Point(73, 135);
+            this.zoomBindBox.Location = new System.Drawing.Point(73, 133);
             this.zoomBindBox.Name = "zoomBindBox";
             this.zoomBindBox.Size = new System.Drawing.Size(24, 33);
             this.zoomBindBox.TabIndex = 6;
             this.zoomBindBox.Text = "C";
+            this.zoomBindBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.zoomBindBox.TextChanged += new System.EventHandler(this.zoomBindBox_TextChanged);
             // 
             // zoomKeybindLabel
@@ -203,6 +216,7 @@ namespace Latite
             this.zoomCheckbox.TabIndex = 0;
             this.zoomCheckbox.Text = "Enabled";
             this.zoomCheckbox.UseVisualStyleBackColor = true;
+            this.zoomCheckbox.CheckedChanged += new System.EventHandler(this.zoomCheckbox_CheckedChanged);
             // 
             // zoomLabel
             // 
@@ -216,6 +230,7 @@ namespace Latite
             // optionsTabControl
             // 
             this.optionsTabControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.optionsTabControl.Controls.Add(this.transparentOverlayToggle);
             this.optionsTabControl.Controls.Add(this.settingsUseConsole);
             this.optionsTabControl.Location = new System.Drawing.Point(4, 22);
             this.optionsTabControl.Name = "optionsTabControl";
@@ -223,6 +238,17 @@ namespace Latite
             this.optionsTabControl.Size = new System.Drawing.Size(587, 437);
             this.optionsTabControl.TabIndex = 1;
             this.optionsTabControl.Text = "Options";
+            // 
+            // transparentOverlayToggle
+            // 
+            this.transparentOverlayToggle.AutoSize = true;
+            this.transparentOverlayToggle.Location = new System.Drawing.Point(23, 57);
+            this.transparentOverlayToggle.Name = "transparentOverlayToggle";
+            this.transparentOverlayToggle.Size = new System.Drawing.Size(202, 30);
+            this.transparentOverlayToggle.TabIndex = 1;
+            this.transparentOverlayToggle.Text = "Transparent Overlay";
+            this.transparentOverlayToggle.UseVisualStyleBackColor = true;
+            this.transparentOverlayToggle.CheckedChanged += new System.EventHandler(this.transparentOverlayToggle_CheckedChanged);
             // 
             // settingsUseConsole
             // 
@@ -385,7 +411,7 @@ namespace Latite
             this.disconnectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.disconnectButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.disconnectButton.ForeColor = System.Drawing.Color.White;
-            this.disconnectButton.Location = new System.Drawing.Point(12, 427);
+            this.disconnectButton.Location = new System.Drawing.Point(13, 388);
             this.disconnectButton.Name = "disconnectButton";
             this.disconnectButton.Size = new System.Drawing.Size(90, 33);
             this.disconnectButton.TabIndex = 12;
@@ -424,11 +450,92 @@ namespace Latite
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // launchButton
+            // 
+            this.launchButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.launchButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.launchButton.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.launchButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
+            this.launchButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
+            this.launchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.launchButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.launchButton.ForeColor = System.Drawing.Color.White;
+            this.launchButton.Location = new System.Drawing.Point(13, 427);
+            this.launchButton.Name = "launchButton";
+            this.launchButton.Size = new System.Drawing.Size(90, 33);
+            this.launchButton.TabIndex = 13;
+            this.launchButton.Text = "Launch";
+            this.launchButton.UseVisualStyleBackColor = false;
+            this.launchButton.Click += new System.EventHandler(this.launchButton_Click);
+            // 
+            // lookBehindLabel
+            // 
+            this.lookBehindLabel.AutoSize = true;
+            this.lookBehindLabel.Location = new System.Drawing.Point(23, 215);
+            this.lookBehindLabel.Name = "lookBehindLabel";
+            this.lookBehindLabel.Size = new System.Drawing.Size(112, 26);
+            this.lookBehindLabel.TabIndex = 7;
+            this.lookBehindLabel.Text = "LookBehind";
+            // 
+            // lookBehindEnabled
+            // 
+            this.lookBehindEnabled.AutoSize = true;
+            this.lookBehindEnabled.Checked = true;
+            this.lookBehindEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.lookBehindEnabled.ForeColor = System.Drawing.Color.White;
+            this.lookBehindEnabled.Location = new System.Drawing.Point(17, 12);
+            this.lookBehindEnabled.Name = "lookBehindEnabled";
+            this.lookBehindEnabled.Size = new System.Drawing.Size(99, 30);
+            this.lookBehindEnabled.TabIndex = 0;
+            this.lookBehindEnabled.Text = "Enabled";
+            this.lookBehindEnabled.UseVisualStyleBackColor = true;
+            this.lookBehindEnabled.CheckedChanged += new System.EventHandler(this.lookBehindEnabled_CheckedChanged);
+            // 
+            // lookBehindPanel
+            // 
+            this.lookBehindPanel.Controls.Add(this.lookBehindBind);
+            this.lookBehindPanel.Controls.Add(this.lookBehindBindLabel);
+            this.lookBehindPanel.Controls.Add(this.lookBehindEnabled);
+            this.lookBehindPanel.Location = new System.Drawing.Point(28, 248);
+            this.lookBehindPanel.Name = "lookBehindPanel";
+            this.lookBehindPanel.Size = new System.Drawing.Size(200, 169);
+            this.lookBehindPanel.TabIndex = 8;
+            // 
+            // lookBehindBind
+            // 
+            this.lookBehindBind.Location = new System.Drawing.Point(73, 56);
+            this.lookBehindBind.Name = "lookBehindBind";
+            this.lookBehindBind.Size = new System.Drawing.Size(24, 33);
+            this.lookBehindBind.TabIndex = 6;
+            this.lookBehindBind.Text = "G";
+            this.lookBehindBind.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.lookBehindBind.TextChanged += new System.EventHandler(this.lookBehindBind_TextChanged);
+            // 
+            // lookBehindBindLabel
+            // 
+            this.lookBehindBindLabel.AutoSize = true;
+            this.lookBehindBindLabel.Location = new System.Drawing.Point(17, 59);
+            this.lookBehindBindLabel.Name = "lookBehindBindLabel";
+            this.lookBehindBindLabel.Size = new System.Drawing.Size(50, 26);
+            this.lookBehindBindLabel.TabIndex = 5;
+            this.lookBehindBindLabel.Text = "Bind";
+            // 
+            // lookBehindDesc
+            // 
+            this.lookBehindDesc.AutoSize = true;
+            this.lookBehindDesc.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lookBehindDesc.Location = new System.Drawing.Point(141, 221);
+            this.lookBehindDesc.Name = "lookBehindDesc";
+            this.lookBehindDesc.Size = new System.Drawing.Size(172, 18);
+            this.lookBehindDesc.TabIndex = 9;
+            this.lookBehindDesc.Text = "Rear view by holding a key";
+            // 
             // LatiteForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(704, 556);
+            this.Controls.Add(this.launchButton);
             this.Controls.Add(this.disconnectButton);
             this.Controls.Add(this.connectedLabel);
             this.Controls.Add(this.optionsButton);
@@ -463,6 +570,8 @@ namespace Latite
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LatiteIcon1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.lookBehindPanel.ResumeLayout(false);
+            this.lookBehindPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -499,6 +608,14 @@ namespace Latite
         private System.Windows.Forms.TextBox zoomBindBox;
         private System.ComponentModel.BackgroundWorker moduleWorker;
         private System.Windows.Forms.Button disconnectButton;
+        private System.Windows.Forms.CheckBox transparentOverlayToggle;
+        private System.Windows.Forms.Button launchButton;
+        private System.Windows.Forms.Label lookBehindDesc;
+        private System.Windows.Forms.Label lookBehindLabel;
+        private System.Windows.Forms.Panel lookBehindPanel;
+        private System.Windows.Forms.TextBox lookBehindBind;
+        private System.Windows.Forms.Label lookBehindBindLabel;
+        private System.Windows.Forms.CheckBox lookBehindEnabled;
     }
 }
 

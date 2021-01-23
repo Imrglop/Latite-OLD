@@ -33,3 +33,63 @@ void LocalPlayer::setFOV(float fov)
 		log << "Fov address is 0 will not set fov.\n";
 	}
 }
+
+void LocalPlayer::setSensitivity(float sens)
+{
+	auto sensAddress = GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_FSENS_BASEADDY),
+		ADDRESS_FSENS_SEMI_OFFSETS) + ADDRESS_FSENS_LAST_OFFSET;
+	if (sensAddress == 0) return;
+	WriteProcessMemory(getHProcess(), (void*)sensAddress, &sens, sizeof(sens), NULL);
+}
+
+float LocalPlayer::getSensitivity()
+{
+	float val = 0;
+	auto sensAddress = GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_FSENS_BASEADDY),
+		ADDRESS_FSENS_SEMI_OFFSETS) + ADDRESS_FSENS_LAST_OFFSET;
+	if (sensAddress == 0) return 0.f;
+	ReadProcessMemory(getHProcess(), (void*)sensAddress, &val, sizeof(val), NULL);
+	return val;
+}
+
+unsigned char LocalPlayer::getHideHand()
+{
+	auto hhAddress = GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_FHH_BASEADDY), ADDRESS_FHH_SEMI_OFFSETS) + ADDRESS_FSENS_LAST_OFFSET;
+	unsigned char val = 0;
+	ReadProcessMemory(getHProcess(), (void*)hhAddress, &val, sizeof(val), NULL);
+	return val;
+}
+
+void LocalPlayer::setHideHand(unsigned char val)
+{
+	auto hhAddress = GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_FHH_BASEADDY), ADDRESS_FHH_SEMI_OFFSETS) + ADDRESS_FHH_LAST_OFFSET;
+	if (!WriteProcessMemory(getHProcess(), (void*)hhAddress, &val, sizeof(val), NULL))
+	{
+		log << "WPM error while setting Hide Hand to " << (int)val << ": " << GetLastError() << '\n';
+	};
+}
+
+bool LocalPlayer::isInGame()
+{
+	// check if the Y position address is initialized
+	ADDRESS yAddy = GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+	if ((void*)yAddy == nullptr) return false;
+	return true;
+}
+
+unsigned char LocalPlayer::getPerspective()
+{
+	unsigned char retVal = 0;
+	ADDRESS pAddy = GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_PRESPECTIVE_BASEADDY), ADDRESS_PRESPECTIVE_OFFSETS) + ADDRESS_PRESPECTIVE_LAST_OFFSET;
+	if (pAddy != 0)
+		ReadProcessMemory(getHProcess(), (void*)pAddy, &retVal, sizeof(retVal), NULL);
+	return retVal;
+}
+
+
+void LocalPlayer::setPerspective(unsigned char val)
+{
+	ADDRESS pAddy = GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_PRESPECTIVE_BASEADDY), ADDRESS_PRESPECTIVE_OFFSETS) + ADDRESS_PRESPECTIVE_LAST_OFFSET;
+	if (pAddy != 0)
+		WriteProcessMemory(getHProcess(), (void*)pAddy, &val, sizeof(val), NULL);
+}

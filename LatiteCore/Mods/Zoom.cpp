@@ -3,25 +3,34 @@
 #include "ModManager.h"
 
 float pastFOV;
+float pastSens;
+unsigned char pastHideHand;
 bool keyPressed = false;
 float fovAmt = 45;
+char bind_ = 'C';
 
 void unzoom()
 {
-	log << "pastfov: " << pastFOV << '\n';
 	LocalPlayer::setFOV(pastFOV);
+	LocalPlayer::setSensitivity(pastSens);
+	LocalPlayer::setHideHand(pastHideHand);
 }
 
 void zoom()
 {
+	pastSens = LocalPlayer::getSensitivity();
 	pastFOV = LocalPlayer::getFOV();
-	for (float i = pastFOV; i > fovAmt; i -= 10)
+	pastHideHand = LocalPlayer::getHideHand();
+
+/*	for (float i = pastFOV; i > fovAmt; i -= 10)
 	{
 		// smoother thing
 		Sleep(10);
 		LocalPlayer::setFOV(i);
-	}
+	}*/
 	LocalPlayer::setFOV(pastFOV - fovAmt);
+	LocalPlayer::setSensitivity(0.3);
+	LocalPlayer::setHideHand(1);
 }
 
 void Zoom::setFovAmount(float fov)
@@ -33,17 +42,19 @@ void Zoom::setFovAmount(float fov)
 
 void Zoom::setBind(char b)
 {
+	bind_ = b;
 	this->bind = b;
 }
 
 void Zoom::onDisable()
 {
+	this->enabled = false;
 	unzoom();
 }
 
 void Zoom::onEnable()
 {
-	
+	this->enabled = true;
 }
 
 void Zoom::onTick()
@@ -51,12 +62,12 @@ void Zoom::onTick()
 	/*
 	check if they started pressing C (or whatever the key is)
 	*/
-	if ((GetKeyState(Zoom::bind) & 0x8000) && !keyPressed) // started being held down
+	if ((GetKeyState(bind_) & 0x8000) && !keyPressed) // started being held down
 	{
 		keyPressed = true;
 		zoom();
 	}
-	else if (!(GetKeyState(Zoom::bind) & 0x8000) && keyPressed)
+	else if (!(GetKeyState(bind_) & 0x8000) && keyPressed)
 	{
 		keyPressed = false;
 		unzoom();

@@ -17,6 +17,21 @@ DWORD pID;
 ADDRESS moduleBase;
 HANDLE hProcess;
 
+std::string readVarString(ADDRESS address, int maxSize = 20)
+{
+    unsigned int size = 0;
+    char val;
+    vector<char> retVal = {};
+    for (int i = 0; i < maxSize; i++)
+    {
+        val = 0;
+        ReadProcessMemory(hProcess, (void*)(address + i), &val, 1, 0);
+        if (val == 0) break;
+        retVal.push_back(val);
+    }
+    return std::string(retVal.begin(), retVal.end());
+}
+
 HANDLE GetProcessByName(WCHAR* processName)
 {
     PROCESSENTRY32 pe32;
@@ -94,6 +109,68 @@ void mod_zoom_setBind(char bind)
     getZoomModule().setBind(bind);
 }
 
+void mod_lookBehind_setBind(char bind)
+{
+    getLookBehindModule().setBind(bind);
+}
+
+float LPGetMotion()
+{
+    // TODO get x and z motion
+
+    ADDRESS yAddy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    float xVel = 0.f;
+    float zVel = 0.f;
+    ADDRESS xVelAddy = yAddy + 56;
+    ADDRESS zVelAddy = yAddy + 64;
+    ReadProcessMemory(hProcess, (void*)xVelAddy, &xVel, sizeof(xVel), 0);
+    ReadProcessMemory(hProcess, (void*)zVelAddy, &zVel, sizeof(zVel), 0);
+
+    return abs(xVel) + abs(zVel);
+}
+
+float LPGetYMotion()
+{
+    // y position address
+    ADDRESS yAddy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    float yVel = 0.f;
+    ADDRESS yVelAddy = yAddy + 60;
+    ReadProcessMemory(hProcess, (void*)yVelAddy, &yVel, sizeof(yVel), 0);
+    return yVel;
+}
+
+float LPGetYPos()
+{
+    ADDRESS addy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    float pos = 0.f;
+    ReadProcessMemory(hProcess, (void*)addy, &pos, sizeof(pos), 0);
+    return pos;
+}
+
+
+float LPGetXPos()
+{
+    ADDRESS addy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    addy -= 4; // 1 float value (4 bytes) right before to the y position
+    float pos = 0.f;
+    ReadProcessMemory(hProcess, (void*)addy, &pos, sizeof(pos), 0);
+    return pos;
+}
+
+float LPGetZPos()
+{
+    ADDRESS addy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    addy += 4; // 1 float value (4 bytes) right after to the y position
+    float pos = 0.f;
+    ReadProcessMemory(hProcess, (void*)addy, &pos, sizeof(pos), 0);
+    return pos;
+}
+
 void mod_zoom_setAmount(float amount)
 {
     getZoomModule().setFovAmount(amount);
@@ -153,6 +230,13 @@ DWORD attach() {
     if (hProcess == 0) return GetLastError();
     log << "Module Base: " << (void*)moduleBase << '\n';
     if (moduleBase == 0ui64) return GetLastError();
+
+    ADDRESS yPositionAddy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    ADDRESS nameAddy = yPositionAddy + 996;
+    // Start up
+    log << "Name: \"" << readVarString(nameAddy) << "\"\n";
+    Mod::initialize();
+
     return 0;
 }
 
@@ -160,7 +244,29 @@ void loop()
 {
     if (connectedToMinecraft())
     {
-        Mod::tickModules();
+        if (GetForegroundWindow() == FindWindowA(NULL, "Minecraft"))
+        {
+            Mod::tickModules();
+        }
+    }
+}
+
+void setEnabled(unsigned int modId, bool enabled)
+{
+    switch (modId)
+    {
+    case 1: //zoom
+        if (!enabled)
+            getZoomModule().onDisable();
+        else
+            getZoomModule().onEnable();
+        break;
+    case 2: //lookbehind
+        if (!enabled)
+            getLookBehindModule().onDisable();
+        else
+            getLookBehindModule().onEnable();
+        break;
     }
 }
 
