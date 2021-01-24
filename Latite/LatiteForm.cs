@@ -228,12 +228,16 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             {
                 loop();
                 if (moduleWorker.CancellationPending) break;
-                if ((Overlay.GetKeyState(ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
+                if (Overlay.GetForegroundWindow() == Overlay.FindWindowA(null, "Minecraft"))
                 {
-                    this.ToggleSprint(true);
-                } else if ((Overlay.GetKeyState(ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
-                {
-                    this.ToggleSprint(false);
+                    if ((Overlay.GetKeyState(ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
+                    {
+                        this.ToggleSprint(true);
+                    }
+                    else if ((Overlay.GetKeyState(ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
+                    {
+                        this.ToggleSprint(false);
+                    }
                 }
                 Thread.Sleep(50);
             }
