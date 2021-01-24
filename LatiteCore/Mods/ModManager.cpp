@@ -2,6 +2,7 @@
 
 Zoom zoom;
 LookBehind lookBehind;
+ToggleSprint toggleSprint;
 
 void Mod::disableAll()
 {
@@ -34,4 +35,9 @@ Zoom getZoomModule()
 LookBehind getLookBehindModule()
 {
 	return lookBehind;
+}
+
+ToggleSprint getToggleSprintModule()
+{
+	return toggleSprint;
 }

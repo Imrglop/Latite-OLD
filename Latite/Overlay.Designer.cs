@@ -30,11 +30,12 @@ namespace Latite
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.RMBCounter = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.LMBCounter = new System.Windows.Forms.Label();
             this.Keystrokes_RMB = new System.Windows.Forms.Panel();
             this.RMBLabel = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.Keystrokes_LMB = new System.Windows.Forms.Panel();
             this.LMBLabel = new System.Windows.Forms.Label();
             this.LMB = new System.Windows.Forms.Label();
@@ -57,6 +58,8 @@ namespace Latite
             this.motionTopLabel = new System.Windows.Forms.Label();
             this.toggleSprintLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.Keystrokes_RMB.SuspendLayout();
             this.Keystrokes_LMB.SuspendLayout();
             this.keyStrokes_D.SuspendLayout();
@@ -69,8 +72,8 @@ namespace Latite
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.RMBCounter);
-            this.panel1.Controls.Add(this.LMBCounter);
+            this.panel1.Controls.Add(this.panel3);
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.Keystrokes_RMB);
             this.panel1.Controls.Add(this.Keystrokes_LMB);
             this.panel1.Controls.Add(this.keyStrokes_D);
@@ -83,29 +86,48 @@ namespace Latite
             this.panel1.Size = new System.Drawing.Size(283, 260);
             this.panel1.TabIndex = 0;
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.panel3.Controls.Add(this.RMBCounter);
+            this.panel3.Location = new System.Drawing.Point(160, 216);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(30, 33);
+            this.panel3.TabIndex = 5;
+            // 
             // RMBCounter
             // 
             this.RMBCounter.AutoSize = true;
-            this.RMBCounter.Location = new System.Drawing.Point(163, 216);
+            this.RMBCounter.Location = new System.Drawing.Point(5, 5);
             this.RMBCounter.Name = "RMBCounter";
             this.RMBCounter.Size = new System.Drawing.Size(20, 23);
-            this.RMBCounter.TabIndex = 4;
+            this.RMBCounter.TabIndex = 2;
             this.RMBCounter.Text = "0";
+            this.RMBCounter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.panel2.Controls.Add(this.LMBCounter);
+            this.panel2.Location = new System.Drawing.Point(53, 216);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(30, 33);
+            this.panel2.TabIndex = 4;
             // 
             // LMBCounter
             // 
             this.LMBCounter.AutoSize = true;
-            this.LMBCounter.Location = new System.Drawing.Point(65, 216);
+            this.LMBCounter.Location = new System.Drawing.Point(5, 5);
             this.LMBCounter.Name = "LMBCounter";
             this.LMBCounter.Size = new System.Drawing.Size(20, 23);
             this.LMBCounter.TabIndex = 2;
             this.LMBCounter.Text = "0";
+            this.LMBCounter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Keystrokes_RMB
             // 
             this.Keystrokes_RMB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.Keystrokes_RMB.Controls.Add(this.RMBLabel);
-            this.Keystrokes_RMB.Controls.Add(this.label1);
             this.Keystrokes_RMB.Location = new System.Drawing.Point(130, 176);
             this.Keystrokes_RMB.Name = "Keystrokes_RMB";
             this.Keystrokes_RMB.Size = new System.Drawing.Size(91, 37);
@@ -119,14 +141,6 @@ namespace Latite
             this.RMBLabel.Size = new System.Drawing.Size(46, 23);
             this.RMBLabel.TabIndex = 2;
             this.RMBLabel.Text = "RMB";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 23);
-            this.label1.TabIndex = 0;
             // 
             // Keystrokes_LMB
             // 
@@ -267,7 +281,6 @@ namespace Latite
             this.posPanel.Name = "posPanel";
             this.posPanel.Size = new System.Drawing.Size(155, 155);
             this.posPanel.TabIndex = 4;
-            this.posPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.posPanel_Paint);
             // 
             // zPosLabel
             // 
@@ -313,19 +326,18 @@ namespace Latite
             // toggleSprintLabel
             // 
             this.toggleSprintLabel.AutoSize = true;
-            this.toggleSprintLabel.Location = new System.Drawing.Point(8, 615);
+            this.toggleSprintLabel.Location = new System.Drawing.Point(15, 454);
             this.toggleSprintLabel.Name = "toggleSprintLabel";
-            this.toggleSprintLabel.Size = new System.Drawing.Size(153, 23);
+            this.toggleSprintLabel.Size = new System.Drawing.Size(0, 23);
             this.toggleSprintLabel.TabIndex = 5;
-            this.toggleSprintLabel.Text = "Sprinting (toggled)";
-            this.toggleSprintLabel.Visible = false;
             // 
             // Overlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
-            this.ClientSize = new System.Drawing.Size(1133, 666);
+            this.BackColor = System.Drawing.Color.Black;
+            this.BackgroundImage = global::Latite.Properties.Resources.transparentimg;
+            this.ClientSize = new System.Drawing.Size(1132, 519);
             this.Controls.Add(this.toggleSprintLabel);
             this.Controls.Add(this.posPanel);
             this.Controls.Add(this.panel1);
@@ -335,9 +347,13 @@ namespace Latite
             this.Name = "Overlay";
             this.ShowInTaskbar = false;
             this.Text = "Overlay";
+            this.TransparencyKey = System.Drawing.Color.Transparent;
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.Keystrokes_RMB.ResumeLayout(false);
             this.Keystrokes_RMB.PerformLayout();
             this.Keystrokes_LMB.ResumeLayout(false);
@@ -370,10 +386,8 @@ namespace Latite
         private System.Windows.Forms.Label kLabel2;
         private System.Windows.Forms.Label keystrokeLabel;
         private System.Windows.Forms.Panel Keystrokes_RMB;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel Keystrokes_LMB;
         private System.Windows.Forms.Label LMB;
-        private System.Windows.Forms.Label RMBCounter;
         private System.Windows.Forms.Label LMBCounter;
         private System.Windows.Forms.Label RMBLabel;
         private System.Windows.Forms.Label LMBLabel;
@@ -386,5 +400,8 @@ namespace Latite
         private System.Windows.Forms.Label xPosLabel;
         private System.Windows.Forms.Label motionTopLabel;
         private System.Windows.Forms.Label toggleSprintLabel;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Label RMBCounter;
+        private System.Windows.Forms.Panel panel2;
     }
 }

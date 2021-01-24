@@ -18,6 +18,8 @@ namespace Latite
         bool W_Pressed, A_Pressed, S_Pressed, D_Pressed, LMB_Pressed, RMB_Pressed;
         int lcps, rcps = 0;
 
+        LatiteForm latiteForm;
+
         [DllImport("LatiteCore.dll")]
         static extern float LPGetYMotion();
         [DllImport("LatiteCore.dll")]
@@ -56,11 +58,6 @@ namespace Latite
             public int left, top, right, bottom;
         }
 
-        private void posPanel_Paint(object sender, PaintEventArgs e)
-        {
-            
-        }
-
         public void TransparentPanels(bool b)
         {
             if (b)
@@ -86,21 +83,35 @@ namespace Latite
             }
         }
 
-        public void toggleSprint(bool val = true)
+        public void SetOpacity(double Opacity)
         {
-            toggleSprintLabel.Visible = val;
+            this.Opacity = Opacity;
         }
-        public Overlay()
+
+        public void ToggleSprint(bool val)
         {
+            if (val)
+            {
+                toggleSprintLabel.Text = "Sprinting (toggled)";
+            }
+            else
+            {
+                toggleSprintLabel.Text = "";
+            }
+        }
+        public Overlay(LatiteForm latiteForm)
+        {
+            this.latiteForm = latiteForm;
             InitializeComponent();
         }
 
         private void Overlay_Load(object sender, EventArgs e)
         {
+            this.Opacity = 0.90;
             this.KeyPreview = true;
             // cause transparency
-            BackColor = Color.Brown;
-            TransparencyKey = Color.Brown;
+            BackColor = Color.FromArgb(165, 42, 42);
+            TransparencyKey = Color.FromArgb(165, 42, 42);
 
             // remove borders / minimize etc
             FormBorderStyle = FormBorderStyle.None;
@@ -179,6 +190,10 @@ namespace Latite
                 if (GetForegroundWindow() != hWnd)
                 {
                     IntPtr hWnd = FindWindowA(null, "Minecraft");
+                    if (hWnd == (IntPtr)0)
+                    {
+                        this.latiteForm.DisconnectFromMc();
+                    }
                     this.TopMost = false;
                 } else
                 {
@@ -218,11 +233,6 @@ namespace Latite
                 this.Left = rect.left;
                 this.Top = rect.top;
             }
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
 
     }

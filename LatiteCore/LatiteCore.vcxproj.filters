@@ -39,6 +39,12 @@
     <ClInclude Include="LookBehind.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
+    <ClInclude Include="rich_presence.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="ToggleSprint.h">
+      <Filter>Source Files\Mods</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -57,6 +63,12 @@
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="LookBehind.cpp">
+      <Filter>Source Files\Mods</Filter>
+    </ClCompile>
+    <ClCompile Include="rich_presence.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="ToggleSprint.cpp">
       <Filter>Source Files\Mods</Filter>
     </ClCompile>
   </ItemGroup>

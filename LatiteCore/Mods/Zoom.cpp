@@ -6,6 +6,7 @@ float pastFOV;
 float pastSens;
 unsigned char pastHideHand;
 bool keyPressed = false;
+bool zoomEnabled;
 float fovAmt = 45;
 char bind_ = 'C';
 
@@ -49,12 +50,14 @@ void Zoom::setBind(char b)
 void Zoom::onDisable()
 {
 	this->enabled = false;
+	zoomEnabled = false;
 	unzoom();
 }
 
 void Zoom::onEnable()
 {
 	this->enabled = true;
+	zoomEnabled = true;
 }
 
 void Zoom::onTick()
@@ -65,11 +68,11 @@ void Zoom::onTick()
 	if ((GetKeyState(bind_) & 0x8000) && !keyPressed) // started being held down
 	{
 		keyPressed = true;
-		zoom();
+		if (zoomEnabled) zoom();
 	}
 	else if (!(GetKeyState(bind_) & 0x8000) && keyPressed)
 	{
 		keyPressed = false;
-		unzoom();
+		if (zoomEnabled) unzoom();
 	}
 }

@@ -1,5 +1,4 @@
 #pragma once
-#ifndef BASE_H
 
 // Libraries
 
@@ -26,6 +25,8 @@ typedef unsigned long long ADDRESS;
 
 // Exports
 
+// Api Functions
+
 extern "C" LATITE_API bool connectedToMinecraft(int type = 2);
 extern "C" LATITE_API DWORD attach();
 extern "C" LATITE_API void consoleMain();
@@ -47,35 +48,46 @@ extern "C" LATITE_API float LPGetXPos();
 extern "C" LATITE_API float LPGetYPos();
 extern "C" LATITE_API float LPGetZPos();
 
-// TODO export local player?
-//extern "C" LATITE_API struct LocalPlayer;
+// code
 
-// Functions
+// these are to be updated every Minecraft update
 
-// Gets address from a multi-level pointer
-ADDRESS GetMLPtrAddy(void* addy, vector<DWORD> offsets);
-
+// pointer to fov
 #define ADDRESS_FOV_BASEADDY 0x0369BD40
 #define ADDRESS_FOV_SEMI_OFFSETS { 0x20, 0xC98, 0x68, 0x08, 0x1A0, 0x120 }
 
+// pointer to sensitivity
 #define ADDRESS_FSENS_BASEADDY 0x0369BD40
-#define ADDRESS_FSENS_SEMI_OFFSETS { 0x20, 0xC00, 0x08, 0x0, 0x0 }
-#define ADDRESS_FSENS_LAST_OFFSET 0x314
+#define ADDRESS_FSENS_SEMI_OFFSETS { 0x20, 0xFA0, 0x1A8, 0xC78, 0x200, 0x48 }
+#define ADDRESS_FSENS_LAST_OFFSET 0x14
 
+// pointer to hide hand
 #define ADDRESS_FHH_BASEADDY 0x0369BD40
 #define ADDRESS_FHH_SEMI_OFFSETS { 0x20, 0x9F8, 0x1D8, 0x08, 0xD10 }
 #define ADDRESS_FHH_LAST_OFFSET 0x1E0
 
+// pointer to Y lower coordinate
 #define ADDRESS_Y_BASEADDY 0x03699238
 #define ADDRESS_Y_SEMI_OFFSETS { 0x10, 0x128, 0x0, 0x138, 0x490, 0xc0 }
 #define ADDRESS_Y_LAST_OFFSET 0x49C
 
+// pointer to F3 prespective
 #define ADDRESS_PRESPECTIVE_BASEADDY 0x0369BD40
 #define ADDRESS_PRESPECTIVE_OFFSETS { 0x20, 0xE88, 0x1D8, 0x08, 0x20 }
 #define ADDRESS_PRESPECTIVE_LAST_OFFSET 0x1E8
 
+// address to assembly code that checks if you're holding CTRL before sprinting
+#define ADDRESS_STATIC_SPRINT_CODE 0x1618D8F
+
+// functions
+
+// Gets address from a multi-level pointer
+ADDRESS GetMLPtrAddy(void* addy, vector<DWORD> offsets);
+// Gets starting address of Minecraft
 ADDRESS currentModuleBase();
-
+// Gets the process of Minecraft
 HANDLE getHProcess();
-
-#endif
+// Write code to Minecraft
+void writeBytes(ADDRESS address, vector<unsigned char> bytes);
+// Reads ASCII string with unknown size
+std::string readVarString(ADDRESS address, int maxSize = 20);

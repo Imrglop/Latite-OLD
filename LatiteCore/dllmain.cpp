@@ -17,7 +17,7 @@ DWORD pID;
 ADDRESS moduleBase;
 HANDLE hProcess;
 
-std::string readVarString(ADDRESS address, int maxSize = 20)
+std::string readVarString(ADDRESS address, int maxSize)
 {
     unsigned int size = 0;
     char val;
@@ -30,6 +30,14 @@ std::string readVarString(ADDRESS address, int maxSize = 20)
         retVal.push_back(val);
     }
     return std::string(retVal.begin(), retVal.end());
+}
+
+void writeBytes(ADDRESS address, vector<unsigned char> bytes)
+{
+    DWORD oldVp;
+    VirtualProtectEx(hProcess, (void*)address, bytes.size(), PAGE_EXECUTE_READWRITE, &oldVp);
+    WriteProcessMemory(hProcess, (void*)address, &bytes[0], bytes.size(), 0);
+    VirtualProtectEx(hProcess, (void*)address, bytes.size(), oldVp, &oldVp);
 }
 
 HANDLE GetProcessByName(WCHAR* processName)
@@ -253,19 +261,29 @@ void loop()
 
 void setEnabled(unsigned int modId, bool enabled)
 {
+    log << "set enabled " << modId << " to " << enabled << '\n';
     switch (modId)
     {
     case 1: //zoom
+        log << "action on Zoom\n";
         if (!enabled)
             getZoomModule().onDisable();
         else
             getZoomModule().onEnable();
         break;
     case 2: //lookbehind
+        log << "action on LookBehind\n";
         if (!enabled)
             getLookBehindModule().onDisable();
         else
             getLookBehindModule().onEnable();
+        break;
+    case 3: // togglesprint
+        log << "action on Toggle Sprint\n";
+        if (!enabled)
+            getToggleSprintModule().onDisable();
+        else
+            getToggleSprintModule().onEnable();
         break;
     }
 }

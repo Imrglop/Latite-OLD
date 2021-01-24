@@ -46,11 +46,13 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             InitializeComponent();
         }
 
-        private Overlay OverlayForm = new Overlay();
+        private Overlay OverlayForm;
 
         readonly string[] Commands = { "help", "info", "print <text>", "clear", "connect", "disconnect" };
         readonly string Info = "Latite Client\r\n\r\nLicense: GPLv3\r\n\r\nSource: github.com/Imrglop/Latite\r\n\r\nMade by Imrglop";
         private bool IsConsole = false;
+        bool ToggleSprintBindOn = false;
+        char ToggleSprintBind = 'P';
 
         public void Cout(string OutputString)
         {
@@ -82,10 +84,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                         moduleWorker.RunWorkerAsync();
                         disconnectButton.Visible = true;
                         Coutln("Connected to Minecraft!");
-                        if (this.OverlayForm.IsDisposed)
-                        {
-                            this.OverlayForm = new Overlay();
-                        }
+                        this.OverlayForm = new Overlay(this);
                         this.OverlayForm.Show();
                         if (show)
                             MessageBox.Show("Connected to Minecraft!");
@@ -114,7 +113,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             }
         }
 
-        private void DisconnectFromMc()
+        public void DisconnectFromMc()
         {
             if (connectedToMinecraft())
             {
@@ -126,8 +125,8 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 connectButton.Visible = true;
                 connectedToMinecraft(0); // false
                 connectedLabel.Visible = false;
-                this.OverlayForm.Close();
                 detach();
+                this.OverlayForm.Close();
             }
         }
 
@@ -216,13 +215,26 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             mod_zoom_setAmount(FOVAmount);
             Coutln("try set amt to " + FOVAmount);
         }
-
+        void ToggleSprint(bool Val)
+        {
+            this.toggleSprintCheckbox.Checked = Val;
+            this.OverlayForm.ToggleSprint(Val);
+            ToggleSprintBindOn = Val;
+            setEnabled(3, Val);
+        }
         private void moduleWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
                 loop();
                 if (moduleWorker.CancellationPending) break;
+                if ((Overlay.GetKeyState(ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
+                {
+                    this.ToggleSprint(true);
+                } else if ((Overlay.GetKeyState(ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
+                {
+                    this.ToggleSprint(false);
+                }
                 Thread.Sleep(50);
             }
         }
@@ -257,8 +269,6 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         private void launchButton_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("minecraft://");
-            Thread.Sleep(100);
-            ConnectToMc(false);
         }
 
         private void zoomCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -276,6 +286,24 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             string SetStr = zoomBindBox.Text.ToUpper();
             if (SetStr.Length > 0)
                 mod_lookBehind_setBind(SetStr[0]);
+        }
+
+        private void opacitySlider_Scroll(object sender, EventArgs e)
+        {
+            double val = opacitySlider.Value * 4;
+            opacityDisplayLabel.Text = (opacitySlider.Value * 4) + "";
+            this.OverlayForm.SetOpacity(val / 100);
+        }
+
+        private void toggleSprintCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.ToggleSprint(toggleSprintCheckbox.Checked);
+        }
+
+        private void toggleSprintBind_TextChanged(object sender, EventArgs e)
+        {
+            string SetStr = zoomBindBox.Text.ToUpper();
+            if (SetStr.Length > 0) ToggleSprintBind = SetStr[0];
         }
     }
 }

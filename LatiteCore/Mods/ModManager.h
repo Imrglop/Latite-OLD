@@ -8,6 +8,7 @@
 #include "../dllmain.h"
 #include "Zoom.h"
 #include "../LookBehind.h"
+#include "../ToggleSprint.h"
 
 class Mod {
 //	void onEnable();
@@ -20,5 +21,6 @@ public:
 
 Zoom getZoomModule();
 LookBehind getLookBehindModule();
+ToggleSprint getToggleSprintModule();
 
 #endif
