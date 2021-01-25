@@ -45,6 +45,9 @@
     <ClInclude Include="ToggleSprint.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
+    <ClInclude Include="memory.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="ToggleSprint.cpp">
       <Filter>Source Files\Mods</Filter>
+    </ClCompile>
+    <ClCompile Include="memory.cpp">
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ by Imrglop
 #include "Mods/ModManager.h"
 #include "./Mods/Zoom.h"
 #include <stdlib.h>
+#include "memory.h"
 
 bool connected;
 
@@ -16,29 +17,6 @@ DWORD pID;
 
 ADDRESS moduleBase;
 HANDLE hProcess;
-
-std::string readVarString(ADDRESS address, int maxSize)
-{
-    unsigned int size = 0;
-    char val;
-    vector<char> retVal = {};
-    for (int i = 0; i < maxSize; i++)
-    {
-        val = 0;
-        ReadProcessMemory(hProcess, (void*)(address + i), &val, 1, 0);
-        if (val == 0) break;
-        retVal.push_back(val);
-    }
-    return std::string(retVal.begin(), retVal.end());
-}
-
-void writeBytes(ADDRESS address, vector<unsigned char> bytes)
-{
-    DWORD oldVp;
-    VirtualProtectEx(hProcess, (void*)address, bytes.size(), PAGE_EXECUTE_READWRITE, &oldVp);
-    WriteProcessMemory(hProcess, (void*)address, &bytes[0], bytes.size(), 0);
-    VirtualProtectEx(hProcess, (void*)address, bytes.size(), oldVp, &oldVp);
-}
 
 HANDLE GetProcessByName(WCHAR* processName)
 {
@@ -126,7 +104,7 @@ float LPGetMotion()
 {
     // TODO get x and z motion
 
-    ADDRESS yAddy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+    ADDRESS yAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
     float xVel = 0.f;
     float zVel = 0.f;
@@ -141,7 +119,7 @@ float LPGetMotion()
 float LPGetYMotion()
 {
     // y position address
-    ADDRESS yAddy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+    ADDRESS yAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
     float yVel = 0.f;
     ADDRESS yVelAddy = yAddy + 60;
@@ -151,7 +129,7 @@ float LPGetYMotion()
 
 float LPGetYPos()
 {
-    ADDRESS addy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+    ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
     float pos = 0.f;
     ReadProcessMemory(hProcess, (void*)addy, &pos, sizeof(pos), 0);
@@ -161,7 +139,7 @@ float LPGetYPos()
 
 float LPGetXPos()
 {
-    ADDRESS addy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+    ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
     addy -= 4; // 1 float value (4 bytes) right before to the y position
     float pos = 0.f;
@@ -171,7 +149,7 @@ float LPGetXPos()
 
 float LPGetZPos()
 {
-    ADDRESS addy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
+    ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
     addy += 4; // 1 float value (4 bytes) right after to the y position
     float pos = 0.f;
@@ -182,21 +160,6 @@ float LPGetZPos()
 void mod_zoom_setAmount(float amount)
 {
     getZoomModule().setFovAmount(amount);
-}
-
-ADDRESS GetMLPtrAddy(void* addy, vector<DWORD> offsets)
-{
-    ADDRESS ptrPoint = 0;
-
-    if (ReadProcessMemory(hProcess, addy, &ptrPoint, sizeof(ptrPoint), NULL) != 0)
-    {
-        for (unsigned int i = 0; i < offsets.size(); i++)
-        {
-            ptrPoint = GetMLPtrAddy((void*)(ptrPoint + offsets[i]), {});
-        }
-        return ptrPoint;
-    }
-    return 0;
 }
 
 ADDRESS currentModuleBase()
@@ -239,12 +202,11 @@ DWORD attach() {
     log << "Module Base: " << (void*)moduleBase << '\n';
     if (moduleBase == 0ui64) return GetLastError();
 
-    ADDRESS yPositionAddy = GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    ADDRESS yPositionAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
     ADDRESS nameAddy = yPositionAddy + 996;
     // Start up
-    log << "Name: \"" << readVarString(nameAddy) << "\"\n";
+    log << "Name: \"" << memory::ReadVarString(nameAddy) << "\"\n";
     Mod::initialize();
-
     return 0;
 }
 

@@ -81,13 +81,7 @@ extern "C" LATITE_API float LPGetZPos();
 
 // functions
 
-// Gets address from a multi-level pointer
-ADDRESS GetMLPtrAddy(void* addy, vector<DWORD> offsets);
 // Gets starting address of Minecraft
 ADDRESS currentModuleBase();
 // Gets the process of Minecraft
 HANDLE getHProcess();
-// Write code to Minecraft
-void writeBytes(ADDRESS address, vector<unsigned char> bytes);
-// Reads ASCII string with unknown size
-std::string readVarString(ADDRESS address, int maxSize = 20);
