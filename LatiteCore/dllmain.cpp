@@ -18,6 +18,8 @@ DWORD pID;
 ADDRESS moduleBase;
 HANDLE hProcess;
 
+int timeChangerSetting = 0;
+
 HANDLE GetProcessByName(WCHAR* processName)
 {
     PROCESSENTRY32 pe32;
@@ -86,8 +88,13 @@ ADDRESS GetModuleBase(DWORD pID, wchar_t* moduleName)
     return _moduleBase;
 }
 
-void detach() {
-    // TODO: do shut-down code here
+void detach() 
+{
+    Mod::disableAll();
+    /*if (lcevents::isEnabled())
+    {
+        lcevents::shutdown();
+    }*/
 }
 
 void mod_zoom_setBind(char bind)
@@ -106,14 +113,10 @@ float LPGetMotion()
 
     ADDRESS yAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    float xVel = 0.f;
-    float zVel = 0.f;
-    ADDRESS xVelAddy = yAddy + 56;
-    ADDRESS zVelAddy = yAddy + 64;
-    ReadProcessMemory(hProcess, (void*)xVelAddy, &xVel, sizeof(xVel), 0);
-    ReadProcessMemory(hProcess, (void*)zVelAddy, &zVel, sizeof(zVel), 0);
-
-    return abs(xVel) + abs(zVel);
+    //return memory::ReadFloat(yAddy - 380);
+    float vel = 0.f;
+    ReadProcessMemory(hProcess, (void*)(yAddy - 0x16C), &vel, sizeof(vel), 0);
+    return vel;
 }
 
 float LPGetYMotion()
@@ -192,6 +195,13 @@ bool connectedToMinecraft(int type)
     return false;
 }
 
+std::string getUsername() 
+{
+    ADDRESS yPositionAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+    ADDRESS nameAddy = yPositionAddy + 996;
+    return memory::ReadVarString(nameAddy);
+}
+
 DWORD attach() {
     // attach to Minecraft
     hProcess = GetProcessByName((WCHAR*)L"Minecraft.Windows.exe");
@@ -202,11 +212,9 @@ DWORD attach() {
     log << "Module Base: " << (void*)moduleBase << '\n';
     if (moduleBase == 0ui64) return GetLastError();
 
-    ADDRESS yPositionAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    ADDRESS nameAddy = yPositionAddy + 996;
     // Start up
-    log << "Name: \"" << memory::ReadVarString(nameAddy) << "\"\n";
     Mod::initialize();
+    //lcevents::initialize();
     return 0;
 }
 
@@ -218,7 +226,16 @@ void loop()
         {
             Mod::tickModules();
         }
+        /*if (lcevents::isEnabled())
+        {
+            lcevents::loop();
+        }*/
     }
+}
+
+void setTimeChangerSetting(int setting)
+{
+    timeChangerSetting = setting;
 }
 
 void setEnabled(unsigned int modId, bool enabled)
@@ -247,6 +264,12 @@ void setEnabled(unsigned int modId, bool enabled)
         else
             getToggleSprintModule().onEnable();
         break;
+    case 4: //timechnager
+        log << "action on Time Changer\n";
+        if (!enabled)
+            getTimeChangerModule().onDisable();
+        else
+            getTimeChangerModule().onEnable(timeChangerSetting);
     }
 }
 

@@ -11,7 +11,11 @@ using std::string;
 
 class Config
 {
+private:
+	const char* filePath = "exampleConfig.txt";
+	const char* fileDefault = "# Example Default\n";
 public:
+	Config(const char* filePath, const char* defaults);
 	bool load();
 	std::string getString(string key);
 	float getNumber(string key);

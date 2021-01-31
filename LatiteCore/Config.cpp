@@ -3,7 +3,8 @@
 #include "Config.h"
 #include <fstream>
 #include <iostream>
-#include "dllmain.h"
+
+#define log std::cout
 
 using std::string;
 using std::fstream;
@@ -11,21 +12,27 @@ using std::fstream;
 std::vector<string> keys;
 std::vector<string> values;
 
-const char* filepath = "config.txt";
 char splitChar = '=';
-const char* fileDefault = "# Coming Soon\n";
+
+
+// constructor
+Config::Config(const char* filePath, const char* defaults)
+{
+	this->fileDefault = defaults;
+	this->filePath = filePath;
+}
 
 bool Config::load()
 {
 	fstream file;
-	file.open(filepath, std::ios_base::in);
+	file.open(this->filePath, std::ios_base::in);
 	string finalCollection = "";
 	if (file.fail())
 	{
 		// file failed
 		if (errno == ENOENT) {
-			log << filepath << " doesn't exist, trying to make new one...\n";
-			std::ofstream newFile(filepath);
+			log << this->filePath << " doesn't exist, trying to make new one...\n";
+			std::ofstream newFile(this->filePath);
 			newFile << fileDefault;
 			newFile.close();
 			std::flush(newFile);
@@ -96,7 +103,7 @@ float Config::getNumber(string key)
 	}
 	catch (std::exception e) {
 		log << "Config Error: cannot set " << key << " to number\n";
-		return 0.0;
+		return 0.f;
 	}
 }
 

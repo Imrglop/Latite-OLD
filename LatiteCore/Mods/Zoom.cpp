@@ -9,12 +9,14 @@ bool keyPressed = false;
 bool zoomEnabled;
 float fovAmt = 45;
 char bind_ = 'C';
+bool zooming = false;
 
 void unzoom()
 {
 	LocalPlayer::setFOV(pastFOV);
 	LocalPlayer::setSensitivity(pastSens);
 	LocalPlayer::setHideHand(pastHideHand);
+	zooming = false;
 }
 
 void zoom()
@@ -22,6 +24,7 @@ void zoom()
 	pastSens = LocalPlayer::getSensitivity();
 	pastFOV = LocalPlayer::getFOV();
 	pastHideHand = LocalPlayer::getHideHand();
+	zooming = true;
 
 /*	for (float i = pastFOV; i > fovAmt; i -= 10)
 	{
@@ -51,7 +54,7 @@ void Zoom::onDisable()
 {
 	this->enabled = false;
 	zoomEnabled = false;
-	unzoom();
+	if (zooming) unzoom();
 }
 
 void Zoom::onEnable()

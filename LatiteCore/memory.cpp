@@ -9,9 +9,15 @@ vector<unsigned char> memory::ReadMemoryRaw(ADDRESS address, unsigned long long 
 
 float memory::ReadFloat(ADDRESS address)
 {
-    auto rawMem = memory::ReadMemoryRaw(address, 4);
-    float* ptr = (float*)&rawMem[0];
-    return *ptr;
+    try {
+        auto rawMem = memory::ReadMemoryRaw(address, 4);
+        float* ptr = (float*)&rawMem[0];
+        return *ptr;
+    }
+    catch (std::exception e) {
+        std::cerr << "Exception occured while reading float: " << e.what() << std::endl;
+        return NAN;
+    }
 }
 
 byte memory::ReadByte(ADDRESS address)
@@ -34,6 +40,16 @@ std::string memory::ReadVarString(ADDRESS address, int maxSize)
         retVal.push_back(val);
     }
     return std::string(retVal.begin(), retVal.end());
+}
+
+void memory::Nop(ADDRESS address, unsigned long long amt)
+{
+    std::vector<byte> bytes;
+    for (unsigned long long i = 0; i < amt; i++)
+    {
+        bytes.push_back(0x90);
+    }
+    memory::WriteBytes(address, bytes);
 }
 
 ADDRESS memory::GetMLPtrAddy(void* addy, vector<DWORD> offsets)

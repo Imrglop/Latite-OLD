@@ -9,6 +9,7 @@
 #include "Zoom.h"
 #include "../LookBehind.h"
 #include "../ToggleSprint.h"
+#include "../TimeChanger.h"
 
 class Mod {
 //	void onEnable();
@@ -22,5 +23,6 @@ public:
 Zoom getZoomModule();
 LookBehind getLookBehindModule();
 ToggleSprint getToggleSprintModule();
+TimeChanger getTimeChangerModule();
 
 #endif

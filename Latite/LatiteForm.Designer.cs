@@ -34,6 +34,11 @@ namespace Latite
             this.consoleButton = new System.Windows.Forms.Button();
             this.modsControl = new System.Windows.Forms.TabControl();
             this.modsTabPage = new System.Windows.Forms.TabPage();
+            this.timeChangerLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.timeChangerTrackBarLabel = new System.Windows.Forms.Label();
+            this.timeChangerTrackBar = new System.Windows.Forms.TrackBar();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.toggleSprintLabel = new System.Windows.Forms.Label();
             this.lookBehindDesc = new System.Windows.Forms.Label();
             this.lookBehindLabel = new System.Windows.Forms.Label();
@@ -55,6 +60,13 @@ namespace Latite
             this.lookBehindEnabled = new System.Windows.Forms.CheckBox();
             this.zoomLabel = new System.Windows.Forms.Label();
             this.optionsTabControl = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.posDisplayCheck = new System.Windows.Forms.CheckBox();
+            this.keystrokesPositionPanel = new System.Windows.Forms.Panel();
+            this.rbBottomLeftKeystrokes = new System.Windows.Forms.RadioButton();
+            this.rbBottomRightKeystrokes = new System.Windows.Forms.RadioButton();
+            this.rbTopLeftKeystrokes = new System.Windows.Forms.RadioButton();
+            this.rbTopRightKeystrokes = new System.Windows.Forms.RadioButton();
             this.opacityDisplayLabel = new System.Windows.Forms.Label();
             this.opacityLabel = new System.Windows.Forms.Label();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
@@ -77,11 +89,14 @@ namespace Latite
             this.launchButton = new System.Windows.Forms.Button();
             this.modsControl.SuspendLayout();
             this.modsTabPage.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.timeChangerTrackBar)).BeginInit();
             this.toggleSprintSettingsPanel.SuspendLayout();
             this.zoomPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zaSlider)).BeginInit();
             this.lookBehindPanel.SuspendLayout();
             this.optionsTabControl.SuspendLayout();
+            this.keystrokesPositionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
             this.consoleTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -133,6 +148,8 @@ namespace Latite
             // 
             this.modsTabPage.AutoScroll = true;
             this.modsTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.modsTabPage.Controls.Add(this.timeChangerLabel);
+            this.modsTabPage.Controls.Add(this.panel1);
             this.modsTabPage.Controls.Add(this.toggleSprintLabel);
             this.modsTabPage.Controls.Add(this.lookBehindDesc);
             this.modsTabPage.Controls.Add(this.lookBehindLabel);
@@ -147,10 +164,60 @@ namespace Latite
             this.modsTabPage.TabIndex = 0;
             this.modsTabPage.Text = "Mods";
             // 
+            // timeChangerLabel
+            // 
+            this.timeChangerLabel.AutoSize = true;
+            this.timeChangerLabel.Location = new System.Drawing.Point(307, 215);
+            this.timeChangerLabel.Name = "timeChangerLabel";
+            this.timeChangerLabel.Size = new System.Drawing.Size(129, 26);
+            this.timeChangerLabel.TabIndex = 12;
+            this.timeChangerLabel.Text = "Time Changer";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.timeChangerTrackBarLabel);
+            this.panel1.Controls.Add(this.timeChangerTrackBar);
+            this.panel1.Controls.Add(this.checkBox1);
+            this.panel1.Location = new System.Drawing.Point(312, 248);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(200, 169);
+            this.panel1.TabIndex = 13;
+            // 
+            // timeChangerTrackBarLabel
+            // 
+            this.timeChangerTrackBarLabel.AutoSize = true;
+            this.timeChangerTrackBarLabel.Location = new System.Drawing.Point(56, 80);
+            this.timeChangerTrackBarLabel.Name = "timeChangerTrackBarLabel";
+            this.timeChangerTrackBarLabel.Size = new System.Drawing.Size(68, 26);
+            this.timeChangerTrackBarLabel.TabIndex = 9;
+            this.timeChangerTrackBarLabel.Text = "(1000)";
+            // 
+            // timeChangerTrackBar
+            // 
+            this.timeChangerTrackBar.Location = new System.Drawing.Point(18, 40);
+            this.timeChangerTrackBar.Minimum = 1;
+            this.timeChangerTrackBar.Name = "timeChangerTrackBar";
+            this.timeChangerTrackBar.Size = new System.Drawing.Size(147, 45);
+            this.timeChangerTrackBar.TabIndex = 8;
+            this.timeChangerTrackBar.Value = 1;
+            this.timeChangerTrackBar.Scroll += new System.EventHandler(this.timeChangerTrackBar_Scroll);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.ForeColor = System.Drawing.Color.White;
+            this.checkBox1.Location = new System.Drawing.Point(25, 12);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(99, 30);
+            this.checkBox1.TabIndex = 7;
+            this.checkBox1.Text = "Enabled";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // toggleSprintLabel
             // 
             this.toggleSprintLabel.AutoSize = true;
-            this.toggleSprintLabel.Location = new System.Drawing.Point(23, 374);
+            this.toggleSprintLabel.Location = new System.Drawing.Point(307, 0);
             this.toggleSprintLabel.Name = "toggleSprintLabel";
             this.toggleSprintLabel.Size = new System.Drawing.Size(122, 26);
             this.toggleSprintLabel.TabIndex = 10;
@@ -160,7 +227,7 @@ namespace Latite
             // 
             this.lookBehindDesc.AutoSize = true;
             this.lookBehindDesc.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lookBehindDesc.Location = new System.Drawing.Point(141, 221);
+            this.lookBehindDesc.Location = new System.Drawing.Point(37, 357);
             this.lookBehindDesc.Name = "lookBehindDesc";
             this.lookBehindDesc.Size = new System.Drawing.Size(172, 18);
             this.lookBehindDesc.TabIndex = 9;
@@ -171,16 +238,16 @@ namespace Latite
             this.lookBehindLabel.AutoSize = true;
             this.lookBehindLabel.Location = new System.Drawing.Point(23, 215);
             this.lookBehindLabel.Name = "lookBehindLabel";
-            this.lookBehindLabel.Size = new System.Drawing.Size(112, 26);
+            this.lookBehindLabel.Size = new System.Drawing.Size(117, 26);
             this.lookBehindLabel.TabIndex = 7;
-            this.lookBehindLabel.Text = "LookBehind";
+            this.lookBehindLabel.Text = "Look Behind";
             // 
             // toggleSprintSettingsPanel
             // 
             this.toggleSprintSettingsPanel.Controls.Add(this.toggleSprintCheckbox);
             this.toggleSprintSettingsPanel.Controls.Add(this.toggleSprintBind);
             this.toggleSprintSettingsPanel.Controls.Add(this.toggleSprintBindLabel);
-            this.toggleSprintSettingsPanel.Location = new System.Drawing.Point(28, 407);
+            this.toggleSprintSettingsPanel.Location = new System.Drawing.Point(312, 33);
             this.toggleSprintSettingsPanel.Name = "toggleSprintSettingsPanel";
             this.toggleSprintSettingsPanel.Size = new System.Drawing.Size(200, 169);
             this.toggleSprintSettingsPanel.TabIndex = 11;
@@ -356,7 +423,11 @@ namespace Latite
             // 
             // optionsTabControl
             // 
+            this.optionsTabControl.AutoScroll = true;
             this.optionsTabControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.optionsTabControl.Controls.Add(this.label1);
+            this.optionsTabControl.Controls.Add(this.posDisplayCheck);
+            this.optionsTabControl.Controls.Add(this.keystrokesPositionPanel);
             this.optionsTabControl.Controls.Add(this.opacityDisplayLabel);
             this.optionsTabControl.Controls.Add(this.opacityLabel);
             this.optionsTabControl.Controls.Add(this.opacitySlider);
@@ -369,10 +440,90 @@ namespace Latite
             this.optionsTabControl.TabIndex = 1;
             this.optionsTabControl.Text = "Options";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(44, 107);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(132, 33);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Keystrokes";
+            // 
+            // posDisplayCheck
+            // 
+            this.posDisplayCheck.AutoSize = true;
+            this.posDisplayCheck.Checked = true;
+            this.posDisplayCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.posDisplayCheck.Location = new System.Drawing.Point(246, 208);
+            this.posDisplayCheck.Name = "posDisplayCheck";
+            this.posDisplayCheck.Size = new System.Drawing.Size(167, 30);
+            this.posDisplayCheck.TabIndex = 6;
+            this.posDisplayCheck.Text = "Position Display";
+            this.posDisplayCheck.UseVisualStyleBackColor = true;
+            this.posDisplayCheck.CheckedChanged += new System.EventHandler(this.posDisplayCheckBox_CheckedChanged);
+            // 
+            // keystrokesPositionPanel
+            // 
+            this.keystrokesPositionPanel.Controls.Add(this.rbBottomLeftKeystrokes);
+            this.keystrokesPositionPanel.Controls.Add(this.rbBottomRightKeystrokes);
+            this.keystrokesPositionPanel.Controls.Add(this.rbTopLeftKeystrokes);
+            this.keystrokesPositionPanel.Controls.Add(this.rbTopRightKeystrokes);
+            this.keystrokesPositionPanel.Location = new System.Drawing.Point(13, 136);
+            this.keystrokesPositionPanel.Name = "keystrokesPositionPanel";
+            this.keystrokesPositionPanel.Size = new System.Drawing.Size(202, 181);
+            this.keystrokesPositionPanel.TabIndex = 5;
+            // 
+            // rbBottomLeftKeystrokes
+            // 
+            this.rbBottomLeftKeystrokes.AutoSize = true;
+            this.rbBottomLeftKeystrokes.Location = new System.Drawing.Point(21, 127);
+            this.rbBottomLeftKeystrokes.Name = "rbBottomLeftKeystrokes";
+            this.rbBottomLeftKeystrokes.Size = new System.Drawing.Size(130, 30);
+            this.rbBottomLeftKeystrokes.TabIndex = 3;
+            this.rbBottomLeftKeystrokes.Text = "Bottom Left";
+            this.rbBottomLeftKeystrokes.UseVisualStyleBackColor = true;
+            this.rbBottomLeftKeystrokes.CheckedChanged += new System.EventHandler(this.rbBottomLeftKeystrokes_CheckedChanged);
+            // 
+            // rbBottomRightKeystrokes
+            // 
+            this.rbBottomRightKeystrokes.AutoSize = true;
+            this.rbBottomRightKeystrokes.Location = new System.Drawing.Point(21, 91);
+            this.rbBottomRightKeystrokes.Name = "rbBottomRightKeystrokes";
+            this.rbBottomRightKeystrokes.Size = new System.Drawing.Size(142, 30);
+            this.rbBottomRightKeystrokes.TabIndex = 2;
+            this.rbBottomRightKeystrokes.Text = "Bottom Right";
+            this.rbBottomRightKeystrokes.UseVisualStyleBackColor = true;
+            this.rbBottomRightKeystrokes.CheckedChanged += new System.EventHandler(this.rbBottomRightKeystrokes_CheckedChanged);
+            // 
+            // rbTopLeftKeystrokes
+            // 
+            this.rbTopLeftKeystrokes.AutoSize = true;
+            this.rbTopLeftKeystrokes.Checked = true;
+            this.rbTopLeftKeystrokes.Location = new System.Drawing.Point(21, 19);
+            this.rbTopLeftKeystrokes.Name = "rbTopLeftKeystrokes";
+            this.rbTopLeftKeystrokes.Size = new System.Drawing.Size(97, 30);
+            this.rbTopLeftKeystrokes.TabIndex = 1;
+            this.rbTopLeftKeystrokes.TabStop = true;
+            this.rbTopLeftKeystrokes.Text = "Top Left";
+            this.rbTopLeftKeystrokes.UseVisualStyleBackColor = true;
+            this.rbTopLeftKeystrokes.CheckedChanged += new System.EventHandler(this.rbTopLeftKeystrokes_CheckedChanged);
+            // 
+            // rbTopRightKeystrokes
+            // 
+            this.rbTopRightKeystrokes.AutoSize = true;
+            this.rbTopRightKeystrokes.Location = new System.Drawing.Point(21, 55);
+            this.rbTopRightKeystrokes.Name = "rbTopRightKeystrokes";
+            this.rbTopRightKeystrokes.Size = new System.Drawing.Size(109, 30);
+            this.rbTopRightKeystrokes.TabIndex = 0;
+            this.rbTopRightKeystrokes.Text = "Top Right";
+            this.rbTopRightKeystrokes.UseVisualStyleBackColor = true;
+            this.rbTopRightKeystrokes.CheckedChanged += new System.EventHandler(this.rbTopRightKeystrokes_CheckedChanged);
+            // 
             // opacityDisplayLabel
             // 
             this.opacityDisplayLabel.AutoSize = true;
-            this.opacityDisplayLabel.Location = new System.Drawing.Point(231, 139);
+            this.opacityDisplayLabel.Location = new System.Drawing.Point(454, 139);
             this.opacityDisplayLabel.Name = "opacityDisplayLabel";
             this.opacityDisplayLabel.Size = new System.Drawing.Size(34, 26);
             this.opacityDisplayLabel.TabIndex = 4;
@@ -381,7 +532,7 @@ namespace Latite
             // opacityLabel
             // 
             this.opacityLabel.AutoSize = true;
-            this.opacityLabel.Location = new System.Drawing.Point(88, 107);
+            this.opacityLabel.Location = new System.Drawing.Point(311, 107);
             this.opacityLabel.Name = "opacityLabel";
             this.opacityLabel.Size = new System.Drawing.Size(78, 26);
             this.opacityLabel.TabIndex = 3;
@@ -389,7 +540,7 @@ namespace Latite
             // 
             // opacitySlider
             // 
-            this.opacitySlider.Location = new System.Drawing.Point(23, 139);
+            this.opacitySlider.Location = new System.Drawing.Point(246, 139);
             this.opacitySlider.Maximum = 25;
             this.opacitySlider.Name = "opacitySlider";
             this.opacitySlider.Size = new System.Drawing.Size(202, 45);
@@ -402,9 +553,9 @@ namespace Latite
             this.transparentOverlayToggle.AutoSize = true;
             this.transparentOverlayToggle.Location = new System.Drawing.Point(23, 57);
             this.transparentOverlayToggle.Name = "transparentOverlayToggle";
-            this.transparentOverlayToggle.Size = new System.Drawing.Size(202, 30);
+            this.transparentOverlayToggle.Size = new System.Drawing.Size(377, 30);
             this.transparentOverlayToggle.TabIndex = 1;
-            this.transparentOverlayToggle.Text = "Transparent Overlay";
+            this.transparentOverlayToggle.Text = "Transparent Overlay (not recommended)";
             this.transparentOverlayToggle.UseVisualStyleBackColor = true;
             this.transparentOverlayToggle.CheckedChanged += new System.EventHandler(this.transparentOverlayToggle_CheckedChanged);
             // 
@@ -656,6 +807,9 @@ namespace Latite
             this.modsControl.ResumeLayout(false);
             this.modsTabPage.ResumeLayout(false);
             this.modsTabPage.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.timeChangerTrackBar)).EndInit();
             this.toggleSprintSettingsPanel.ResumeLayout(false);
             this.toggleSprintSettingsPanel.PerformLayout();
             this.zoomPanel.ResumeLayout(false);
@@ -665,6 +819,8 @@ namespace Latite
             this.lookBehindPanel.PerformLayout();
             this.optionsTabControl.ResumeLayout(false);
             this.optionsTabControl.PerformLayout();
+            this.keystrokesPositionPanel.ResumeLayout(false);
+            this.keystrokesPositionPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
             this.consoleTab.ResumeLayout(false);
             this.consoleTab.PerformLayout();
@@ -723,6 +879,18 @@ namespace Latite
         private System.Windows.Forms.TextBox toggleSprintBind;
         private System.Windows.Forms.Label toggleSprintBindLabel;
         private System.Windows.Forms.CheckBox toggleSprintCheckbox;
+        private System.Windows.Forms.Panel keystrokesPositionPanel;
+        private System.Windows.Forms.RadioButton rbBottomLeftKeystrokes;
+        private System.Windows.Forms.RadioButton rbBottomRightKeystrokes;
+        private System.Windows.Forms.RadioButton rbTopLeftKeystrokes;
+        private System.Windows.Forms.RadioButton rbTopRightKeystrokes;
+        private System.Windows.Forms.CheckBox posDisplayCheck;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label timeChangerLabel;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label timeChangerTrackBarLabel;
+        private System.Windows.Forms.TrackBar timeChangerTrackBar;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

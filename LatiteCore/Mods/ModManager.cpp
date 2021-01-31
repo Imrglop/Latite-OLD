@@ -3,6 +3,7 @@
 Zoom zoom;
 LookBehind lookBehind;
 ToggleSprint toggleSprint;
+TimeChanger timeChanger;
 
 void Mod::disableAll()
 {
@@ -10,6 +11,9 @@ void Mod::disableAll()
 	zoom.onDisable();
 	lookBehind.enabled = false;
 	lookBehind.onDisable();
+	toggleSprint.enabled = false;
+	toggleSprint.onDisable();
+	timeChanger.onDisable();
 }
 
 void Mod::initialize()
@@ -25,6 +29,8 @@ void Mod::tickModules()
 {
 	zoom.onTick();
 	lookBehind.onTick();
+	//toggleSprint.onTick(); - not needed
+	timeChanger.onTick();
 }
 
 Zoom getZoomModule()
@@ -40,4 +46,9 @@ LookBehind getLookBehindModule()
 ToggleSprint getToggleSprintModule()
 {
 	return toggleSprint;
+}
+
+TimeChanger getTimeChangerModule()
+{
+	return timeChanger;
 }

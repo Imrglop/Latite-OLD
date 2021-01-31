@@ -13,4 +13,6 @@ namespace memory
 	byte ReadByte(ADDRESS address);
 	// Reads ASCII format string with unknown size
 	std::string ReadVarString(ADDRESS address, int maxSize = 20);
+	// NOP code
+	void Nop(ADDRESS address, unsigned long long amt);
 }

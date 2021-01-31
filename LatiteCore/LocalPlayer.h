@@ -24,6 +24,8 @@ struct LocalPlayer
 	static unsigned char getPerspective();
 	// Sets your prespective
 	static void setPerspective(unsigned char val);
+	// Sets your time of day
+	static void setTime(int time);
 	// --------------------
 };
 

@@ -30,6 +30,8 @@ namespace Latite
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.spaceBarPanel = new System.Windows.Forms.Panel();
+            this.spaceBarBox = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.RMBCounter = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -58,6 +60,8 @@ namespace Latite
             this.motionTopLabel = new System.Windows.Forms.Label();
             this.toggleSprintLabel = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.spaceBarPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spaceBarBox)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.Keystrokes_RMB.SuspendLayout();
@@ -72,6 +76,7 @@ namespace Latite
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Controls.Add(this.spaceBarPanel);
             this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.Keystrokes_RMB);
@@ -80,17 +85,35 @@ namespace Latite
             this.panel1.Controls.Add(this.keyStrokes_A);
             this.panel1.Controls.Add(this.keyStrokes_S);
             this.panel1.Controls.Add(this.keyStrokes_W);
-            this.panel1.Location = new System.Drawing.Point(2, 28);
+            this.panel1.Location = new System.Drawing.Point(14, 14);
             this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(283, 260);
+            this.panel1.Size = new System.Drawing.Size(251, 313);
             this.panel1.TabIndex = 0;
+            // 
+            // spaceBarPanel
+            // 
+            this.spaceBarPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.spaceBarPanel.Controls.Add(this.spaceBarBox);
+            this.spaceBarPanel.Location = new System.Drawing.Point(28, 176);
+            this.spaceBarPanel.Name = "spaceBarPanel";
+            this.spaceBarPanel.Size = new System.Drawing.Size(192, 37);
+            this.spaceBarPanel.TabIndex = 2;
+            // 
+            // spaceBarBox
+            // 
+            this.spaceBarBox.BackColor = System.Drawing.Color.White;
+            this.spaceBarBox.Location = new System.Drawing.Point(52, 17);
+            this.spaceBarBox.Name = "spaceBarBox";
+            this.spaceBarBox.Size = new System.Drawing.Size(82, 3);
+            this.spaceBarBox.TabIndex = 0;
+            this.spaceBarBox.TabStop = false;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.panel3.Controls.Add(this.RMBCounter);
-            this.panel3.Location = new System.Drawing.Point(160, 216);
+            this.panel3.Location = new System.Drawing.Point(159, 257);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(30, 33);
             this.panel3.TabIndex = 5;
@@ -109,7 +132,7 @@ namespace Latite
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.panel2.Controls.Add(this.LMBCounter);
-            this.panel2.Location = new System.Drawing.Point(53, 216);
+            this.panel2.Location = new System.Drawing.Point(52, 257);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(30, 33);
             this.panel2.TabIndex = 4;
@@ -128,7 +151,7 @@ namespace Latite
             // 
             this.Keystrokes_RMB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.Keystrokes_RMB.Controls.Add(this.RMBLabel);
-            this.Keystrokes_RMB.Location = new System.Drawing.Point(130, 176);
+            this.Keystrokes_RMB.Location = new System.Drawing.Point(129, 217);
             this.Keystrokes_RMB.Name = "Keystrokes_RMB";
             this.Keystrokes_RMB.Size = new System.Drawing.Size(91, 37);
             this.Keystrokes_RMB.TabIndex = 2;
@@ -147,7 +170,7 @@ namespace Latite
             this.Keystrokes_LMB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.Keystrokes_LMB.Controls.Add(this.LMBLabel);
             this.Keystrokes_LMB.Controls.Add(this.LMB);
-            this.Keystrokes_LMB.Location = new System.Drawing.Point(28, 176);
+            this.Keystrokes_LMB.Location = new System.Drawing.Point(27, 217);
             this.Keystrokes_LMB.Name = "Keystrokes_LMB";
             this.Keystrokes_LMB.Size = new System.Drawing.Size(86, 37);
             this.Keystrokes_LMB.TabIndex = 1;
@@ -270,6 +293,7 @@ namespace Latite
             // 
             // posPanel
             // 
+            this.posPanel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.posPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.posPanel.Controls.Add(this.zPosLabel);
             this.posPanel.Controls.Add(this.yPosLabel);
@@ -277,7 +301,7 @@ namespace Latite
             this.posPanel.Controls.Add(this.motionTopLabel);
             this.posPanel.Controls.Add(this.motionLabel);
             this.posPanel.Controls.Add(this.motionYLabel);
-            this.posPanel.Location = new System.Drawing.Point(12, 296);
+            this.posPanel.Location = new System.Drawing.Point(14, 348);
             this.posPanel.Name = "posPanel";
             this.posPanel.Size = new System.Drawing.Size(155, 155);
             this.posPanel.TabIndex = 4;
@@ -325,19 +349,25 @@ namespace Latite
             // 
             // toggleSprintLabel
             // 
+            this.toggleSprintLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.toggleSprintLabel.AutoSize = true;
-            this.toggleSprintLabel.Location = new System.Drawing.Point(15, 454);
+            this.toggleSprintLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.toggleSprintLabel.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSprintLabel.Location = new System.Drawing.Point(16, 785);
             this.toggleSprintLabel.Name = "toggleSprintLabel";
-            this.toggleSprintLabel.Size = new System.Drawing.Size(0, 23);
+            this.toggleSprintLabel.Size = new System.Drawing.Size(218, 33);
             this.toggleSprintLabel.TabIndex = 5;
+            this.toggleSprintLabel.Text = "Toggle Sprint Label";
+            this.toggleSprintLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Overlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::Latite.Properties.Resources.transparentimg;
-            this.ClientSize = new System.Drawing.Size(1132, 519);
+            this.ClientSize = new System.Drawing.Size(969, 827);
             this.Controls.Add(this.toggleSprintLabel);
             this.Controls.Add(this.posPanel);
             this.Controls.Add(this.panel1);
@@ -347,9 +377,11 @@ namespace Latite
             this.Name = "Overlay";
             this.ShowInTaskbar = false;
             this.Text = "Overlay";
-            this.TransparencyKey = System.Drawing.Color.Transparent;
+            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(31)))));
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.panel1.ResumeLayout(false);
+            this.spaceBarPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.spaceBarBox)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -403,5 +435,7 @@ namespace Latite
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label RMBCounter;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel spaceBarPanel;
+        private System.Windows.Forms.PictureBox spaceBarBox;
     }
 }

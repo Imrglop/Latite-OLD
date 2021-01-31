@@ -41,6 +41,8 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         static extern void mod_zoom_setAmount(float amount);
         [DllImport("LatiteCore.dll")]
         static extern void mod_lookBehind_setBind(char bind);
+        [DllImport("LatiteCore.dll")]
+        static extern void setTimeChangerSetting(int setting);
         public LatiteForm()
         {
             InitializeComponent();
@@ -102,10 +104,11 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                         }
                     }
                 }
-            } catch (DllNotFoundException)
+            } catch (DllNotFoundException e)
             {
                 var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
                 Coutln("DllNotFoundException occured while attempting to import LatiteCore.dll");
+                Coutln("Error: " + e.ToString() + "\nStacktrace: " + e.StackTrace);
                 if (Result == DialogResult.Retry)
                 {
                     ConnectToMc();
@@ -126,7 +129,11 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 connectedToMinecraft(0); // false
                 connectedLabel.Visible = false;
                 detach();
-                this.OverlayForm.Close();
+                if (this.OverlayForm.Handle != IntPtr.Zero && this.Handle != IntPtr.Zero)
+                {
+                    if (!this.OverlayForm.IsDisposed) this.OverlayForm.BeginInvoke(new MethodInvoker(this.OverlayForm.Close));
+
+                }
             }
         }
 
@@ -219,25 +226,29 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         {
             this.toggleSprintCheckbox.Checked = Val;
             this.OverlayForm.ToggleSprint(Val);
-            ToggleSprintBindOn = Val;
             setEnabled(3, Val);
         }
+
+        public bool FocusedOnMinecraft()
+        {
+            return Overlay.GetForegroundWindow() == Overlay.FindWindowA(null, "Minecraft");
+        }
+
         private void moduleWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
                 loop();
                 if (moduleWorker.CancellationPending) break;
-                if (Overlay.GetForegroundWindow() == Overlay.FindWindowA(null, "Minecraft"))
+                if ((Overlay.GetKeyState(ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
                 {
-                    if ((Overlay.GetKeyState(ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
-                    {
-                        this.ToggleSprint(true);
-                    }
-                    else if ((Overlay.GetKeyState(ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
-                    {
-                        this.ToggleSprint(false);
-                    }
+                    if (FocusedOnMinecraft()) this.ToggleSprint(true);
+                    ToggleSprintBindOn = true;
+                }
+                else if ((Overlay.GetKeyState(ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
+                {
+                    if (FocusedOnMinecraft()) this.ToggleSprint(false);
+                    ToggleSprintBindOn = false;
                 }
                 Thread.Sleep(50);
             }
@@ -308,6 +319,56 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         {
             string SetStr = zoomBindBox.Text.ToUpper();
             if (SetStr.Length > 0) ToggleSprintBind = SetStr[0];
+        }
+
+        private void UpdateGUIPositions()
+        {
+            if (rbTopLeftKeystrokes.Checked)
+            {
+                this.OverlayForm.UpdatePanelPos(0);
+            } else if (rbTopRightKeystrokes.Checked)
+            {
+                this.OverlayForm.UpdatePanelPos(1);
+            }
+        }
+
+        private void rbTopLeftKeystrokes_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateGUIPositions();
+        }
+
+        private void rbTopRightKeystrokes_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateGUIPositions();
+        }
+
+        private void rbBottomRightKeystrokes_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateGUIPositions();
+        }
+
+        private void rbBottomLeftKeystrokes_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateGUIPositions();
+        }
+
+        private void posDisplayCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.OverlayForm.SetGuiDisplay(0, posDisplayCheck.Checked);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            int Val = timeChangerTrackBar.Value * 2500;
+            setTimeChangerSetting(Val);
+            if (connectedToMinecraft())
+                setEnabled(4, checkBox1.Checked);
+        }
+
+        private void timeChangerTrackBar_Scroll(object sender, EventArgs e)
+        {
+            int Val = timeChangerTrackBar.Value * 2500;
+            timeChangerTrackBarLabel.Text = Val + "";
         }
     }
 }

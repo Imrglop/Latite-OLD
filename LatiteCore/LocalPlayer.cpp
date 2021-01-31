@@ -94,3 +94,11 @@ void LocalPlayer::setPerspective(unsigned char val)
 	if (pAddy != 0)
 		WriteProcessMemory(getHProcess(), (void*)pAddy, &val, sizeof(val), NULL);
 }
+
+void LocalPlayer::setTime(int time)
+{
+	//log << "Setting time to " << time << '\n';
+	ADDRESS addy = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_TIME_BASEADDY), ADDRESS_TIME_OFFSETS) + ADDRESS_TIME_LAST_OFFSET;
+	if (addy != 0)
+		WriteProcessMemory(getHProcess(), (void*)addy, &time, sizeof(time), NULL);
+}

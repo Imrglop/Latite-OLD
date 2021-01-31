@@ -159,6 +159,7 @@
     <ClInclude Include="Mods\ModManager.h" />
     <ClInclude Include="Mods\Zoom.h" />
     <ClInclude Include="rich_presence.h" />
+    <ClInclude Include="TimeChanger.h" />
     <ClInclude Include="ToggleSprint.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     <ClCompile Include="Mods\ModManager.cpp" />
     <ClCompile Include="Mods\Zoom.cpp" />
     <ClCompile Include="rich_presence.cpp" />
+    <ClCompile Include="TimeChanger.cpp" />
     <ClCompile Include="ToggleSprint.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

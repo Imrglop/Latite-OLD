@@ -15,7 +15,7 @@ namespace Latite
     // overlay for minecraft needed for Latite
     public partial class Overlay : Form
     {
-        bool W_Pressed, A_Pressed, S_Pressed, D_Pressed, LMB_Pressed, RMB_Pressed;
+        bool W_Pressed, A_Pressed, S_Pressed, D_Pressed, LMB_Pressed, RMB_Pressed, Space_Pressed;
         int lcps, rcps = 0;
 
         LatiteForm latiteForm;
@@ -69,6 +69,22 @@ namespace Latite
             }
         }
 
+        public void UpdatePanelPos(int Keystrokes)
+        {
+            latiteForm.Coutln("set keystrokes to: " + Keystrokes);
+            var DefaultAnchor = AnchorStyles.Top | AnchorStyles.Left;
+            var TopRightAnchor = AnchorStyles.Top | AnchorStyles.Right;
+            switch (Keystrokes) 
+            {
+                case 0:
+                    panel1.Anchor = DefaultAnchor;
+                    break;
+                case 1:
+                    panel1.Anchor = TopRightAnchor;
+                    break;
+            }
+        }
+
         private void secondRunner_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
@@ -92,7 +108,7 @@ namespace Latite
         {
             if (val)
             {
-                toggleSprintLabel.Text = "Sprinting (toggled)";
+                toggleSprintLabel.Text = "[Sprinting (toggled)]";
             }
             else
             {
@@ -105,13 +121,23 @@ namespace Latite
             InitializeComponent();
         }
 
+        public void SetGuiDisplay(uint gui, bool display)
+        {
+            switch(gui)
+            {
+                case 0:
+                    posPanel.Visible = display;
+                    break;
+            }
+        }
+
         private void Overlay_Load(object sender, EventArgs e)
         {
             this.Opacity = 0.90;
             this.KeyPreview = true;
+
             // cause transparency
-            BackColor = Color.FromArgb(165, 42, 42);
-            TransparencyKey = Color.FromArgb(165, 42, 42);
+            this.BackColor = Color.FromArgb(0, 0, 31);
 
             // remove borders / minimize etc
             FormBorderStyle = FormBorderStyle.None;
@@ -123,6 +149,8 @@ namespace Latite
             // run constant running loop asynch so it matches mc window without freezing
             backgroundWorker1.RunWorkerAsync();
             secondRunner.RunWorkerAsync();
+
+            this.toggleSprintLabel.Text = "";
         }
 
         private void UpdateKeystrokes()
@@ -170,6 +198,9 @@ namespace Latite
 
             if (RMB_Pressed) Keystrokes_RMB.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
             else Keystrokes_RMB.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
+            
+            if (Space_Pressed) spaceBarPanel.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
+            else spaceBarPanel.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
             //MessageBox.Show("Updated kEystrokes");
         }
 
@@ -218,12 +249,20 @@ namespace Latite
                     LMB_Pressed = true;
                 }
                 else LMB_Pressed = false;
-                if ((GetKeyState(0x02) & 0x8000) == 32768) {
+                if ((GetKeyState(0x02) & 0x8000) == 32768)
+                {
                     if (!RMB_Pressed) rcps++;
                     RMB_Pressed = true;
                 }
                 else RMB_Pressed = false;
+                if ((GetKeyState(0x20) & 0x8000) == 0x8000)
+                {
+                    Space_Pressed = true;
+                }
+                else Space_Pressed = false;
                 UpdateKeystrokes();
+
+                
 
                 GetWindowRect(hWnd, out rect);
                 this.Size = new Size(rect.right - rect.left,

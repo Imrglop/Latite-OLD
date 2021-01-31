@@ -40,6 +40,8 @@ extern "C" LATITE_API void mod_zoom_setBind(char bind);
 extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 extern "C" LATITE_API void mod_lookBehind_setBind(char bind);
 
+extern "C" LATITE_API void setTimeChangerSetting(int setting);
+
 // Local Player
 extern "C" LATITE_API float LPGetYMotion();
 extern "C" LATITE_API float LPGetMotion();
@@ -79,9 +81,16 @@ extern "C" LATITE_API float LPGetZPos();
 // address to assembly code that checks if you're holding CTRL before sprinting
 #define ADDRESS_STATIC_SPRINT_CODE 0x1618D8F
 
+// pointer to time of day client side
+#define ADDRESS_TIME_BASEADDY 0x036A1FB0
+#define ADDRESS_TIME_OFFSETS { 0x0, 0x8F0, 0x28, 0x10, 0x7F8, 0x0 }
+#define ADDRESS_TIME_LAST_OFFSET 0x5D0
+
 // functions
 
 // Gets starting address of Minecraft
 ADDRESS currentModuleBase();
 // Gets the process of Minecraft
 HANDLE getHProcess();
+// Gets in-game name
+std::string getUsername();
