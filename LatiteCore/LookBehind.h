@@ -6,6 +6,7 @@
 class LookBehind {
 public:
 	char bind = 'G';
+	const char* nid = "look_behind";
 	bool enabled = false;
 	void setBind(char b);
 	void onDisable();

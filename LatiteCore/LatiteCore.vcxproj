@@ -158,7 +158,8 @@
     <ClInclude Include="memory.h" />
     <ClInclude Include="Mods\ModManager.h" />
     <ClInclude Include="Mods\Zoom.h" />
-    <ClInclude Include="rich_presence.h" />
+    <ClInclude Include="SA_utils.hh" />
+    <ClInclude Include="server_mod_disabler.h" />
     <ClInclude Include="TimeChanger.h" />
     <ClInclude Include="ToggleSprint.h" />
   </ItemGroup>
@@ -170,9 +171,12 @@
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="Mods\ModManager.cpp" />
     <ClCompile Include="Mods\Zoom.cpp" />
-    <ClCompile Include="rich_presence.cpp" />
+    <ClCompile Include="server_mod_disabler.cpp" />
     <ClCompile Include="TimeChanger.cpp" />
     <ClCompile Include="ToggleSprint.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Config\servers.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

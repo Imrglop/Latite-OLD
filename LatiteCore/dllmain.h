@@ -86,6 +86,11 @@ extern "C" LATITE_API float LPGetZPos();
 #define ADDRESS_TIME_OFFSETS { 0x0, 0x8F0, 0x28, 0x10, 0x7F8, 0x0 }
 #define ADDRESS_TIME_LAST_OFFSET 0x5D0
 
+// pointer to server IP
+#define ADDRESS_SERVER_BASEADDY 0x36A1FB0
+#define ADDRESS_SERVER_OFFSETS { 0x0, 0x518, 0x10, 0x0, 0x1E8, 0x380 }
+#define ADDRESS_SERVER_LAST_OFFSET 0x0
+
 // functions
 
 // Gets starting address of Minecraft

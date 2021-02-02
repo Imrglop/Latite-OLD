@@ -9,9 +9,6 @@
 using std::string;
 using std::fstream;
 
-std::vector<string> keys;
-std::vector<string> values;
-
 char splitChar = '=';
 
 
@@ -40,7 +37,7 @@ bool Config::load()
 			return true;
 		}
 		else {
-			log << "Couldn't load config! errno: " << errno;
+			log << "Couldn't load config! errno: " << errno << "\n";
 			return false;
 		}
 		return false;
@@ -59,34 +56,36 @@ bool Config::load()
 			sl.push_back(each);
 		};
 		if (sl.size() < 2) continue; // empty line
-		keys.push_back(sl[0]);
-		values.push_back(sl[1]);
+		vars.insert({ sl[0], sl[1] });
 	}
 	file.close();
+	this->loaded = true;
 	return true;
 }
 
 int Config::findInList(std::vector<string> list, string item)
 {
-	unsigned int i = 0;
-	for (; i < list.size(); i++)
+	for (unsigned int i = 0; i < list.size(); i++)
 	{
-		if (list[i].compare(item) == 0) 
-			break;
+		if (list[i].compare(item) == 0)
+			return i;
 	};
-	return i;
+	return -1;
 }
 
 bool Config::getBool(string key)
 {
-	return values[findInList(keys, key)].compare("true") == 0 ? true : false;
+	auto fli = vars.find(key);
+	if (fli == vars.end()) return false;
+	return fli->second.compare("true") == 0;
 }
 
 int Config::getInteger(string key)
 {
 	try {
-		string toint = values[findInList(keys, key)];
-		return std::stoi(toint);
+		auto fli = vars.find(key);
+		if (fli == vars.end()) return false;
+		return std::stoi(fli->second);
 	}
 	catch (std::exception e)
 	{
@@ -98,8 +97,9 @@ int Config::getInteger(string key)
 float Config::getNumber(string key)
 {
 	try {
-		string tofloat = values[findInList(keys, key)];
-		return std::stof(tofloat);
+		auto fli = vars.find(key);
+		if (fli == vars.end()) return false;
+		return std::stof(fli->second);
 	}
 	catch (std::exception e) {
 		log << "Config Error: cannot set " << key << " to number\n";
@@ -110,17 +110,30 @@ float Config::getNumber(string key)
 unsigned char Config::getByte(string key)
 {
 	try {
-		string tobyte = values[findInList(keys, key)];
-		return (unsigned char)std::stoi(tobyte);
+		auto fli = vars.find(key);
+		if (fli == vars.end()) return false;
+		return (unsigned char)std::stoi(fli->second);
 	}
 	catch (std::exception e)
 	{
 		log << "Config Error: cannot set " << key << " to byte\n";
-		return (unsigned char)0;
+		return 0ui8;
 	}
+}
+
+std::vector<string> Config::getKeys()
+{
+	std::vector<string> retVal;
+	for (std::map<string, string>::iterator it = vars.begin(); it != vars.end(); ++it)
+	{
+		retVal.push_back(it->first);
+	}
+	return retVal;
 }
 
 string Config::getString(string key)
 {
-	return values[findInList(keys, key)];
+	auto fli = vars.find(key);
+	if (fli != vars.end()) return fli->second;
+	return "null";
 }

@@ -19,15 +19,15 @@
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{6496c1e4-6d1a-46f7-87cb-7987e490f300}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{5f77459e-065e-4519-8e07-7176e56a9f65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dllmain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Mods\ModManager.h">
-      <Filter>Source Files\Mods</Filter>
-    </ClInclude>
-    <ClInclude Include="Mods\Zoom.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
     <ClInclude Include="Config.h">
@@ -39,9 +39,6 @@
     <ClInclude Include="LookBehind.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
-    <ClInclude Include="rich_presence.h">
-      <Filter>Source Files\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="ToggleSprint.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
@@ -50,6 +47,15 @@
     </ClInclude>
     <ClInclude Include="TimeChanger.h">
       <Filter>Source Files\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="server_mod_disabler.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="SA_utils.hh">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\Zoom.h">
+      <Filter>Source Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -71,9 +77,6 @@
     <ClCompile Include="LookBehind.cpp">
       <Filter>Source Files\Mods</Filter>
     </ClCompile>
-    <ClCompile Include="rich_presence.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="ToggleSprint.cpp">
       <Filter>Source Files\Mods</Filter>
     </ClCompile>
@@ -83,5 +86,13 @@
     <ClCompile Include="TimeChanger.cpp">
       <Filter>Source Files\Mods</Filter>
     </ClCompile>
+    <ClCompile Include="server_mod_disabler.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Config\servers.txt">
+      <Filter>Source Files\Config</Filter>
+    </None>
   </ItemGroup>
 </Project>

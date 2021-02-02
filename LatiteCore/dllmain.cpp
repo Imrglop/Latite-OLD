@@ -211,7 +211,7 @@ DWORD attach() {
     if (hProcess == 0) return GetLastError();
     log << "Module Base: " << (void*)moduleBase << '\n';
     if (moduleBase == 0ui64) return GetLastError();
-
+    log << "[test] Server player in: " << LocalPlayer::getServer() << '\n';
     // Start up
     Mod::initialize();
     //lcevents::initialize();

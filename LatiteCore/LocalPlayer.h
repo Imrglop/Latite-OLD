@@ -26,6 +26,8 @@ struct LocalPlayer
 	static void setPerspective(unsigned char val);
 	// Sets your time of day
 	static void setTime(int time);
+	// Gets the ip of server you're in
+	static std::string getServer();
 	// --------------------
 };
 

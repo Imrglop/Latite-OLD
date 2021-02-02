@@ -5,6 +5,7 @@
 
 class Zoom {
 public:
+	const char* nid = "zoom";
 	char bind = 'C';
 	float fovAmount = 45;
 	void setFovAmount(float fov);

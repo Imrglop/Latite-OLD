@@ -1,6 +1,7 @@
 #include "Zoom.h"
 #include "../LocalPlayer.h"
 #include "ModManager.h"
+#include "../server_mod_disabler.h"
 
 float pastFOV;
 float pastSens;
@@ -13,6 +14,7 @@ bool zooming = false;
 
 void unzoom()
 {
+	if (moduleDisabledOnServer(LocalPlayer::getServer(), "zoom")) return;
 	LocalPlayer::setFOV(pastFOV);
 	LocalPlayer::setSensitivity(pastSens);
 	LocalPlayer::setHideHand(pastHideHand);
@@ -21,6 +23,7 @@ void unzoom()
 
 void zoom()
 {
+	if (moduleDisabledOnServer(LocalPlayer::getServer(), "zoom")) return;
 	pastSens = LocalPlayer::getSensitivity();
 	pastFOV = LocalPlayer::getFOV();
 	pastHideHand = LocalPlayer::getHideHand();
@@ -33,7 +36,7 @@ void zoom()
 		LocalPlayer::setFOV(i);
 	}*/
 	LocalPlayer::setFOV(pastFOV - fovAmt);
-	LocalPlayer::setSensitivity(0.3);
+	LocalPlayer::setSensitivity(0.3f);
 	LocalPlayer::setHideHand(1);
 }
 

@@ -102,3 +102,10 @@ void LocalPlayer::setTime(int time)
 	if (addy != 0)
 		WriteProcessMemory(getHProcess(), (void*)addy, &time, sizeof(time), NULL);
 }
+
+std::string LocalPlayer::getServer()
+{
+	ADDRESS addy = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_SERVER_BASEADDY), ADDRESS_SERVER_OFFSETS) + ADDRESS_SERVER_LAST_OFFSET;
+	if (addy == 0) return "N/A";
+	return memory::ReadVarString(addy, 30); // get ip address
+}
