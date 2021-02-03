@@ -3,6 +3,8 @@
 
  [Discord](https://discord.com/invite/DfYUSJspcn)
 
+ [Latest Release](https://github.com/Imrglop/Latite/releases/latest)
+
  A Legit external PVP Client for Minecraft Windows 10 Edition
  
 # Info
@@ -36,3 +38,16 @@ Show your position and how fast you move
  ![Look behind settings](/images/lookbehind-settings.png)
 
 Look behind you like in F3 while holding a key
+
+## TimeChanger
+ ![Time changer settings](/images/time-changer-settings.png)
+
+Changes the time of day on your screen
+
+# Server Mod Disabler
+
+If you go to `servers.txt`, you can edit which servers don't allow what module. It is not recommended to allow a server's mod that is disabled by default. I am still not responsible for any bans using this PVP client.
+
+# License
+
+GPLv3

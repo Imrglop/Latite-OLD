@@ -63,6 +63,7 @@ namespace Latite
             this.label1 = new System.Windows.Forms.Label();
             this.posDisplayCheck = new System.Windows.Forms.CheckBox();
             this.keystrokesPositionPanel = new System.Windows.Forms.Panel();
+            this.comingSoonLabel = new System.Windows.Forms.Label();
             this.rbBottomLeftKeystrokes = new System.Windows.Forms.RadioButton();
             this.rbBottomRightKeystrokes = new System.Windows.Forms.RadioButton();
             this.rbTopLeftKeystrokes = new System.Windows.Forms.RadioButton();
@@ -76,6 +77,10 @@ namespace Latite
             this.cinGo = new System.Windows.Forms.Button();
             this.consoleInput = new System.Windows.Forms.TextBox();
             this.consoleOutput = new System.Windows.Forms.RichTextBox();
+            this.infoTabPage = new System.Windows.Forms.TabPage();
+            this.updateButton = new System.Windows.Forms.Button();
+            this.GithubButton = new System.Windows.Forms.Button();
+            this.infoRichTextBox = new System.Windows.Forms.RichTextBox();
             this.modsButton = new System.Windows.Forms.Button();
             this.DRPButton = new System.Windows.Forms.Button();
             this.optionsButton = new System.Windows.Forms.Button();
@@ -87,6 +92,7 @@ namespace Latite
             this.LatiteIcon1 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.launchButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.modsControl.SuspendLayout();
             this.modsTabPage.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -99,6 +105,7 @@ namespace Latite
             this.keystrokesPositionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
             this.consoleTab.SuspendLayout();
+            this.infoTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LatiteIcon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -138,6 +145,7 @@ namespace Latite
             this.modsControl.Controls.Add(this.modsTabPage);
             this.modsControl.Controls.Add(this.optionsTabControl);
             this.modsControl.Controls.Add(this.consoleTab);
+            this.modsControl.Controls.Add(this.infoTabPage);
             this.modsControl.Location = new System.Drawing.Point(109, 92);
             this.modsControl.Name = "modsControl";
             this.modsControl.SelectedIndex = 0;
@@ -190,7 +198,7 @@ namespace Latite
             this.timeChangerTrackBarLabel.Name = "timeChangerTrackBarLabel";
             this.timeChangerTrackBarLabel.Size = new System.Drawing.Size(68, 26);
             this.timeChangerTrackBarLabel.TabIndex = 9;
-            this.timeChangerTrackBarLabel.Text = "(1000)";
+            this.timeChangerTrackBarLabel.Text = "(2500)";
             // 
             // timeChangerTrackBar
             // 
@@ -425,6 +433,7 @@ namespace Latite
             // 
             this.optionsTabControl.AutoScroll = true;
             this.optionsTabControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.optionsTabControl.Controls.Add(this.comingSoonLabel);
             this.optionsTabControl.Controls.Add(this.label1);
             this.optionsTabControl.Controls.Add(this.posDisplayCheck);
             this.optionsTabControl.Controls.Add(this.keystrokesPositionPanel);
@@ -433,10 +442,10 @@ namespace Latite
             this.optionsTabControl.Controls.Add(this.opacitySlider);
             this.optionsTabControl.Controls.Add(this.transparentOverlayToggle);
             this.optionsTabControl.Controls.Add(this.settingsUseConsole);
-            this.optionsTabControl.Location = new System.Drawing.Point(4, 22);
+            this.optionsTabControl.Location = new System.Drawing.Point(4, 35);
             this.optionsTabControl.Name = "optionsTabControl";
             this.optionsTabControl.Padding = new System.Windows.Forms.Padding(3);
-            this.optionsTabControl.Size = new System.Drawing.Size(587, 437);
+            this.optionsTabControl.Size = new System.Drawing.Size(587, 424);
             this.optionsTabControl.TabIndex = 1;
             this.optionsTabControl.Text = "Options";
             // 
@@ -473,6 +482,17 @@ namespace Latite
             this.keystrokesPositionPanel.Name = "keystrokesPositionPanel";
             this.keystrokesPositionPanel.Size = new System.Drawing.Size(202, 181);
             this.keystrokesPositionPanel.TabIndex = 5;
+            this.keystrokesPositionPanel.Visible = false;
+            // 
+            // comingSoonLabel
+            // 
+            this.comingSoonLabel.AutoSize = true;
+            this.comingSoonLabel.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comingSoonLabel.Location = new System.Drawing.Point(28, 166);
+            this.comingSoonLabel.Name = "comingSoonLabel";
+            this.comingSoonLabel.Size = new System.Drawing.Size(158, 33);
+            this.comingSoonLabel.TabIndex = 8;
+            this.comingSoonLabel.Text = "Coming Soon";
             // 
             // rbBottomLeftKeystrokes
             // 
@@ -621,6 +641,67 @@ namespace Latite
             this.consoleOutput.Size = new System.Drawing.Size(575, 366);
             this.consoleOutput.TabIndex = 0;
             this.consoleOutput.Text = "";
+            // 
+            // infoTabPage
+            // 
+            this.infoTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.infoTabPage.Controls.Add(this.updateButton);
+            this.infoTabPage.Controls.Add(this.GithubButton);
+            this.infoTabPage.Controls.Add(this.infoRichTextBox);
+            this.infoTabPage.Location = new System.Drawing.Point(4, 22);
+            this.infoTabPage.Name = "infoTabPage";
+            this.infoTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.infoTabPage.Size = new System.Drawing.Size(587, 437);
+            this.infoTabPage.TabIndex = 3;
+            this.infoTabPage.Text = "Info";
+            // 
+            // updateButton
+            // 
+            this.updateButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.updateButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.updateButton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(90)))), ((int)(((byte)(130)))));
+            this.updateButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
+            this.updateButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
+            this.updateButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updateButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.updateButton.ForeColor = System.Drawing.Color.White;
+            this.updateButton.Location = new System.Drawing.Point(289, 368);
+            this.updateButton.Name = "updateButton";
+            this.updateButton.Size = new System.Drawing.Size(90, 33);
+            this.updateButton.TabIndex = 15;
+            this.updateButton.Text = "Update";
+            this.updateButton.UseVisualStyleBackColor = false;
+            this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
+            // 
+            // GithubButton
+            // 
+            this.GithubButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.GithubButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.GithubButton.FlatAppearance.BorderColor = System.Drawing.Color.Purple;
+            this.GithubButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
+            this.GithubButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
+            this.GithubButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GithubButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GithubButton.ForeColor = System.Drawing.Color.White;
+            this.GithubButton.Location = new System.Drawing.Point(154, 368);
+            this.GithubButton.Name = "GithubButton";
+            this.GithubButton.Size = new System.Drawing.Size(90, 33);
+            this.GithubButton.TabIndex = 15;
+            this.GithubButton.Text = "Github";
+            this.GithubButton.UseVisualStyleBackColor = false;
+            this.GithubButton.Click += new System.EventHandler(this.GithubButton_Click);
+            // 
+            // infoRichTextBox
+            // 
+            this.infoRichTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.infoRichTextBox.ForeColor = System.Drawing.Color.White;
+            this.infoRichTextBox.Location = new System.Drawing.Point(6, 6);
+            this.infoRichTextBox.Name = "infoRichTextBox";
+            this.infoRichTextBox.ReadOnly = true;
+            this.infoRichTextBox.Size = new System.Drawing.Size(575, 338);
+            this.infoRichTextBox.TabIndex = 0;
+            this.infoRichTextBox.Text = "Latite Client v1.2.0\nMade by Imrglop\n\nSource: github.com/Imrglop/Latite\nLicense: " +
+    "GPLv3";
             // 
             // modsButton
             // 
@@ -777,11 +858,25 @@ namespace Latite
             this.launchButton.UseVisualStyleBackColor = false;
             this.launchButton.Click += new System.EventHandler(this.launchButton_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(60)))), ((int)(((byte)(100)))));
+            this.label3.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.label3.Location = new System.Drawing.Point(411, 41);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(48, 19);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "v1.2.0";
+            // 
             // LatiteForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.ClientSize = new System.Drawing.Size(704, 556);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.launchButton);
             this.Controls.Add(this.disconnectButton);
             this.Controls.Add(this.connectedLabel);
@@ -824,6 +919,7 @@ namespace Latite
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
             this.consoleTab.ResumeLayout(false);
             this.consoleTab.PerformLayout();
+            this.infoTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LatiteIcon1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -891,6 +987,12 @@ namespace Latite
         private System.Windows.Forms.Label timeChangerTrackBarLabel;
         private System.Windows.Forms.TrackBar timeChangerTrackBar;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label comingSoonLabel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TabPage infoTabPage;
+        private System.Windows.Forms.RichTextBox infoRichTextBox;
+        private System.Windows.Forms.Button GithubButton;
+        private System.Windows.Forms.Button updateButton;
     }
 }
 

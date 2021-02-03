@@ -80,6 +80,8 @@ namespace Latite
                     panel1.Anchor = DefaultAnchor;
                     break;
                 case 1:
+                    this.latiteForm.Coutln("setting to topright\n");
+                    panel1.Location = new Point(this.Size.Width - panel1.Size.Width, panel1.Location.Y);
                     panel1.Anchor = TopRightAnchor;
                     break;
             }

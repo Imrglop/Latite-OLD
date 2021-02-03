@@ -7,13 +7,6 @@
 int tick = 0;
 bool tsDisabledByServer = false;
 
-/*
-Servers where togglesprint is automatically disabled.
-Latite is not affiliated with any of these servers.
-*/
-vector<string> ToggleSprint::disabledServers = 
-{ "play.nethergames.org" };
-
 void ToggleSprint::onDisable()
 {
 	tick = 0;
@@ -36,7 +29,7 @@ void ToggleSprint::onTick()
 {
 	if (tick % 20 == 0)
 	{
-
+		if (tsDisabledByServer) this->onDisable();
 	}
 	tick++;
 }

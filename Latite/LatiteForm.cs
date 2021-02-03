@@ -106,9 +106,9 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 }
             } catch (DllNotFoundException e)
             {
-                var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
-                Coutln("DllNotFoundException occured while attempting to import LatiteCore.dll");
-                Coutln("Error: " + e.ToString() + "\nStacktrace: " + e.StackTrace);
+                var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll.\nPlease make sure you have Microsoft Visual C++ 2019 installed.", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                Coutln("DllNotFoundException occured while attempting to import LatiteCore.dll, or any of the dependancies!\nPlease make sure you have Microsoft Visual C++ 2019 installed.");
+                Coutln("Error: " + e.ToString());
                 if (Result == DialogResult.Retry)
                 {
                     ConnectToMc();
@@ -278,7 +278,8 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         private void transparentOverlayToggle_CheckedChanged(object sender, EventArgs e)
         {
-            this.OverlayForm.TransparentPanels(transparentOverlayToggle.Checked); ;
+            if (connectedToMinecraft())
+                this.OverlayForm.TransparentPanels(transparentOverlayToggle.Checked); ;
         }
 
         private void launchButton_Click(object sender, EventArgs e)
@@ -305,6 +306,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         private void opacitySlider_Scroll(object sender, EventArgs e)
         {
+            if (!connectedToMinecraft()) return;
             double val = opacitySlider.Value * 4;
             opacityDisplayLabel.Text = (opacitySlider.Value * 4) + "";
             this.OverlayForm.SetOpacity(val / 100);
@@ -323,6 +325,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         private void UpdateGUIPositions()
         {
+            if (!connectedToMinecraft()) return;
             if (rbTopLeftKeystrokes.Checked)
             {
                 this.OverlayForm.UpdatePanelPos(0);
@@ -354,7 +357,8 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         private void posDisplayCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            this.OverlayForm.SetGuiDisplay(0, posDisplayCheck.Checked);
+            if (connectedToMinecraft())
+                this.OverlayForm.SetGuiDisplay(0, posDisplayCheck.Checked);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -369,6 +373,16 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         {
             int Val = timeChangerTrackBar.Value * 2500;
             timeChangerTrackBarLabel.Text = Val + "";
+        }
+
+        private void GithubButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Imrglop/Latite");
+        }
+
+        private void updateButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/Imrglop/Latite/releases/latest");
         }
     }
 }

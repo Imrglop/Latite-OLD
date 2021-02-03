@@ -51,10 +51,10 @@
     <ClInclude Include="server_mod_disabler.h">
       <Filter>Source Files\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="SA_utils.hh">
-      <Filter>Source Files\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="Mods\Zoom.h">
+      <Filter>Source Files\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="SA_utils.hpp">
       <Filter>Source Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
@@ -91,7 +91,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\servers.txt">
+    <Text Include="info.txt">
+      <Filter>Source Files\Config</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Config\readme.txt">
       <Filter>Source Files\Config</Filter>
     </None>
   </ItemGroup>

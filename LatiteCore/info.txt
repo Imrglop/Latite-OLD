@@ -1,0 +1,16 @@
+---------------------
+Latite Client v1.2.0
+A PVP client for Minecraft Bedrock
+---------------------
+
+
+Features:
+- Time Changer
+- Bug Fixes
+- Keystrokes addition: Space
+- More dynamic overlay
+- Server-wide Module disable list
+
+by Imrglop
+
+---------------------

@@ -1,6 +1,7 @@
 #include "TimeChanger.h"
 #include "memory.h"
 #include "dllmain.h"
+#include "server_mod_disabler.h"
 
 unsigned int tick = 0;
 int timeSet = 0;
@@ -19,6 +20,7 @@ void TimeChanger::onEnable(int time)
 {
 	this->enabled = true;
 	isEnabled = true;
+	if (moduleDisabledOnServer(LocalPlayer::getServer(), "time_changer")) return;
 	memory::Nop(currentModuleBase() + 0xD4D5F1, 6);
 	memory::Nop(currentModuleBase() + 0x80E224, 6);
 	timeSet = time;

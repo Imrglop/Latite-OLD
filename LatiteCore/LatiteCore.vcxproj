@@ -158,7 +158,7 @@
     <ClInclude Include="memory.h" />
     <ClInclude Include="Mods\ModManager.h" />
     <ClInclude Include="Mods\Zoom.h" />
-    <ClInclude Include="SA_utils.hh" />
+    <ClInclude Include="SA_utils.hpp" />
     <ClInclude Include="server_mod_disabler.h" />
     <ClInclude Include="TimeChanger.h" />
     <ClInclude Include="ToggleSprint.h" />
@@ -176,7 +176,10 @@
     <ClCompile Include="ToggleSprint.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\servers.txt" />
+    <None Include="Config\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="info.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

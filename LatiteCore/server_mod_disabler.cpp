@@ -20,7 +20,7 @@ bool moduleDisabledOnServer(string server, string mod)
 	auto list = utils::splitString(serverConfig.getString(server), ',');
 	for (unsigned int i = 0; i < list.size(); i++)
 	{
-		std::cout << "Comparing " << list[i] << " to " << mod << "...\n";
+		//std::cout << "Comparing " << list[i] << " to " << mod << "...\n";
 		if (list[i] == mod)
 		{
 			std::cout << "Match!\n";

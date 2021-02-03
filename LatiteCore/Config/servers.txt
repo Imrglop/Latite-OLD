@@ -8,7 +8,7 @@
 # That will disable both toggle sprint and zoom
 # in a Minecraft server called example.com
 
-play.nethergames.org=toggle_sprint
+play.nethergames.org=toggle_sprint,time_changer
 
 ! --------------------------------------------
 # If you want a server added here by default,
