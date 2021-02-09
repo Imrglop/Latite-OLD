@@ -1,5 +1,9 @@
-﻿// Latite Client
-// by Imrglop
+﻿/*
+ * 
+ * Latite - A minecraft: Windows 10 Edition PVP mod.
+ * Copyright (c) 2021 Imrglop
+ * 
+*/
 
 using System;
 using System.Collections.Generic;
@@ -43,6 +47,20 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         static extern void mod_lookBehind_setBind(char bind);
         [DllImport("LatiteCore.dll")]
         static extern void setTimeChangerSetting(int setting);
+
+        // Config
+        /*
+         * LATITE_API void settingsConfigSet(cstring k, cstring v);
+	        LATITE_API cstring settingsConfigGet(cstring k);
+         */
+
+        [DllImport("LatiteCore.dll")]
+        static extern void settingsConfigSet(string k, string v);
+
+        [DllImport("LatiteCore.dll")]
+        static extern UInt64 settingsConfigGet(string k);
+        //
+
         public LatiteForm()
         {
             InitializeComponent();
@@ -54,7 +72,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         readonly string Info = "Latite Client\r\n\r\nLicense: GPLv3\r\n\r\nSource: github.com/Imrglop/Latite\r\n\r\nMade by Imrglop";
         private bool IsConsole = false;
         bool ToggleSprintBindOn = false;
-        char ToggleSprintBind = 'P';
+        char ToggleSprintBind = (char)0xA2; // Left CTRL
 
         public void Cout(string OutputString)
         {
@@ -82,12 +100,13 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                         connectButton.Visible = false;
                         connectedToMinecraft(1); // true
                         connectedLabel.Visible = true;
-                        // have to put 1 cuz C#
                         moduleWorker.RunWorkerAsync();
                         disconnectButton.Visible = true;
                         Coutln("Connected to Minecraft!");
                         this.OverlayForm = new Overlay(this);
                         this.OverlayForm.Show();
+                        Coutln(settingsConfigGet("iostream!").ToString());
+                        settingsConfigSet("console", "EA SPORTS");
                         if (show)
                             MessageBox.Show("Connected to Minecraft!");
                     }
@@ -131,8 +150,11 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 detach();
                 if (this.OverlayForm.Handle != IntPtr.Zero && this.Handle != IntPtr.Zero)
                 {
-                    if (!this.OverlayForm.IsDisposed) this.OverlayForm.BeginInvoke(new MethodInvoker(this.OverlayForm.Close));
-
+                    try
+                    {
+                        if (!this.OverlayForm.IsDisposed) this.OverlayForm.BeginInvoke(new MethodInvoker(this.OverlayForm.Close));
+                    }
+                    catch (Exception) { };
                 }
             }
         }
@@ -222,11 +244,15 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             mod_zoom_setAmount(FOVAmount);
             Coutln("try set amt to " + FOVAmount);
         }
-        void ToggleSprint(bool Val)
+        void ToggleSprint(int _Val)
         {
-            this.toggleSprintCheckbox.Checked = Val;
-            this.OverlayForm.ToggleSprint(Val);
-            setEnabled(3, Val);
+            bool Val = _Val == 1;
+            if (_Val < 2)
+            {
+                //this.toggleSprintCheckbox.Checked = Val;
+                setEnabled(3, Val);
+            }
+            this.OverlayForm.ToggleSprint(_Val);
         }
 
         public bool FocusedOnMinecraft()
@@ -238,17 +264,20 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         {
             while (true)
             {
-                loop();
                 if (moduleWorker.CancellationPending) break;
-                if ((Overlay.GetKeyState(ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
-                {
-                    if (FocusedOnMinecraft()) this.ToggleSprint(true);
-                    ToggleSprintBindOn = true;
-                }
-                else if ((Overlay.GetKeyState(ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
-                {
-                    if (FocusedOnMinecraft()) this.ToggleSprint(false);
-                    ToggleSprintBindOn = false;
+                loop();
+                if (toggleSprintCheckbox.Checked)
+                {   
+                    if ((Overlay.GetKeyState((int)ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
+                    {
+                        if (FocusedOnMinecraft()) this.ToggleSprint(1);
+                        ToggleSprintBindOn = true;
+                    }
+                    else if ((Overlay.GetKeyState((int)ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
+                    {
+                        if (FocusedOnMinecraft()) this.ToggleSprint(0);
+                        ToggleSprintBindOn = false;
+                    }
                 }
                 Thread.Sleep(50);
             }
@@ -314,45 +343,24 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         private void toggleSprintCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            this.ToggleSprint(toggleSprintCheckbox.Checked);
+            //this.ToggleSprint(toggleSprintCheckbox.Checked ? 1:0);
+        }
+
+        public char StringToBind(string s)
+        {
+            string SetStr = s.ToUpper();
+            if (SetStr.ToLower() == "lctrl") return (char)0xA2;
+            else if (SetStr.ToLower() == "lshift") return (char)0xA0;
+            else if (SetStr.ToLower() == "enter" || SetStr.ToLower() == "return") return '\r';
+            else if (SetStr.ToLower() == "shift") return (char)0x10;
+            else if (SetStr.ToLower() == "ctrl") return (char)0x11;
+            if (SetStr.Length > 0) return SetStr[0];
+            return '\0';
         }
 
         private void toggleSprintBind_TextChanged(object sender, EventArgs e)
         {
-            string SetStr = zoomBindBox.Text.ToUpper();
-            if (SetStr.Length > 0) ToggleSprintBind = SetStr[0];
-        }
-
-        private void UpdateGUIPositions()
-        {
-            if (!connectedToMinecraft()) return;
-            if (rbTopLeftKeystrokes.Checked)
-            {
-                this.OverlayForm.UpdatePanelPos(0);
-            } else if (rbTopRightKeystrokes.Checked)
-            {
-                this.OverlayForm.UpdatePanelPos(1);
-            }
-        }
-
-        private void rbTopLeftKeystrokes_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateGUIPositions();
-        }
-
-        private void rbTopRightKeystrokes_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateGUIPositions();
-        }
-
-        private void rbBottomRightKeystrokes_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateGUIPositions();
-        }
-
-        private void rbBottomLeftKeystrokes_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateGUIPositions();
+            ToggleSprintBind = StringToBind(toggleSprintBind.Text);
         }
 
         private void posDisplayCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -383,6 +391,15 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         private void updateButton_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://github.com/Imrglop/Latite/releases/latest");
+        }
+
+        bool ToggleEditing = true;
+
+        private void toggleEditingButton_Click(object sender, EventArgs e)
+        {
+            this.OverlayForm.SetDraggableItems(ToggleEditing);
+            this.toggleEditingButton.FlatAppearance.BorderColor = (ToggleEditing ? Color.Aqua : Color.Gray);
+            ToggleEditing = !ToggleEditing;
         }
     }
 }

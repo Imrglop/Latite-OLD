@@ -1,8 +1,8 @@
 #include "server_mod_disabler.h"
-#include "SA_utils.hpp"
+#include "SA_utils.h"
 #include <iostream>
 
-Config serverConfig("servers.txt", "# If you are seeing this, that means you didn't have  the settings.txt file.\r\n# Grab the latest from https://github.com/Imrglop/Latite");
+Config serverConfig("servers.txt", "# If you are seeing this, that means you didn't have the servers.txt file.\r\n# Grab the latest from https://github.com/Imrglop/Latite");
 
 bool moduleDisabledOnServer(string server, string mod)
 {

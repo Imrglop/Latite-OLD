@@ -18,6 +18,13 @@ float LocalPlayer::getFOV()
 	}
 }
 
+std::string LocalPlayer::getUsername()
+{
+	ADDRESS yPositionAddy = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
+	ADDRESS nameAddy = yPositionAddy + 996;
+	return memory::ReadVarString(nameAddy);
+}
+
 void LocalPlayer::setFOV(float fov)
 {
 	auto fovAddress = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_FOV_BASEADDY), ADDRESS_FOV_SEMI_OFFSETS) + 0x1E8;

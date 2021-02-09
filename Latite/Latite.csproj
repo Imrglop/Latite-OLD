@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Mod.cs" />
+    <Compile Include="DragUtils.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LatiteForm.cs">
       <SubType>Form</SubType>

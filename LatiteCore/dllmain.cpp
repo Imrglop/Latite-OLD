@@ -1,6 +1,8 @@
 /*
-Latite - Minecraft PVP Mod
-by Imrglop
+ *
+ * Latite - A minecraft: Windows 10 Edition PVP mod.
+ * Copyright (c) 2021 Imrglop
+ *
 */
 
 #include "dllmain.h"
@@ -11,6 +13,8 @@ by Imrglop
 #include <stdlib.h>
 #include "memory.h"
 
+#include "Config.h"
+
 bool connected;
 
 DWORD pID;
@@ -19,6 +23,7 @@ ADDRESS moduleBase;
 HANDLE hProcess;
 
 int timeChangerSetting = 0;
+Config settings("settings.txt", SETTINGS_TXT_DEFAULT);
 
 HANDLE GetProcessByName(WCHAR* processName)
 {
@@ -160,6 +165,19 @@ float LPGetZPos()
     return pos;
 }
 
+void settingsConfigSet(cstring k, cstring v)
+{
+    settings.set(k, v);
+}
+
+void settingsConfigGet(cstring k, Settings* outSettings) {
+    std::cout << (char*)(settings.getString(k).c_str()) << '\n';
+    Settings set;
+    int* ar = &settings.getIntegerList("__ANCHORS")[0];
+    set.__ANCHORS = ar;
+    *outSettings = set;
+}
+
 void mod_zoom_setAmount(float amount)
 {
     getZoomModule().setFovAmount(amount);
@@ -195,13 +213,6 @@ bool connectedToMinecraft(int type)
     return false;
 }
 
-std::string getUsername() 
-{
-    ADDRESS yPositionAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    ADDRESS nameAddy = yPositionAddy + 996;
-    return memory::ReadVarString(nameAddy);
-}
-
 DWORD attach() {
     // attach to Minecraft
     hProcess = GetProcessByName((WCHAR*)L"Minecraft.Windows.exe");
@@ -212,11 +223,18 @@ DWORD attach() {
     log << "Module Base: " << (void*)moduleBase << '\n';
     if (moduleBase == 0ui64) return GetLastError();
     log << "[test] Server player in: " << LocalPlayer::getServer() << '\n';
+    
+    settings.load();
+    if (settings.getBool("console")) {
+        consoleMain();
+    }
+    //settings.set("test", "false", true);
     // Start up
     Mod::initialize();
     //lcevents::initialize();
     return 0;
 }
+
 
 void loop()
 {

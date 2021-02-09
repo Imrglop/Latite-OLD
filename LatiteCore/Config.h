@@ -22,10 +22,13 @@ public:
 	bool load();
 	std::vector<string> getKeys();
 	std::string getString(string key);
+	void set(string key, string value, bool reload = false);
 	float getNumber(string key);
 	unsigned char getByte(string key);
 	bool getBool(string key);
 	int getInteger(string key);
+	std::vector<int> getIntegerList(string key);
 	int findInList(std::vector<string> list, string item);
 };
+
 #endif

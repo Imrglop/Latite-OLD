@@ -29,7 +29,7 @@ namespace Latite
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.keystrokesPanel = new System.Windows.Forms.Panel();
             this.spaceBarPanel = new System.Windows.Forms.Panel();
             this.spaceBarBox = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -59,7 +59,7 @@ namespace Latite
             this.xPosLabel = new System.Windows.Forms.Label();
             this.motionTopLabel = new System.Windows.Forms.Label();
             this.toggleSprintLabel = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.keystrokesPanel.SuspendLayout();
             this.spaceBarPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spaceBarBox)).BeginInit();
             this.panel3.SuspendLayout();
@@ -73,23 +73,25 @@ namespace Latite
             this.posPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // keystrokesPanel
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.Controls.Add(this.spaceBarPanel);
-            this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.Keystrokes_RMB);
-            this.panel1.Controls.Add(this.Keystrokes_LMB);
-            this.panel1.Controls.Add(this.keyStrokes_D);
-            this.panel1.Controls.Add(this.keyStrokes_A);
-            this.panel1.Controls.Add(this.keyStrokes_S);
-            this.panel1.Controls.Add(this.keyStrokes_W);
-            this.panel1.Location = new System.Drawing.Point(14, 14);
-            this.panel1.Margin = new System.Windows.Forms.Padding(5);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(251, 313);
-            this.panel1.TabIndex = 0;
+            this.keystrokesPanel.BackColor = System.Drawing.Color.Transparent;
+            this.keystrokesPanel.Controls.Add(this.spaceBarPanel);
+            this.keystrokesPanel.Controls.Add(this.panel3);
+            this.keystrokesPanel.Controls.Add(this.panel2);
+            this.keystrokesPanel.Controls.Add(this.Keystrokes_RMB);
+            this.keystrokesPanel.Controls.Add(this.Keystrokes_LMB);
+            this.keystrokesPanel.Controls.Add(this.keyStrokes_D);
+            this.keystrokesPanel.Controls.Add(this.keyStrokes_A);
+            this.keystrokesPanel.Controls.Add(this.keyStrokes_S);
+            this.keystrokesPanel.Controls.Add(this.keyStrokes_W);
+            this.keystrokesPanel.Location = new System.Drawing.Point(14, 14);
+            this.keystrokesPanel.Margin = new System.Windows.Forms.Padding(5);
+            this.keystrokesPanel.Name = "keystrokesPanel";
+            this.keystrokesPanel.Size = new System.Drawing.Size(251, 313);
+            this.keystrokesPanel.TabIndex = 0;
+            this.keystrokesPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.keystrokesPanel_MouseDown);
+            this.keystrokesPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.keystrokesPanel_MouseMove);
             // 
             // spaceBarPanel
             // 
@@ -301,7 +303,7 @@ namespace Latite
             this.posPanel.Controls.Add(this.motionTopLabel);
             this.posPanel.Controls.Add(this.motionLabel);
             this.posPanel.Controls.Add(this.motionYLabel);
-            this.posPanel.Location = new System.Drawing.Point(14, 348);
+            this.posPanel.Location = new System.Drawing.Point(12, 388);
             this.posPanel.Name = "posPanel";
             this.posPanel.Size = new System.Drawing.Size(155, 155);
             this.posPanel.TabIndex = 4;
@@ -370,7 +372,7 @@ namespace Latite
             this.ClientSize = new System.Drawing.Size(969, 827);
             this.Controls.Add(this.toggleSprintLabel);
             this.Controls.Add(this.posPanel);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.keystrokesPanel);
             this.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Margin = new System.Windows.Forms.Padding(5);
@@ -379,7 +381,7 @@ namespace Latite
             this.Text = "Overlay";
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(31)))));
             this.Load += new System.EventHandler(this.Overlay_Load);
-            this.panel1.ResumeLayout(false);
+            this.keystrokesPanel.ResumeLayout(false);
             this.spaceBarPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.spaceBarBox)).EndInit();
             this.panel3.ResumeLayout(false);
@@ -407,7 +409,7 @@ namespace Latite
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel keystrokesPanel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Panel keyStrokes_W;
         private System.Windows.Forms.Panel keyStrokes_S;

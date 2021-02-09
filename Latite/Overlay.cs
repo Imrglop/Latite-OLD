@@ -17,8 +17,10 @@ namespace Latite
     {
         bool W_Pressed, A_Pressed, S_Pressed, D_Pressed, LMB_Pressed, RMB_Pressed, Space_Pressed;
         int lcps, rcps = 0;
+        private int OldStyle = 0;
 
         LatiteForm latiteForm;
+        DragUtils dragUtils;
 
         [DllImport("LatiteCore.dll")]
         static extern float LPGetYMotion();
@@ -77,12 +79,12 @@ namespace Latite
             switch (Keystrokes) 
             {
                 case 0:
-                    panel1.Anchor = DefaultAnchor;
+                    keystrokesPanel.Anchor = DefaultAnchor;
                     break;
                 case 1:
                     this.latiteForm.Coutln("setting to topright\n");
-                    panel1.Location = new Point(this.Size.Width - panel1.Size.Width, panel1.Location.Y);
-                    panel1.Anchor = TopRightAnchor;
+                    keystrokesPanel.Location = new Point(this.Size.Width - keystrokesPanel.Size.Width, keystrokesPanel.Location.Y);
+                    keystrokesPanel.Anchor = TopRightAnchor;
                     break;
             }
         }
@@ -106,21 +108,39 @@ namespace Latite
             this.Opacity = Opacity;
         }
 
-        public void ToggleSprint(bool val)
+        public void ToggleSprint(int val)
         {
-            if (val)
+            if (val == 1)
             {
-                toggleSprintLabel.Text = "[Sprinting (toggled)]";
+                toggleSprintLabel.Text = "[Sprinting (Toggled)]";
             }
-            else
+            else if (val == 0)
             {
                 toggleSprintLabel.Text = "";
+            } 
+            else if (val == 2)
+            {
+                latiteForm.Coutln("Sprinting key held");
+                toggleSprintLabel.Text = "[Sprinting (Key Held)]";
             }
         }
         public Overlay(LatiteForm latiteForm)
         {
             this.latiteForm = latiteForm;
+            this.dragUtils = new DragUtils(this);
             InitializeComponent();
+        }
+
+        private void keystrokesPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (!IsEditing) return;
+            dragUtils.StartDrag(e);
+        }
+
+        private void keystrokesPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!IsEditing) return;
+            dragUtils.DragProc(keystrokesPanel, e);
         }
 
         public void SetGuiDisplay(uint gui, bool display)
@@ -131,6 +151,23 @@ namespace Latite
                     posPanel.Visible = display;
                     break;
             }
+        }
+
+        string OldSprintText = "";
+        public bool IsEditing = false;
+        public void SetDraggableItems(bool Draggable)
+        {
+            if (Draggable)
+            {
+                SetWindowLong(this.Handle, -20, OldStyle);
+                OldSprintText = toggleSprintLabel.Text;
+                toggleSprintLabel.Text = "[Sprinting (Editing)]";
+            } else
+            {
+                SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
+                toggleSprintLabel.Text = OldSprintText;
+            }
+            IsEditing = !IsEditing;
         }
 
         private void Overlay_Load(object sender, EventArgs e)
@@ -146,8 +183,8 @@ namespace Latite
             TopMost = true; // appear ontop of other apps, needed for mc
 
             // able to click on mc
-            var CurrentStyle = GetWindowLong(this.Handle, -20);
-            SetWindowLong(this.Handle, -20, CurrentStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
+            this.OldStyle = GetWindowLong(this.Handle, -20);
+            SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
             // run constant running loop asynch so it matches mc window without freezing
             backgroundWorker1.RunWorkerAsync();
             secondRunner.RunWorkerAsync();
@@ -210,7 +247,7 @@ namespace Latite
         {
             while (true)
             {
-                Thread.Sleep(10); // Cooldown
+                Thread.Sleep(5); // Cooldown
                 if (LatiteForm.connectedToMinecraft())
                 {
                     xPosLabel.Text = Math.Round(LPGetXPos(), 2) + "";
@@ -263,9 +300,6 @@ namespace Latite
                 }
                 else Space_Pressed = false;
                 UpdateKeystrokes();
-
-                
-
                 GetWindowRect(hWnd, out rect);
                 this.Size = new Size(rect.right - rect.left,
                     rect.bottom - rect.top);

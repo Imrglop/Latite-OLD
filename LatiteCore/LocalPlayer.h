@@ -4,10 +4,10 @@
 
 struct LocalPlayer
 {
-	// ----- Settings ----
-
 	// Get the player's field of view
 	static float getFOV();
+	// Gets in-game display name of player
+	static std::string getUsername();
 	// Set the player's field of view
 	static void setFOV(float fov);
 	// Set sensitivity

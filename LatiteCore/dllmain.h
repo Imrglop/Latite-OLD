@@ -22,33 +22,52 @@ typedef unsigned long long ADDRESS;
 #define BASE_H
 #define DEBUG_MODE TRUE
 #define log std::cout
+#define cstring char*
+
+#define SETTINGS_TXT_DEFAULT "#\n# Settings File\n#\n\n# (For debugging) this will determine if console will be enabled every time \n# you attach launch. Can also be edited in the GUI/app itself but this one\n# will save\n\nconsole=false\n\n# This area is setting for offsets. you should leave enabled to false\n# if u want it to work on the latest version every update. But if you\n# are on a different version, place the offsets for your version here.\n\n# Warning: If you mess with those, it can crash the game or cause unexpected\n# behavior.\n\n# COMING SOON\noffsets_enabled=false\noffests=0,0,0,0,0"
 
 // Exports
 
+struct Settings {
+public:
+	int __ANCHORS[3];
+
+	int __LOCATION_KEYSTROKES[2] = { 0, 0 };
+	int __LOCATION_POSITION[2] = { 0, 0 };
+	int __LOCATION_TOGGLE_SPRINT[2] = { 0, 0 };
+};
+
 // Api Functions
 
-extern "C" LATITE_API bool connectedToMinecraft(int type = 2);
-extern "C" LATITE_API DWORD attach();
-extern "C" LATITE_API void consoleMain();
-extern "C" LATITE_API void detach();
-extern "C" LATITE_API void loop();
+extern "C" {
 
-extern "C" LATITE_API void setEnabled(unsigned int modId, bool enabled);
+	LATITE_API bool connectedToMinecraft(int type = 2);
+	LATITE_API DWORD attach();
+	LATITE_API void consoleMain();
+	LATITE_API void detach();
+	LATITE_API void loop();
 
-// this should be namespace if c# is good with that
-extern "C" LATITE_API void mod_zoom_setBind(char bind);
-extern "C" LATITE_API void mod_zoom_setAmount(float amount);
-extern "C" LATITE_API void mod_lookBehind_setBind(char bind);
+	LATITE_API void setEnabled(unsigned int modId, bool enabled);
 
-extern "C" LATITE_API void setTimeChangerSetting(int setting);
+	// this should be namespace if c# is good with that
+	LATITE_API void mod_zoom_setBind(char bind);
+	LATITE_API void mod_zoom_setAmount(float amount);
+	LATITE_API void mod_lookBehind_setBind(char bind);
 
-// Local Player
-extern "C" LATITE_API float LPGetYMotion();
-extern "C" LATITE_API float LPGetMotion();
+	LATITE_API void setTimeChangerSetting(int setting);
 
-extern "C" LATITE_API float LPGetXPos();
-extern "C" LATITE_API float LPGetYPos();
-extern "C" LATITE_API float LPGetZPos();
+	// Local Player
+	LATITE_API float LPGetYMotion();
+	LATITE_API float LPGetMotion();
+
+	LATITE_API float LPGetXPos();
+	LATITE_API float LPGetYPos();
+	LATITE_API float LPGetZPos();
+
+	// Config
+	LATITE_API void settingsConfigSet(cstring k, cstring v);
+	LATITE_API void settingsConfigGet(cstring k, Settings* outSettings);
+}
 
 // code
 
@@ -97,5 +116,3 @@ extern "C" LATITE_API float LPGetZPos();
 ADDRESS currentModuleBase();
 // Gets the process of Minecraft
 HANDLE getHProcess();
-// Gets in-game name
-std::string getUsername();

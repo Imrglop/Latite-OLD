@@ -1,0 +1,26 @@
+#
+# Settings File
+#
+
+# (For debugging) this will determine if console will be enabled every time 
+# you attach launch. Can also be edited in the GUI/app itself but this one
+# will save
+
+console=true
+
+# This area is setting for offsets. you should leave enabled to false
+# if u want it to work on the latest version every update. But if you
+# are on a different version, place the offsets for your version here.
+
+# Warning: If you mess with those, it can crash the game or cause unexpected
+# behavior.
+
+# COMING SOON
+offsets_enabled=false
+offests=0,0,0,0,0
+
+# AUTOMATICALLY SET SETTINGS/STORAGE
+__ANCHORS=0,0,0
+__LOCATION_KEYSTROKES=0,0
+__LOCATION_POSITION=0,0
+__LOCATION_TOGGLE_SPRINT=0,0

@@ -3,8 +3,10 @@
 #include "Config.h"
 #include <fstream>
 #include <iostream>
+#include "SA_utils.h"
 
-#define log std::cout
+#define log std::cout<<"[Config] "
+#define CONFIG_DEBUG false
 
 using std::string;
 using std::fstream;
@@ -94,6 +96,26 @@ int Config::getInteger(string key)
 	}
 }
 
+std::vector<int> Config::getIntegerList(string key)
+{
+	std::vector<int> retVal = {};
+	auto fli = vars.find(key);
+	std::vector<string> convertVector = utils::splitString(fli->second, ',');
+	for (unsigned int i = 0; i < convertVector.size(); i++)
+	{
+		try {
+			retVal.push_back(std::stoi(convertVector[i]));
+		}
+		catch (std::exception)
+		{
+			std::cerr << "[Config] Could not convert string to int! From input: " 
+				<< convertVector[i] << "\n at: " << this->filePath << std::endl;
+			break;
+		}
+	}
+	return retVal;
+}
+
 float Config::getNumber(string key)
 {
 	try {
@@ -136,4 +158,79 @@ string Config::getString(string key)
 	auto fli = vars.find(key);
 	if (fli != vars.end()) return fli->second;
 	return "null";
+}
+
+void Config::set(string key, string value, bool reload)
+{
+	if (this->loaded)
+	{
+		fstream file;
+		file.open(this->filePath, std::ios::in | std::ios::out);
+
+		vector<string> lines = {};
+		string line;
+
+		for (string currentLine; std::getline(file, line);)
+		{
+			lines.push_back(line);
+			//log << "Push_back: " << line << '\n';
+		}
+
+		file.close();
+
+		// clear file
+		std::ofstream tempClear;
+		tempClear.open(this->filePath, std::ofstream::out | std::ofstream::trunc);
+		tempClear.close();
+
+		// rewrite file
+		std::ofstream tempWrite;
+		tempWrite.open(this->filePath);
+		for (size_t i = 0; i < lines.size(); i++)
+		{
+#if CONFIG_DEBUG == true
+			log << "@@ " << lines[i] << '\n';
+#endif
+			bool w = false;
+			string ln = lines[i];
+			if (ln[0] == '#' || ln[0] == '!') { // comment
+#if CONFIG_DEBUG == true
+				log << "Comment\n";
+#endif
+				w = true;
+			}
+			if (!w) {
+				std::vector<string> sl = utils::splitString(ln, '=');
+				if (sl.size() < 2) {
+#if CONFIG_DEBUG == true
+					log << "SL is less than 2; rewrite\n";
+#endif
+					w = true;
+				}
+				else {
+					if (sl[0] == key) {
+						tempWrite << (key + "=" + value) << '\n';
+#if CONFIG_DEBUG == true
+						log << "Key matched! " << key << " & " << sl[0] << std::endl;
+#endif
+					}
+					else {
+#if CONFIG_DEBUG == true
+						log << "Key not matched: " << sl[0] << " & " << key << std::endl;
+#endif
+						w = true;
+					}
+				}
+			}
+			if (w) {
+#if CONFIG_DEBUG == true
+				log << "Write: " << (ln + "\n");
+#endif
+				tempWrite << ln << "\n";
+			}
+		}
+		tempWrite.close();
+		std::flush(tempWrite);
+		this->load();
+	}
 }

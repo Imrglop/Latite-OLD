@@ -62,12 +62,6 @@ namespace Latite
             this.optionsTabControl = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.posDisplayCheck = new System.Windows.Forms.CheckBox();
-            this.keystrokesPositionPanel = new System.Windows.Forms.Panel();
-            this.comingSoonLabel = new System.Windows.Forms.Label();
-            this.rbBottomLeftKeystrokes = new System.Windows.Forms.RadioButton();
-            this.rbBottomRightKeystrokes = new System.Windows.Forms.RadioButton();
-            this.rbTopLeftKeystrokes = new System.Windows.Forms.RadioButton();
-            this.rbTopRightKeystrokes = new System.Windows.Forms.RadioButton();
             this.opacityDisplayLabel = new System.Windows.Forms.Label();
             this.opacityLabel = new System.Windows.Forms.Label();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
@@ -93,6 +87,8 @@ namespace Latite
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.launchButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.toggleEditingButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.modsControl.SuspendLayout();
             this.modsTabPage.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -102,7 +98,6 @@ namespace Latite
             ((System.ComponentModel.ISupportInitialize)(this.zaSlider)).BeginInit();
             this.lookBehindPanel.SuspendLayout();
             this.optionsTabControl.SuspendLayout();
-            this.keystrokesPositionPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).BeginInit();
             this.consoleTab.SuspendLayout();
             this.infoTabPage.SuspendLayout();
@@ -278,9 +273,9 @@ namespace Latite
             // 
             this.toggleSprintBind.Location = new System.Drawing.Point(73, 56);
             this.toggleSprintBind.Name = "toggleSprintBind";
-            this.toggleSprintBind.Size = new System.Drawing.Size(24, 33);
+            this.toggleSprintBind.Size = new System.Drawing.Size(51, 33);
             this.toggleSprintBind.TabIndex = 6;
-            this.toggleSprintBind.Text = "P";
+            this.toggleSprintBind.Text = "Ctrl";
             this.toggleSprintBind.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toggleSprintBind.TextChanged += new System.EventHandler(this.toggleSprintBind_TextChanged);
             // 
@@ -311,7 +306,7 @@ namespace Latite
             // 
             this.zoomBindBox.Location = new System.Drawing.Point(73, 133);
             this.zoomBindBox.Name = "zoomBindBox";
-            this.zoomBindBox.Size = new System.Drawing.Size(24, 33);
+            this.zoomBindBox.Size = new System.Drawing.Size(43, 33);
             this.zoomBindBox.TabIndex = 6;
             this.zoomBindBox.Text = "C";
             this.zoomBindBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -391,7 +386,7 @@ namespace Latite
             // 
             this.lookBehindBind.Location = new System.Drawing.Point(73, 56);
             this.lookBehindBind.Name = "lookBehindBind";
-            this.lookBehindBind.Size = new System.Drawing.Size(24, 33);
+            this.lookBehindBind.Size = new System.Drawing.Size(39, 33);
             this.lookBehindBind.TabIndex = 6;
             this.lookBehindBind.Text = "G";
             this.lookBehindBind.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -433,10 +428,10 @@ namespace Latite
             // 
             this.optionsTabControl.AutoScroll = true;
             this.optionsTabControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.optionsTabControl.Controls.Add(this.comingSoonLabel);
+            this.optionsTabControl.Controls.Add(this.label2);
+            this.optionsTabControl.Controls.Add(this.toggleEditingButton);
             this.optionsTabControl.Controls.Add(this.label1);
             this.optionsTabControl.Controls.Add(this.posDisplayCheck);
-            this.optionsTabControl.Controls.Add(this.keystrokesPositionPanel);
             this.optionsTabControl.Controls.Add(this.opacityDisplayLabel);
             this.optionsTabControl.Controls.Add(this.opacityLabel);
             this.optionsTabControl.Controls.Add(this.opacitySlider);
@@ -453,11 +448,11 @@ namespace Latite
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(44, 107);
+            this.label1.Location = new System.Drawing.Point(44, 101);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 33);
+            this.label1.Size = new System.Drawing.Size(120, 33);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Keystrokes";
+            this.label1.Text = "UI Editing";
             // 
             // posDisplayCheck
             // 
@@ -471,74 +466,6 @@ namespace Latite
             this.posDisplayCheck.Text = "Position Display";
             this.posDisplayCheck.UseVisualStyleBackColor = true;
             this.posDisplayCheck.CheckedChanged += new System.EventHandler(this.posDisplayCheckBox_CheckedChanged);
-            // 
-            // keystrokesPositionPanel
-            // 
-            this.keystrokesPositionPanel.Controls.Add(this.rbBottomLeftKeystrokes);
-            this.keystrokesPositionPanel.Controls.Add(this.rbBottomRightKeystrokes);
-            this.keystrokesPositionPanel.Controls.Add(this.rbTopLeftKeystrokes);
-            this.keystrokesPositionPanel.Controls.Add(this.rbTopRightKeystrokes);
-            this.keystrokesPositionPanel.Location = new System.Drawing.Point(13, 136);
-            this.keystrokesPositionPanel.Name = "keystrokesPositionPanel";
-            this.keystrokesPositionPanel.Size = new System.Drawing.Size(202, 181);
-            this.keystrokesPositionPanel.TabIndex = 5;
-            this.keystrokesPositionPanel.Visible = false;
-            // 
-            // comingSoonLabel
-            // 
-            this.comingSoonLabel.AutoSize = true;
-            this.comingSoonLabel.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comingSoonLabel.Location = new System.Drawing.Point(28, 166);
-            this.comingSoonLabel.Name = "comingSoonLabel";
-            this.comingSoonLabel.Size = new System.Drawing.Size(158, 33);
-            this.comingSoonLabel.TabIndex = 8;
-            this.comingSoonLabel.Text = "Coming Soon";
-            // 
-            // rbBottomLeftKeystrokes
-            // 
-            this.rbBottomLeftKeystrokes.AutoSize = true;
-            this.rbBottomLeftKeystrokes.Location = new System.Drawing.Point(21, 127);
-            this.rbBottomLeftKeystrokes.Name = "rbBottomLeftKeystrokes";
-            this.rbBottomLeftKeystrokes.Size = new System.Drawing.Size(130, 30);
-            this.rbBottomLeftKeystrokes.TabIndex = 3;
-            this.rbBottomLeftKeystrokes.Text = "Bottom Left";
-            this.rbBottomLeftKeystrokes.UseVisualStyleBackColor = true;
-            this.rbBottomLeftKeystrokes.CheckedChanged += new System.EventHandler(this.rbBottomLeftKeystrokes_CheckedChanged);
-            // 
-            // rbBottomRightKeystrokes
-            // 
-            this.rbBottomRightKeystrokes.AutoSize = true;
-            this.rbBottomRightKeystrokes.Location = new System.Drawing.Point(21, 91);
-            this.rbBottomRightKeystrokes.Name = "rbBottomRightKeystrokes";
-            this.rbBottomRightKeystrokes.Size = new System.Drawing.Size(142, 30);
-            this.rbBottomRightKeystrokes.TabIndex = 2;
-            this.rbBottomRightKeystrokes.Text = "Bottom Right";
-            this.rbBottomRightKeystrokes.UseVisualStyleBackColor = true;
-            this.rbBottomRightKeystrokes.CheckedChanged += new System.EventHandler(this.rbBottomRightKeystrokes_CheckedChanged);
-            // 
-            // rbTopLeftKeystrokes
-            // 
-            this.rbTopLeftKeystrokes.AutoSize = true;
-            this.rbTopLeftKeystrokes.Checked = true;
-            this.rbTopLeftKeystrokes.Location = new System.Drawing.Point(21, 19);
-            this.rbTopLeftKeystrokes.Name = "rbTopLeftKeystrokes";
-            this.rbTopLeftKeystrokes.Size = new System.Drawing.Size(97, 30);
-            this.rbTopLeftKeystrokes.TabIndex = 1;
-            this.rbTopLeftKeystrokes.TabStop = true;
-            this.rbTopLeftKeystrokes.Text = "Top Left";
-            this.rbTopLeftKeystrokes.UseVisualStyleBackColor = true;
-            this.rbTopLeftKeystrokes.CheckedChanged += new System.EventHandler(this.rbTopLeftKeystrokes_CheckedChanged);
-            // 
-            // rbTopRightKeystrokes
-            // 
-            this.rbTopRightKeystrokes.AutoSize = true;
-            this.rbTopRightKeystrokes.Location = new System.Drawing.Point(21, 55);
-            this.rbTopRightKeystrokes.Name = "rbTopRightKeystrokes";
-            this.rbTopRightKeystrokes.Size = new System.Drawing.Size(109, 30);
-            this.rbTopRightKeystrokes.TabIndex = 0;
-            this.rbTopRightKeystrokes.Text = "Top Right";
-            this.rbTopRightKeystrokes.UseVisualStyleBackColor = true;
-            this.rbTopRightKeystrokes.CheckedChanged += new System.EventHandler(this.rbTopRightKeystrokes_CheckedChanged);
             // 
             // opacityDisplayLabel
             // 
@@ -871,6 +798,34 @@ namespace Latite
             this.label3.TabIndex = 14;
             this.label3.Text = "v1.2.0";
             // 
+            // toggleEditingButton
+            // 
+            this.toggleEditingButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.toggleEditingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.toggleEditingButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.toggleEditingButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
+            this.toggleEditingButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
+            this.toggleEditingButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.toggleEditingButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleEditingButton.ForeColor = System.Drawing.Color.White;
+            this.toggleEditingButton.Location = new System.Drawing.Point(50, 162);
+            this.toggleEditingButton.Name = "toggleEditingButton";
+            this.toggleEditingButton.Size = new System.Drawing.Size(100, 62);
+            this.toggleEditingButton.TabIndex = 16;
+            this.toggleEditingButton.Text = "Toggle Editing";
+            this.toggleEditingButton.UseVisualStyleBackColor = false;
+            this.toggleEditingButton.Click += new System.EventHandler(this.toggleEditingButton_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(27, 240);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(161, 18);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Edit positions of UI items";
+            // 
             // LatiteForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -914,8 +869,6 @@ namespace Latite
             this.lookBehindPanel.PerformLayout();
             this.optionsTabControl.ResumeLayout(false);
             this.optionsTabControl.PerformLayout();
-            this.keystrokesPositionPanel.ResumeLayout(false);
-            this.keystrokesPositionPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.opacitySlider)).EndInit();
             this.consoleTab.ResumeLayout(false);
             this.consoleTab.PerformLayout();
@@ -975,11 +928,6 @@ namespace Latite
         private System.Windows.Forms.TextBox toggleSprintBind;
         private System.Windows.Forms.Label toggleSprintBindLabel;
         private System.Windows.Forms.CheckBox toggleSprintCheckbox;
-        private System.Windows.Forms.Panel keystrokesPositionPanel;
-        private System.Windows.Forms.RadioButton rbBottomLeftKeystrokes;
-        private System.Windows.Forms.RadioButton rbBottomRightKeystrokes;
-        private System.Windows.Forms.RadioButton rbTopLeftKeystrokes;
-        private System.Windows.Forms.RadioButton rbTopRightKeystrokes;
         private System.Windows.Forms.CheckBox posDisplayCheck;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label timeChangerLabel;
@@ -987,12 +935,13 @@ namespace Latite
         private System.Windows.Forms.Label timeChangerTrackBarLabel;
         private System.Windows.Forms.TrackBar timeChangerTrackBar;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label comingSoonLabel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage infoTabPage;
         private System.Windows.Forms.RichTextBox infoRichTextBox;
         private System.Windows.Forms.Button GithubButton;
         private System.Windows.Forms.Button updateButton;
+        private System.Windows.Forms.Button toggleEditingButton;
+        private System.Windows.Forms.Label label2;
     }
 }
 

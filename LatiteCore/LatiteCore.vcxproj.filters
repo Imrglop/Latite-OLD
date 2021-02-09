@@ -54,7 +54,10 @@
     <ClInclude Include="Mods\Zoom.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
-    <ClInclude Include="SA_utils.hpp">
+    <ClInclude Include="Game.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="SA_utils.h">
       <Filter>Source Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,9 +92,18 @@
     <ClCompile Include="server_mod_disabler.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="SA_utils.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="info.txt">
+      <Filter>Source Files\Config</Filter>
+    </Text>
+    <Text Include="Config\settings.txt">
       <Filter>Source Files\Config</Filter>
     </Text>
   </ItemGroup>

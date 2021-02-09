@@ -6,6 +6,7 @@
 unsigned int tick = 0;
 int timeSet = 0;
 bool isEnabled = false;
+bool disabledByServer = false;
 
 void TimeChanger::onDisable()
 {
@@ -20,7 +21,8 @@ void TimeChanger::onEnable(int time)
 {
 	this->enabled = true;
 	isEnabled = true;
-	if (moduleDisabledOnServer(LocalPlayer::getServer(), "time_changer")) return;
+	disabledByServer = moduleDisabledOnServer(LocalPlayer::getServer(), "time_changer");
+	if (disabledByServer) return;
 	memory::Nop(currentModuleBase() + 0xD4D5F1, 6);
 	memory::Nop(currentModuleBase() + 0x80E224, 6);
 	timeSet = time;
@@ -31,6 +33,10 @@ void TimeChanger::onEnable(int time)
 
 void TimeChanger::onTick()
 {
+	if (disabledByServer) {
+		this->onDisable();
+		return;
+	}
 	if (isEnabled && (tick % 20) == 0)
 	{
 		LocalPlayer::setTime(timeSet);
