@@ -66,7 +66,7 @@ extern "C" {
 
 	// Config
 	LATITE_API void settingsConfigSet(cstring k, cstring v);
-	LATITE_API void settingsConfigGet(cstring k, Settings* outSettings);
+	LATITE_API wchar_t* settingsConfigGet(cstring k);
 }
 
 // code

@@ -170,12 +170,11 @@ void settingsConfigSet(cstring k, cstring v)
     settings.set(k, v);
 }
 
-void settingsConfigGet(cstring k, Settings* outSettings) {
-    std::cout << (char*)(settings.getString(k).c_str()) << '\n';
-    Settings set;
-    int* ar = &settings.getIntegerList("__ANCHORS")[0];
-    set.__ANCHORS = ar;
-    *outSettings = set;
+wchar_t* settingsConfigGet(cstring k) {
+    std::cout << "From: " << k << '\n';
+    std::cout << (unsigned __int64)k << '\n';
+    std::string s = settings.getString(k);
+    return (wchar_t*)std::wstring(s.begin(), s.end()).c_str();
 }
 
 void mod_zoom_setAmount(float amount)

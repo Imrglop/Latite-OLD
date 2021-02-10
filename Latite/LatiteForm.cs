@@ -58,8 +58,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         static extern void settingsConfigSet(string k, string v);
 
         [DllImport("LatiteCore.dll")]
-        static extern UInt64 settingsConfigGet(string k);
-        //
+        static extern StringBuilder settingsConfigGet(string k);
 
         public LatiteForm()
         {
@@ -105,8 +104,9 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                         Coutln("Connected to Minecraft!");
                         this.OverlayForm = new Overlay(this);
                         this.OverlayForm.Show();
-                        Coutln(settingsConfigGet("iostream!").ToString());
-                        settingsConfigSet("console", "EA SPORTS");
+                        //Coutln(Marshal.PtrToStringAnsi(settingsConfigGet("console")));
+                        Coutln(settingsConfigGet("console").ToString());
+                        settingsConfigSet("testSet", "Test");
                         if (show)
                             MessageBox.Show("Connected to Minecraft!");
                     }
