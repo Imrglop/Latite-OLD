@@ -28,6 +28,10 @@ struct LocalPlayer
 	static void setTime(int time);
 	// Gets the ip of server you're in
 	static std::string getServer();
+	// get the open gui string
+	static std::string getUIState();
+	// gets whether a GUI is open
+	static bool UIOpen();
 	// --------------------
 };
 

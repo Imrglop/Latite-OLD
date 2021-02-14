@@ -25,7 +25,7 @@ HANDLE hProcess;
 int timeChangerSetting = 0;
 Config settings("settings.txt", SETTINGS_TXT_DEFAULT);
 
-HANDLE GetProcessByName(WCHAR* processName)
+HANDLE GetProcessByName(const char* processName)
 {
     PROCESSENTRY32 pe32;
     DWORD pID = 0ul;
@@ -55,15 +55,11 @@ HANDLE GetProcessByName(WCHAR* processName)
         if (hProcess != 0)
         {
             // Compare processes with processName
-            wchar_t* exeFile = (wchar_t*)L"";
-            int charc = MultiByteToWideChar(CP_ACP, 0, pe32.szExeFile, -1, 0, 0);
-            MultiByteToWideChar(CP_ACP, 0, pe32.szExeFile, -1, (wchar_t*)exeFile, charc);
-            if (wcscmp(exeFile, processName) == 0) {
+            if (strcmp(pe32.szExeFile, processName) == 0) {
                 CloseHandle(snap);
                 return hProcess;
             }
             CloseHandle(hProcess);
-            delete[] exeFile;
         }
     } while (Process32Next(snap, &pe32) != 0);
     CloseHandle(snap);
@@ -141,7 +137,6 @@ float LPGetYPos()
     return pos;
 }
 
-
 float LPGetXPos()
 {
     ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
@@ -171,6 +166,17 @@ void settingsConfigGet(cstring k, LPWSTR* os) {
     std::cout << "From: " << k << '\n';
     std::cout << (unsigned __int64)k << '\n';
     std::string s = settings.getString(k);
+}
+
+int getCurrentGui()
+{
+    string name = LocalPlayer::getUIState();
+    if (name == "hud_screen") return 0;
+    if (name == "pause_screen") return 1;
+    if (name == "in_game_play_screen") return 2;
+    if (name == "inventory_screen") return 3;
+    if (name == "chat_screen") return 4;
+    return -1;
 }
 
 void mod_zoom_setAmount(float amount)
@@ -208,9 +214,13 @@ bool connectedToMinecraft(int type)
     return false;
 }
 
+int test() {
+    return 21394;
+}
+
 DWORD attach() {
     // attach to Minecraft
-    hProcess = GetProcessByName((WCHAR*)L"Minecraft.Windows.exe");
+    hProcess = GetProcessByName("Minecraft.Windows.exe");
     log << "HProcess: " << hProcess << '\n';
     pID = GetProcessId(hProcess);
     moduleBase = GetModuleBase(pID, (WCHAR*)L"Minecraft.Windows.exe");
@@ -235,6 +245,7 @@ void loop()
         if (GetForegroundWindow() == FindWindowA(NULL, "Minecraft"))
         {
             Mod::tickModules();
+            //log << LocalPlayer::getUIState() << " = state\n";
         }
     }
 }

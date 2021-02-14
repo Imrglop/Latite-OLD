@@ -27,7 +27,7 @@ byte memory::ReadByte(ADDRESS address)
 }
 
 
-std::string memory::ReadVarString(ADDRESS address, int maxSize)
+std::string memory::ReadVarString(ADDRESS address, int maxSize, char otherDelim)
 {
     unsigned int size = 0;
     char val;
@@ -37,6 +37,7 @@ std::string memory::ReadVarString(ADDRESS address, int maxSize)
         val = 0;
         ReadProcessMemory(getHProcess(), (void*)(address + i), &val, 1, 0);
         if (val == 0) break;
+        if (val == otherDelim) break;
         retVal.push_back(val);
     }
     return std::string(retVal.begin(), retVal.end());

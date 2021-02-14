@@ -116,3 +116,15 @@ std::string LocalPlayer::getServer()
 	if (addy == 0) return "N/A";
 	return memory::ReadVarString(addy, 30); // get ip address
 }
+
+std::string LocalPlayer::getUIState()
+{
+	ADDRESS uiStateNear = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_GUI_BASEADDY), {}) + ADDRESS_GUI_OFFSET;
+	//log << "UI state addy (near address): " << (void*)uiState << '\n';
+	ADDRESS uiStateString = uiStateNear + ADDRESS_GUI_STRING_OFFSET;
+	return memory::ReadVarString(uiStateString, 30, '\n');
+}
+
+bool LocalPlayer::UIOpen() {
+	return getUIState() != "hud_screen";
+}

@@ -12,7 +12,7 @@ namespace memory
 	float ReadFloat(ADDRESS address);
 	byte ReadByte(ADDRESS address);
 	// Reads ASCII format string with unknown size
-	std::string ReadVarString(ADDRESS address, int maxSize = 20);
+	std::string ReadVarString(ADDRESS address, int maxSize = 20, char otherDelim = 0);
 	// NOP code
 	void Nop(ADDRESS address, unsigned long long amt);
 }

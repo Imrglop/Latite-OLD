@@ -15,15 +15,18 @@ bool zooming = false;
 void unzoom()
 {
 	if (moduleDisabledOnServer(LocalPlayer::getServer(), "zoom")) return;
-	LocalPlayer::setFOV(pastFOV);
-	LocalPlayer::setSensitivity(pastSens);
-	LocalPlayer::setHideHand(pastHideHand);
+	if (zooming) {
+		LocalPlayer::setFOV(pastFOV);
+		LocalPlayer::setSensitivity(pastSens);
+		LocalPlayer::setHideHand(pastHideHand);
+	}
 	zooming = false;
 }
 
 void zoom()
 {
 	if (moduleDisabledOnServer(LocalPlayer::getServer(), "zoom")) return;
+	if (LocalPlayer::UIOpen()) return;
 	pastSens = LocalPlayer::getSensitivity();
 	pastFOV = LocalPlayer::getFOV();
 	pastHideHand = LocalPlayer::getHideHand();
@@ -81,4 +84,5 @@ void Zoom::onTick()
 		keyPressed = false;
 		if (zoomEnabled) unzoom();
 	}
+	if (LocalPlayer::UIOpen()) unzoom();
 }

@@ -67,6 +67,8 @@ extern "C" {
 	// Config
 	LATITE_API void settingsConfigSet(cstring k, cstring v);
 	LATITE_API void settingsConfigGet(cstring k, LPWSTR* os);
+
+	LATITE_API int getCurrentGui();
 }
 
 // code
@@ -109,6 +111,12 @@ extern "C" {
 #define ADDRESS_SERVER_BASEADDY 0x36A1FB0
 #define ADDRESS_SERVER_OFFSETS { 0x0, 0x518, 0x10, 0x0, 0x1E8, 0x380 }
 #define ADDRESS_SERVER_LAST_OFFSET 0x0
+
+// pointer to the (address near) GUI opened
+#define ADDRESS_GUI_BASEADDY 0x03653A48
+//#define ADDRESS_GUI_OFFSETS
+#define ADDRESS_GUI_OFFSET 0xAEBC
+#define ADDRESS_GUI_STRING_OFFSET 1048
 
 // functions
 

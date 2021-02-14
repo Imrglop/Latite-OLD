@@ -145,6 +145,26 @@ namespace Latite
         // Key Held
         int kh = 0x8000;
 
+        private void posPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragUtils.StartDrag(e);
+        }
+
+        private void posPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            dragUtils.DragProc(posPanel, e);
+        }
+
+        private void toggleSprintLabel_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragUtils.StartDrag(e);
+        }
+
+        private void toggleSprintLabel_MouseMove(object sender, MouseEventArgs e)
+        {
+            dragUtils.DragProc(toggleSprintLabel, e);
+        }
+
         public bool IsEditing = false;
         public void SetDraggableItems(bool Draggable)
         {
@@ -190,7 +210,7 @@ namespace Latite
         {
             
             int[] NotPressedColor = { 50, 60, 70 };
-            int[] PressedColor = { 70, 80, 90 };
+            int[] PressedColor = { NotPressedColor[0] + 10, NotPressedColor[1] + 10, NotPressedColor[2] + 10 };
             if (W_Pressed)
             {
                 var Col = keyStrokes_W.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);

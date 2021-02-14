@@ -26,7 +26,7 @@ namespace Latite
         [DllImport("LatiteCore.dll")]
         static extern void consoleMain();
         [DllImport("LatiteCore.dll")]
-        static extern ulong attach();
+        static extern uint attach();
         // extern "C" LATITE_API bool connectedToMinecraft(int type = 2);
         [DllImport("LatiteCore.dll")]
         public static extern bool connectedToMinecraft(int type = 2);
@@ -56,7 +56,6 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         [DllImport("LatiteCore.dll")]
         static extern void settingsConfigSet(string k, string v);
-
         /*[DllImport("LatiteCore.dll")]
         static extern void settingsConfigGet(string k, out StringBuilder lpLpWString);*/
 
@@ -93,7 +92,21 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                         consoleMain();
                         IsConsole = true;
                     }
-                    var Status = attach();
+                    uint Status = 0;
+                    try
+                    {
+                        Status = attach();
+                    } catch (Exception e)
+                    {
+                        var Result = MessageBox.Show("Couldn't attach to Minecraft!\n\n" + e.ToString(), "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                        if (Result == DialogResult.Retry)
+                        {
+                            ConnectToMc();
+                        } else
+                        {
+                            Environment.Exit(1);
+                        }
+                    }
                     if (Status == 0)
                     {
                         connectButton.Visible = false;
@@ -131,7 +144,6 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 }
                 if (show == false)
                 {
-                    Close();
                     Environment.Exit(1);
                 }
             } catch (Exception e)
@@ -143,7 +155,6 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                     ConnectToMc();
                 } else
                 {
-                    this.Close();
                     Environment.Exit(1); // EXIT_FAILURE
                 }
             }
@@ -409,11 +420,17 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         bool ToggleEditing = true;
 
-        private void toggleEditingButton_Click(object sender, EventArgs e)
+        private void toggleEditing()
         {
             this.OverlayForm.SetDraggableItems(ToggleEditing);
             this.toggleEditingButton.FlatAppearance.BorderColor = (ToggleEditing ? Color.Aqua : Color.Gray);
             ToggleEditing = !ToggleEditing;
+        }
+
+        private void toggleEditingButton_Click(object sender, EventArgs e)
+        {
+            if (connectedToMinecraft())
+                this.toggleEditing();
         }
     }
 }
