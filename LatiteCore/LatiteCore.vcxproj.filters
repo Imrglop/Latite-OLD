@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Config">
       <UniqueIdentifier>{5f77459e-065e-4519-8e07-7176e56a9f65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\AppStorage">
+      <UniqueIdentifier>{7541123a-638e-44fa-8865-4d68b844c07d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dllmain.h">
@@ -60,6 +63,9 @@
     <ClInclude Include="SA_utils.h">
       <Filter>Source Files\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="AppStorage\utils.hh">
+      <Filter>Source Files\AppStorage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -97,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="SA_utils.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="AppStorage\main.cpp">
+      <Filter>Source Files\AppStorage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

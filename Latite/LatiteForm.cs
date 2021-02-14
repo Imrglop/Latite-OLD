@@ -57,8 +57,8 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         [DllImport("LatiteCore.dll")]
         static extern void settingsConfigSet(string k, string v);
 
-        [DllImport("LatiteCore.dll")]
-        static extern StringBuilder settingsConfigGet(string k);
+        /*[DllImport("LatiteCore.dll")]
+        static extern void settingsConfigGet(string k, out StringBuilder lpLpWString);*/
 
         public LatiteForm()
         {
@@ -104,9 +104,6 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                         Coutln("Connected to Minecraft!");
                         this.OverlayForm = new Overlay(this);
                         this.OverlayForm.Show();
-                        //Coutln(Marshal.PtrToStringAnsi(settingsConfigGet("console")));
-                        Coutln(settingsConfigGet("console").ToString());
-                        settingsConfigSet("testSet", "Test");
                         if (show)
                             MessageBox.Show("Connected to Minecraft!");
                     }
@@ -125,12 +122,29 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 }
             } catch (DllNotFoundException e)
             {
-                var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll.\nPlease make sure you have Microsoft Visual C++ 2019 installed.", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll.\nPlease also make sure you have Microsoft Visual C++ 2019 installed.\nPress retry to download VC redist 2019 and that could fix the issue.", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
                 Coutln("DllNotFoundException occured while attempting to import LatiteCore.dll, or any of the dependancies!\nPlease make sure you have Microsoft Visual C++ 2019 installed.");
                 Coutln("Error: " + e.ToString());
                 if (Result == DialogResult.Retry)
                 {
+                    System.Diagnostics.Process.Start("https://aka.ms/vs/16/release/vc_redist.x64.exe");
+                }
+                if (show == false)
+                {
+                    Close();
+                    Environment.Exit(1);
+                }
+            } catch (Exception e)
+            {
+                var Result = MessageBox.Show("Couldn't import DLL LatiteCore.dll! An unexpected error occured. Details:\n\n" + e.ToString(), "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                Coutln("Error: " + e.ToString());
+                if (Result == DialogResult.Retry)
+                {
                     ConnectToMc();
+                } else
+                {
+                    this.Close();
+                    Environment.Exit(1); // EXIT_FAILURE
                 }
             }
         }

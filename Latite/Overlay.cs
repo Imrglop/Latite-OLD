@@ -48,7 +48,7 @@ namespace Latite
         [return: MarshalAs(UnmanagedType.Bool)]
         // needed for size of minecraft window, pos, etc.
         public static extern bool GetWindowRect(IntPtr hwnd, out RECT IpRect);
-
+        
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow(); // get the window on the foreground
 
@@ -71,24 +71,6 @@ namespace Latite
             }
         }
 
-        public void UpdatePanelPos(int Keystrokes)
-        {
-            latiteForm.Coutln("set keystrokes to: " + Keystrokes);
-            var DefaultAnchor = AnchorStyles.Top | AnchorStyles.Left;
-            var TopRightAnchor = AnchorStyles.Top | AnchorStyles.Right;
-            switch (Keystrokes) 
-            {
-                case 0:
-                    keystrokesPanel.Anchor = DefaultAnchor;
-                    break;
-                case 1:
-                    this.latiteForm.Coutln("setting to topright\n");
-                    keystrokesPanel.Location = new Point(this.Size.Width - keystrokesPanel.Size.Width, keystrokesPanel.Location.Y);
-                    keystrokesPanel.Anchor = TopRightAnchor;
-                    break;
-            }
-        }
-
         private void secondRunner_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
@@ -96,8 +78,8 @@ namespace Latite
                 Thread.Sleep(1000);
                 // CPS counter
                 // todo not proper cps counter
-                LMBCounter.Text = (lcps).ToString();
-                RMBCounter.Text = (rcps).ToString();
+                LMBCounter.Text = lcps + " CPS";
+                RMBCounter.Text = rcps + " CPS";
                 lcps = 0;
                 rcps = 0;
             }
@@ -143,6 +125,11 @@ namespace Latite
             dragUtils.DragProc(keystrokesPanel, e);
         }
 
+        private void Overlay_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // save data
+        }
+
         public void SetGuiDisplay(uint gui, bool display)
         {
             switch(gui)
@@ -154,6 +141,10 @@ namespace Latite
         }
 
         string OldSprintText = "";
+
+        // Key Held
+        int kh = 0x8000;
+
         public bool IsEditing = false;
         public void SetDraggableItems(bool Draggable)
         {
@@ -169,6 +160,9 @@ namespace Latite
             }
             IsEditing = !IsEditing;
         }
+        
+        public static readonly Point nullpoint = new Point(0, 0);
+        public static readonly AnchorStyles nullanchor = (AnchorStyles)(-1);
 
         private void Overlay_Load(object sender, EventArgs e)
         {
@@ -195,7 +189,7 @@ namespace Latite
         private void UpdateKeystrokes()
         {
             
-            int[] NotPressedColor = { 60, 70, 80 };
+            int[] NotPressedColor = { 50, 60, 70 };
             int[] PressedColor = { 70, 80, 90 };
             if (W_Pressed)
             {
@@ -247,7 +241,7 @@ namespace Latite
         {
             while (true)
             {
-                Thread.Sleep(5); // Cooldown
+                Thread.Sleep(8); // Cooldown
                 if (LatiteForm.connectedToMinecraft())
                 {
                     xPosLabel.Text = Math.Round(LPGetXPos(), 2) + "";
@@ -269,36 +263,24 @@ namespace Latite
                 {
                     this.TopMost = true;
                 }
-                if ((GetKeyState(0x57) & 0x8000) == 32768)
-                {
-                    W_Pressed = true;
-                } else
-                {
-                    W_Pressed = false;
-                }
-                if ((GetKeyState((int)'A') & 0x8000) == 32768) A_Pressed = true;
-                else A_Pressed = false;
-                if ((GetKeyState((int)'S') & 0x8000) == 32768) S_Pressed = true;
-                else S_Pressed = false;
-                if ((GetKeyState((int)'D') & 0x8000) == 32768) D_Pressed = true;
-                else D_Pressed = false;
+                W_Pressed = ((GetKeyState((int)'W') & kh) == kh);
+                A_Pressed = ((GetKeyState((int)'A') & kh) == kh);
+                S_Pressed = ((GetKeyState((int)'S') & kh) == kh);
+                D_Pressed = ((GetKeyState((int)'D') & kh) == kh);
+                Space_Pressed = ((GetKeyState(0x20) & kh) == kh);
 
-                if ((GetKeyState(0x01) & 0x8000) == 32768) {
+                if ((GetKeyState(0x01) & kh) == kh) {
                     if (!LMB_Pressed) { lcps++; };
                     LMB_Pressed = true;
                 }
                 else LMB_Pressed = false;
-                if ((GetKeyState(0x02) & 0x8000) == 32768)
+
+                if ((GetKeyState(0x02) & kh) == kh)
                 {
                     if (!RMB_Pressed) rcps++;
                     RMB_Pressed = true;
                 }
                 else RMB_Pressed = false;
-                if ((GetKeyState(0x20) & 0x8000) == 0x8000)
-                {
-                    Space_Pressed = true;
-                }
-                else Space_Pressed = false;
                 UpdateKeystrokes();
                 GetWindowRect(hWnd, out rect);
                 this.Size = new Size(rect.right - rect.left,

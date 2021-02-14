@@ -8,21 +8,90 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
-namespace Latite.Properties
-{
+namespace Latite.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point @__panel_keystrokes_location {
+            get {
+                return ((global::System.Drawing.Point)(this["__panel_keystrokes_location"]));
+            }
+            set {
+                this["__panel_keystrokes_location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point @__panel_position_location {
+            get {
+                return ((global::System.Drawing.Point)(this["__panel_position_location"]));
+            }
+            set {
+                this["__panel_position_location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
+        public global::System.Drawing.Point @__panel_togglesprint_location {
+            get {
+                return ((global::System.Drawing.Point)(this["__panel_togglesprint_location"]));
+            }
+            set {
+                this["__panel_togglesprint_location"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public global::System.Windows.Forms.AnchorStyles @__panel_keystrokes_anchor {
+            get {
+                return ((global::System.Windows.Forms.AnchorStyles)(this["__panel_keystrokes_anchor"]));
+            }
+            set {
+                this["__panel_keystrokes_anchor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public global::System.Windows.Forms.AnchorStyles @__panel_position_anchor {
+            get {
+                return ((global::System.Windows.Forms.AnchorStyles)(this["__panel_position_anchor"]));
+            }
+            set {
+                this["__panel_position_anchor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public global::System.Windows.Forms.AnchorStyles @__panel_togglesprint_anchor {
+            get {
+                return ((global::System.Windows.Forms.AnchorStyles)(this["__panel_togglesprint_anchor"]));
+            }
+            set {
+                this["__panel_togglesprint_anchor"] = value;
             }
         }
     }

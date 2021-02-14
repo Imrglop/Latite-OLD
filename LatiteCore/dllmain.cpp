@@ -35,7 +35,7 @@ HANDLE GetProcessByName(WCHAR* processName)
     HANDLE snap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
     if (snap == INVALID_HANDLE_VALUE) {
-        printf("Error occured!, %x", GetLastError());
+        printf("Error occured! (0x%x)", GetLastError());
         return NULL;
     }
     if (Process32First(snap, &pe32) == FALSE)
@@ -55,11 +55,15 @@ HANDLE GetProcessByName(WCHAR* processName)
         if (hProcess != 0)
         {
             // Compare processes with processName
-            if (_tcsicmp(pe32.szExeFile, processName) == 0) {
+            wchar_t* exeFile = (wchar_t*)L"";
+            int charc = MultiByteToWideChar(CP_ACP, 0, pe32.szExeFile, -1, 0, 0);
+            MultiByteToWideChar(CP_ACP, 0, pe32.szExeFile, -1, (wchar_t*)exeFile, charc);
+            if (wcscmp(exeFile, processName) == 0) {
                 CloseHandle(snap);
                 return hProcess;
             }
             CloseHandle(hProcess);
+            delete[] exeFile;
         }
     } while (Process32Next(snap, &pe32) != 0);
     CloseHandle(snap);
@@ -77,7 +81,7 @@ ADDRESS GetModuleBase(DWORD pID, wchar_t* moduleName)
         moduleEntry32.dwSize = sizeof(MODULEENTRY32W);
         if (Module32FirstW(hSnapshot, &moduleEntry32)) {
             do {
-                if (_tcsicmp(moduleEntry32.szModule, moduleName) == 0) {
+                if (_wcsicmp(moduleEntry32.szModule, moduleName) == 0) {
                     // found match
                     _moduleBase = (ADDRESS)moduleEntry32.modBaseAddr;
                     break;
@@ -96,10 +100,6 @@ ADDRESS GetModuleBase(DWORD pID, wchar_t* moduleName)
 void detach() 
 {
     Mod::disableAll();
-    /*if (lcevents::isEnabled())
-    {
-        lcevents::shutdown();
-    }*/
 }
 
 void mod_zoom_setBind(char bind)
@@ -114,11 +114,8 @@ void mod_lookBehind_setBind(char bind)
 
 float LPGetMotion()
 {
-    // TODO get x and z motion
-
     ADDRESS yAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    //return memory::ReadFloat(yAddy - 380);
     float vel = 0.f;
     ReadProcessMemory(hProcess, (void*)(yAddy - 0x16C), &vel, sizeof(vel), 0);
     return vel;
@@ -170,11 +167,10 @@ void settingsConfigSet(cstring k, cstring v)
     settings.set(k, v);
 }
 
-wchar_t* settingsConfigGet(cstring k) {
+void settingsConfigGet(cstring k, LPWSTR* os) {
     std::cout << "From: " << k << '\n';
     std::cout << (unsigned __int64)k << '\n';
     std::string s = settings.getString(k);
-    return (wchar_t*)std::wstring(s.begin(), s.end()).c_str();
 }
 
 void mod_zoom_setAmount(float amount)
@@ -227,10 +223,7 @@ DWORD attach() {
     if (settings.getBool("console")) {
         consoleMain();
     }
-    //settings.set("test", "false", true);
-    // Start up
     Mod::initialize();
-    //lcevents::initialize();
     return 0;
 }
 
@@ -243,10 +236,6 @@ void loop()
         {
             Mod::tickModules();
         }
-        /*if (lcevents::isEnabled())
-        {
-            lcevents::loop();
-        }*/
     }
 }
 
@@ -297,7 +286,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 {
     if (ul_reason_for_call == DLL_PROCESS_ATTACH)
     {
-        // attach to Latite.exe
     }
     return TRUE;
 }
