@@ -48,13 +48,21 @@ namespace Latite
         [return: MarshalAs(UnmanagedType.Bool)]
         // needed for size of minecraft window, pos, etc.
         public static extern bool GetWindowRect(IntPtr hwnd, out RECT IpRect);
-        
         [DllImport("user32.dll")]
         public static extern IntPtr GetForegroundWindow(); // get the window on the foreground
 
+        [DllImport("user32.dll")]
+        public static extern short GetAsyncKeyState(int vKey);
+
+        [DllImport("user32.dll")]
+        public static extern int SetForegroundWindow(IntPtr hWnd);
+
         public static IntPtr hWnd = FindWindowA(null, "Minecraft"); // find minecraft 
         public static RECT rect;
-        
+        [DllImport("LatiteCore.dll")]
+        public static extern IntPtr LPGetLookAtBlock();
+
+
         public struct RECT
         {
             public int left, top, right, bottom;
@@ -90,11 +98,13 @@ namespace Latite
             this.Opacity = Opacity;
         }
 
+        readonly string ToggleSprintTextOn = "[Sprinting (Toggled)]";
         public void ToggleSprint(int val)
         {
+            if (LatiteForm.getCurrentGui() != 0) return;
             if (val == 1)
             {
-                toggleSprintLabel.Text = "[Sprinting (Toggled)]";
+                toggleSprintLabel.Text = ToggleSprintTextOn;
             }
             else if (val == 0)
             {
@@ -102,7 +112,6 @@ namespace Latite
             } 
             else if (val == 2)
             {
-                latiteForm.Coutln("Sprinting key held");
                 toggleSprintLabel.Text = "[Sprinting (Key Held)]";
             }
         }
@@ -135,15 +144,21 @@ namespace Latite
             switch(gui)
             {
                 case 0:
+                    keystrokesPanel.Visible = display;
+                    break;
+                case 1:
                     posPanel.Visible = display;
+                    break;
+                case 2:
+                    blockDisplayText.Visible = display;
                     break;
             }
         }
 
         string OldSprintText = "";
-
         // Key Held
         int kh = 0x8000;
+        public char EditingBind = (char)0xA1;
 
         private void posPanel_MouseDown(object sender, MouseEventArgs e)
         {
@@ -166,21 +181,104 @@ namespace Latite
         }
 
         public bool IsEditing = false;
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            settingsTabControl.Visible = settingsCheckBox.Checked;
+        }
+
+        private void keystrokesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            SetGuiDisplay(0, keystrokesCheckBox.Checked);
+        }
+
+        private void posDisplayCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            SetGuiDisplay(1, posDisplayCheckbox.Checked);
+        }
+
         public void SetDraggableItems(bool Draggable)
         {
             if (Draggable)
             {
                 SetWindowLong(this.Handle, -20, OldStyle);
                 OldSprintText = toggleSprintLabel.Text;
+                settingsCheckBox.Visible = true;
+                settingsCheckBox.Checked = false;
                 toggleSprintLabel.Text = "[Sprinting (Editing)]";
             } else
             {
+                settingsTabControl.Visible = false;
+                settingsCheckBox.Visible = false;
                 SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
                 toggleSprintLabel.Text = OldSprintText;
             }
             IsEditing = !IsEditing;
         }
-        
+        private void UpdateTextColorK()
+        {
+            int[] ColorSet = { keystrokesRedTrackbar.Value * 4, keystrokesGreenTrackbar.Value * 4, keystrokesBlueTrackbar.Value * 4 };
+            for (int i = 0; i < ColorSet.Length; i++)
+            {
+                if (ColorSet[i] > 0xFF)
+                {
+                    ColorSet[i] = 0xFF;
+                }
+            }
+            foreach (Control parentControl in keystrokesPanel.Controls)
+            {
+                if (parentControl is Panel)
+                {
+                    foreach (Control control in parentControl.Controls)
+                    {
+                        if (control is Label)
+                        {
+                            Label label = (Label)control;
+                            label.ForeColor = Color.FromArgb(ColorSet[0], ColorSet[1], ColorSet[2]);
+                        } else if (control is PictureBox)
+                        {
+                            PictureBox picture = (PictureBox)control;
+                            picture.BackColor = Color.FromArgb(ColorSet[0], ColorSet[1], ColorSet[2]);
+                        }
+                    }
+                }
+            }
+        }
+        private void keystrokesRedTrackbar_Scroll(object sender, EventArgs e)
+        {
+            UpdateTextColorK();
+        }
+
+        private void keystrokesGreenTrackbar_Scroll(object sender, EventArgs e)
+        {
+            UpdateTextColorK();
+        }
+
+        private void blockCoordsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            SetGuiDisplay(2, blockCoordsCheckbox.Checked);
+        }
+
+        private void blockDisplayText_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragUtils.StartDrag(e);
+        }
+
+        private void blockDisplayText_MouseMove(object sender, MouseEventArgs e)
+        {
+            dragUtils.DragProc(blockDisplayText, e);
+        }
+
+        private void keystrokesBlueTrackbar_Scroll(object sender, EventArgs e)
+        {
+            UpdateTextColorK();
+        }
+
+        private void copyBlockButton_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(string.Join(" ", GetBlockCoords()));
+        }
+
         public static readonly Point nullpoint = new Point(0, 0);
         public static readonly AnchorStyles nullanchor = (AnchorStyles)(-1);
 
@@ -204,6 +302,9 @@ namespace Latite
             secondRunner.RunWorkerAsync();
 
             this.toggleSprintLabel.Text = "";
+            settingsCheckBox.Visible = false;
+            settingsTabControl.Visible = false;
+            blockDisplayText.Visible = false;
         }
 
         private void UpdateKeystrokes()
@@ -257,11 +358,56 @@ namespace Latite
             //MessageBox.Show("Updated kEystrokes");
         }
 
+        public void SetGuisVisible(bool val)
+        {
+            if (keystrokesCheckBox.Checked)
+            {
+                SetGuiDisplay(0, val);
+            }
+            if (posDisplayCheckbox.Checked)
+            {
+                SetGuiDisplay(1, val);
+            }
+            if (blockCoordsCheckbox.Checked)
+            {
+                if (!val && LatiteForm.getCurrentGui() == 4) return;
+                SetGuiDisplay(2, val);
+            }
+            if (!val && !IsEditing)
+            {
+                OldSprintText = toggleSprintLabel.Text;
+                toggleSprintLabel.Text = "";
+            }
+            else if (!IsEditing)
+            {
+                toggleSprintLabel.Text = (latiteForm.IsToggleSprint) ? this.ToggleSprintTextOn : "";
+            }
+        }
+        public int[] GetBlockCoords()
+        {
+            IntPtr ptr = LPGetLookAtBlock();
+            int[] coords = new int[3];
+            Marshal.Copy(ptr, coords, 0, 3);
+            return coords;
+        }
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
-                Thread.Sleep(8); // Cooldown
+                Thread.Sleep(10); // Cooldown
+                if (!IsEditing && LatiteForm.getCurrentGui() != 0) SetGuisVisible(false);
+                if (IsEditing || LatiteForm.getCurrentGui() == 0) SetGuisVisible(true);
+
+                if (this.latiteForm.FocusedOnMinecraft() || GetForegroundWindow() == this.Handle)
+                {
+
+                    if ((GetAsyncKeyState(EditingBind) & 1) != 0) // rshift
+                    {
+                        this.latiteForm.toggleEditing();
+                        SetForegroundWindow(this.Handle);
+                    }
+                }
                 if (LatiteForm.connectedToMinecraft())
                 {
                     xPosLabel.Text = Math.Round(LPGetXPos(), 2) + "";
@@ -309,6 +455,11 @@ namespace Latite
                 // Set the position of the form
                 this.Left = rect.left;
                 this.Top = rect.top;
+
+                if (this.blockDisplayText.Visible)
+                {
+                    this.blockDisplayText.Text = string.Join(", ", GetBlockCoords());
+                }
             }
         }
 

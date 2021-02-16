@@ -6,18 +6,23 @@
 char lbBind_;
 unsigned char oldView;
 bool lbEnabled;
+bool lookingBehind = false;
 bool lbKeyPressed = false;
 
 void lookBehind()
 {
+	if (LocalPlayer::UIOpen()) return;
+	lookingBehind = true;
 	if (moduleDisabledOnServer(LocalPlayer::getServer(), "look_behind")) return;
 	LocalPlayer::setPerspective(2ui8);
 }
 
 void goBack()
 {
-	if (!moduleDisabledOnServer(LocalPlayer::getServer(), "look_behind"))
-		LocalPlayer::setPerspective(0ui8);
+	if (lookingBehind) {
+		if (!moduleDisabledOnServer(LocalPlayer::getServer(), "look_behind"))
+			LocalPlayer::setPerspective(0ui8);
+	}
 }
 
 void LookBehind::setBind(char b)
@@ -55,4 +60,5 @@ void LookBehind::onTick()
 		if (lbEnabled)
 			goBack();
 	}
+	if (lookingBehind && LocalPlayer::UIOpen()) goBack();
 }

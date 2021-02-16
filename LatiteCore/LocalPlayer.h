@@ -18,7 +18,7 @@ struct LocalPlayer
 	static unsigned char getHideHand();
 	// Sets hide hand setting
 	static void setHideHand(unsigned char val);
-	// Tells whether the player is in game or not
+	// Gets whether the player is in game or not
 	static bool isInGame();
 	// Gets your perspective 0: first person 1: 3rd person back 2: 3rd person front
 	static unsigned char getPerspective();
@@ -28,10 +28,14 @@ struct LocalPlayer
 	static void setTime(int time);
 	// Gets the ip of server you're in
 	static std::string getServer();
-	// get the open gui string
+	// Get the open gui string
 	static std::string getUIState();
-	// gets whether a GUI is open
+	// Gets whether a GUI is open
 	static bool UIOpen();
+	// Gets the coordinates of the block you're looking at as an 3-int array
+	static int* getLookAtBlock();
+	static float getBrightness();
+	static void setBrightness(float bright);
 	// --------------------
 };
 

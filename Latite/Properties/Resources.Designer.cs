@@ -63,9 +63,9 @@ namespace Latite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap LatiteClient {
+        internal static System.Drawing.Bitmap LatiteClient_Icon {
             get {
-                object obj = ResourceManager.GetObject("LatiteClient", resourceCulture);
+                object obj = ResourceManager.GetObject("LatiteClient_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

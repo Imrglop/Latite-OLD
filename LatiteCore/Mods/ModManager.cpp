@@ -4,6 +4,7 @@ Zoom zoom;
 LookBehind lookBehind;
 ToggleSprint toggleSprint;
 TimeChanger timeChanger;
+Fullbright fullBright;
 
 void Mod::disableAll()
 {
@@ -31,6 +32,7 @@ void Mod::tickModules()
 	lookBehind.onTick();
 	//toggleSprint.onTick(); - not needed
 	timeChanger.onTick();
+	fullBright.onTick();
 }
 
 Zoom getZoomModule()
@@ -51,4 +53,9 @@ ToggleSprint getToggleSprintModule()
 TimeChanger getTimeChangerModule()
 {
 	return timeChanger;
+}
+
+Fullbright getFullbrightModule()
+{
+	return fullBright;
 }

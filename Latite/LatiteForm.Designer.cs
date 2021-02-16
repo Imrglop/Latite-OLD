@@ -34,6 +34,9 @@ namespace Latite
             this.consoleButton = new System.Windows.Forms.Button();
             this.modsControl = new System.Windows.Forms.TabControl();
             this.modsTabPage = new System.Windows.Forms.TabPage();
+            this.fullbrightCheckBox = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.timeChangerLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.timeChangerTrackBarLabel = new System.Windows.Forms.Label();
@@ -60,10 +63,11 @@ namespace Latite
             this.lookBehindEnabled = new System.Windows.Forms.CheckBox();
             this.zoomLabel = new System.Windows.Forms.Label();
             this.optionsTabControl = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.shortcutToggleEditing = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.toggleEditingButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.posDisplayCheck = new System.Windows.Forms.CheckBox();
             this.opacityDisplayLabel = new System.Windows.Forms.Label();
             this.opacityLabel = new System.Windows.Forms.Label();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
@@ -151,6 +155,9 @@ namespace Latite
             // 
             this.modsTabPage.AutoScroll = true;
             this.modsTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.modsTabPage.Controls.Add(this.fullbrightCheckBox);
+            this.modsTabPage.Controls.Add(this.label6);
+            this.modsTabPage.Controls.Add(this.label5);
             this.modsTabPage.Controls.Add(this.timeChangerLabel);
             this.modsTabPage.Controls.Add(this.panel1);
             this.modsTabPage.Controls.Add(this.toggleSprintLabel);
@@ -167,10 +174,40 @@ namespace Latite
             this.modsTabPage.TabIndex = 0;
             this.modsTabPage.Text = "Mods";
             // 
+            // fullbrightCheckBox
+            // 
+            this.fullbrightCheckBox.AutoSize = true;
+            this.fullbrightCheckBox.ForeColor = System.Drawing.Color.White;
+            this.fullbrightCheckBox.Location = new System.Drawing.Point(40, 490);
+            this.fullbrightCheckBox.Name = "fullbrightCheckBox";
+            this.fullbrightCheckBox.Size = new System.Drawing.Size(99, 30);
+            this.fullbrightCheckBox.TabIndex = 7;
+            this.fullbrightCheckBox.Text = "Enabled";
+            this.fullbrightCheckBox.UseVisualStyleBackColor = true;
+            this.fullbrightCheckBox.CheckedChanged += new System.EventHandler(this.fullbrightCheckBox_CheckedChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(23, 462);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(94, 26);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Fullbright";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(73, 13);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(383, 52);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "View more mods by enabling Toggle Editing\r\nin-game";
+            // 
             // timeChangerLabel
             // 
             this.timeChangerLabel.AutoSize = true;
-            this.timeChangerLabel.Location = new System.Drawing.Point(307, 215);
+            this.timeChangerLabel.Location = new System.Drawing.Point(307, 274);
             this.timeChangerLabel.Name = "timeChangerLabel";
             this.timeChangerLabel.Size = new System.Drawing.Size(129, 26);
             this.timeChangerLabel.TabIndex = 12;
@@ -181,9 +218,9 @@ namespace Latite
             this.panel1.Controls.Add(this.timeChangerTrackBarLabel);
             this.panel1.Controls.Add(this.timeChangerTrackBar);
             this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Location = new System.Drawing.Point(312, 248);
+            this.panel1.Location = new System.Drawing.Point(312, 307);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 169);
+            this.panel1.Size = new System.Drawing.Size(200, 137);
             this.panel1.TabIndex = 13;
             // 
             // timeChangerTrackBarLabel
@@ -220,7 +257,7 @@ namespace Latite
             // toggleSprintLabel
             // 
             this.toggleSprintLabel.AutoSize = true;
-            this.toggleSprintLabel.Location = new System.Drawing.Point(307, 0);
+            this.toggleSprintLabel.Location = new System.Drawing.Point(307, 59);
             this.toggleSprintLabel.Name = "toggleSprintLabel";
             this.toggleSprintLabel.Size = new System.Drawing.Size(122, 26);
             this.toggleSprintLabel.TabIndex = 10;
@@ -230,7 +267,7 @@ namespace Latite
             // 
             this.lookBehindDesc.AutoSize = true;
             this.lookBehindDesc.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lookBehindDesc.Location = new System.Drawing.Point(37, 357);
+            this.lookBehindDesc.Location = new System.Drawing.Point(37, 416);
             this.lookBehindDesc.Name = "lookBehindDesc";
             this.lookBehindDesc.Size = new System.Drawing.Size(172, 18);
             this.lookBehindDesc.TabIndex = 9;
@@ -239,7 +276,7 @@ namespace Latite
             // lookBehindLabel
             // 
             this.lookBehindLabel.AutoSize = true;
-            this.lookBehindLabel.Location = new System.Drawing.Point(23, 215);
+            this.lookBehindLabel.Location = new System.Drawing.Point(23, 274);
             this.lookBehindLabel.Name = "lookBehindLabel";
             this.lookBehindLabel.Size = new System.Drawing.Size(117, 26);
             this.lookBehindLabel.TabIndex = 7;
@@ -250,7 +287,7 @@ namespace Latite
             this.toggleSprintSettingsPanel.Controls.Add(this.toggleSprintCheckbox);
             this.toggleSprintSettingsPanel.Controls.Add(this.toggleSprintBind);
             this.toggleSprintSettingsPanel.Controls.Add(this.toggleSprintBindLabel);
-            this.toggleSprintSettingsPanel.Location = new System.Drawing.Point(312, 33);
+            this.toggleSprintSettingsPanel.Location = new System.Drawing.Point(312, 92);
             this.toggleSprintSettingsPanel.Name = "toggleSprintSettingsPanel";
             this.toggleSprintSettingsPanel.Size = new System.Drawing.Size(200, 169);
             this.toggleSprintSettingsPanel.TabIndex = 11;
@@ -297,7 +334,7 @@ namespace Latite
             this.zoomPanel.Controls.Add(this.zaSliderLabel);
             this.zoomPanel.Controls.Add(this.zaSlider);
             this.zoomPanel.Controls.Add(this.zoomCheckbox);
-            this.zoomPanel.Location = new System.Drawing.Point(28, 33);
+            this.zoomPanel.Location = new System.Drawing.Point(28, 92);
             this.zoomPanel.Name = "zoomPanel";
             this.zoomPanel.Size = new System.Drawing.Size(200, 169);
             this.zoomPanel.TabIndex = 2;
@@ -377,7 +414,7 @@ namespace Latite
             this.lookBehindPanel.Controls.Add(this.lookBehindBind);
             this.lookBehindPanel.Controls.Add(this.lookBehindBindLabel);
             this.lookBehindPanel.Controls.Add(this.lookBehindEnabled);
-            this.lookBehindPanel.Location = new System.Drawing.Point(28, 248);
+            this.lookBehindPanel.Location = new System.Drawing.Point(28, 307);
             this.lookBehindPanel.Name = "lookBehindPanel";
             this.lookBehindPanel.Size = new System.Drawing.Size(200, 106);
             this.lookBehindPanel.TabIndex = 8;
@@ -418,7 +455,7 @@ namespace Latite
             // zoomLabel
             // 
             this.zoomLabel.AutoSize = true;
-            this.zoomLabel.Location = new System.Drawing.Point(23, 0);
+            this.zoomLabel.Location = new System.Drawing.Point(23, 59);
             this.zoomLabel.Name = "zoomLabel";
             this.zoomLabel.Size = new System.Drawing.Size(61, 26);
             this.zoomLabel.TabIndex = 1;
@@ -428,21 +465,41 @@ namespace Latite
             // 
             this.optionsTabControl.AutoScroll = true;
             this.optionsTabControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.optionsTabControl.Controls.Add(this.label4);
+            this.optionsTabControl.Controls.Add(this.shortcutToggleEditing);
             this.optionsTabControl.Controls.Add(this.label2);
             this.optionsTabControl.Controls.Add(this.toggleEditingButton);
             this.optionsTabControl.Controls.Add(this.label1);
-            this.optionsTabControl.Controls.Add(this.posDisplayCheck);
             this.optionsTabControl.Controls.Add(this.opacityDisplayLabel);
             this.optionsTabControl.Controls.Add(this.opacityLabel);
             this.optionsTabControl.Controls.Add(this.opacitySlider);
             this.optionsTabControl.Controls.Add(this.transparentOverlayToggle);
             this.optionsTabControl.Controls.Add(this.settingsUseConsole);
-            this.optionsTabControl.Location = new System.Drawing.Point(4, 35);
+            this.optionsTabControl.Location = new System.Drawing.Point(4, 22);
             this.optionsTabControl.Name = "optionsTabControl";
             this.optionsTabControl.Padding = new System.Windows.Forms.Padding(3);
-            this.optionsTabControl.Size = new System.Drawing.Size(587, 424);
+            this.optionsTabControl.Size = new System.Drawing.Size(587, 437);
             this.optionsTabControl.TabIndex = 1;
             this.optionsTabControl.Text = "Options";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(67, 266);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 18);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Shortcut:";
+            // 
+            // shortcutToggleEditing
+            // 
+            this.shortcutToggleEditing.Location = new System.Drawing.Point(70, 287);
+            this.shortcutToggleEditing.Name = "shortcutToggleEditing";
+            this.shortcutToggleEditing.Size = new System.Drawing.Size(59, 33);
+            this.shortcutToggleEditing.TabIndex = 18;
+            this.shortcutToggleEditing.Text = "Rshift";
+            this.shortcutToggleEditing.TextChanged += new System.EventHandler(this.shortcutToggleEditing_TextChanged);
             // 
             // label2
             // 
@@ -481,19 +538,6 @@ namespace Latite
             this.label1.Size = new System.Drawing.Size(120, 33);
             this.label1.TabIndex = 7;
             this.label1.Text = "UI Editing";
-            // 
-            // posDisplayCheck
-            // 
-            this.posDisplayCheck.AutoSize = true;
-            this.posDisplayCheck.Checked = true;
-            this.posDisplayCheck.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.posDisplayCheck.Location = new System.Drawing.Point(246, 208);
-            this.posDisplayCheck.Name = "posDisplayCheck";
-            this.posDisplayCheck.Size = new System.Drawing.Size(167, 30);
-            this.posDisplayCheck.TabIndex = 6;
-            this.posDisplayCheck.Text = "Position Display";
-            this.posDisplayCheck.UseVisualStyleBackColor = true;
-            this.posDisplayCheck.CheckedChanged += new System.EventHandler(this.posDisplayCheckBox_CheckedChanged);
             // 
             // opacityDisplayLabel
             // 
@@ -603,10 +647,10 @@ namespace Latite
             this.infoTabPage.Controls.Add(this.updateButton);
             this.infoTabPage.Controls.Add(this.GithubButton);
             this.infoTabPage.Controls.Add(this.infoRichTextBox);
-            this.infoTabPage.Location = new System.Drawing.Point(4, 35);
+            this.infoTabPage.Location = new System.Drawing.Point(4, 22);
             this.infoTabPage.Name = "infoTabPage";
             this.infoTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.infoTabPage.Size = new System.Drawing.Size(587, 424);
+            this.infoTabPage.Size = new System.Drawing.Size(587, 437);
             this.infoTabPage.TabIndex = 3;
             this.infoTabPage.Text = "Info";
             // 
@@ -928,7 +972,6 @@ namespace Latite
         private System.Windows.Forms.TextBox toggleSprintBind;
         private System.Windows.Forms.Label toggleSprintBindLabel;
         private System.Windows.Forms.CheckBox toggleSprintCheckbox;
-        private System.Windows.Forms.CheckBox posDisplayCheck;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label timeChangerLabel;
         private System.Windows.Forms.Panel panel1;
@@ -942,6 +985,11 @@ namespace Latite
         private System.Windows.Forms.Button updateButton;
         private System.Windows.Forms.Button toggleEditingButton;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox shortcutToggleEditing;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox fullbrightCheckBox;
+        private System.Windows.Forms.Label label6;
     }
 }
 

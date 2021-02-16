@@ -5,7 +5,7 @@
 #include "LocalPlayer.h"
 
 int tick = 0;
-bool tsDisabledByServer = false;
+#define tsDisabledByServer moduleDisabledOnServer(LocalPlayer::getServer(), "toggle_sprint")
 
 void ToggleSprint::onDisable()
 {
@@ -18,7 +18,6 @@ void ToggleSprint::onDisable()
 
 void ToggleSprint::onEnable()
 {
-	tsDisabledByServer = moduleDisabledOnServer(LocalPlayer::getServer(), "toggle_sprint");
 	if (tsDisabledByServer) return;
 	log << "Enabling Toggle Sprint\n";
 	memory::WriteBytes(currentModuleBase() + ADDRESS_STATIC_SPRINT_CODE, { 0x90, 0x90, 0x90, 0x90 }); // nop
@@ -27,7 +26,7 @@ void ToggleSprint::onEnable()
 
 void ToggleSprint::onTick()
 {
-	if (tick % 20 == 0)
+	if (tick % 10 == 0)
 	{
 		if (tsDisabledByServer) this->onDisable();
 	}

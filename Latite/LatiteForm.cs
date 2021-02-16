@@ -27,18 +27,13 @@ namespace Latite
         static extern void consoleMain();
         [DllImport("LatiteCore.dll")]
         static extern uint attach();
-        // extern "C" LATITE_API bool connectedToMinecraft(int type = 2);
         [DllImport("LatiteCore.dll")]
         public static extern bool connectedToMinecraft(int type = 2);
         [DllImport("LatiteCore.dll")]
         static extern void detach();
         [DllImport("LatiteCore.dll")]
         static extern void loop();
-        /*
-         * 
-extern "C" LATITE_API void mod_zoom_setBind(char bind);
-extern "C" LATITE_API void mod_zoom_setAmount(float amount);
-         */
+
         [DllImport("LatiteCore.dll")]
         static extern void mod_zoom_setBind(char bind);
         [DllImport("LatiteCore.dll")]
@@ -48,16 +43,10 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         [DllImport("LatiteCore.dll")]
         static extern void setTimeChangerSetting(int setting);
 
-        // Config
-        /*
-         * LATITE_API void settingsConfigSet(cstring k, cstring v);
-	        LATITE_API cstring settingsConfigGet(cstring k);
-         */
-
         [DllImport("LatiteCore.dll")]
         static extern void settingsConfigSet(string k, string v);
-        /*[DllImport("LatiteCore.dll")]
-        static extern void settingsConfigGet(string k, out StringBuilder lpLpWString);*/
+        [DllImport("LatiteCore.dll")]
+        public static extern int getCurrentGui();
 
         public LatiteForm()
         {
@@ -69,7 +58,7 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         readonly string[] Commands = { "help", "info", "print <text>", "clear", "connect", "disconnect" };
         readonly string Info = "Latite Client\r\n\r\nLicense: GPLv3\r\n\r\nSource: github.com/Imrglop/Latite\r\n\r\nMade by Imrglop";
         private bool IsConsole = false;
-        bool ToggleSprintBindOn = false;
+        public bool ToggleSprintBindOn = false;
         char ToggleSprintBind = (char)0xA2; // Left CTRL
 
         public void Cout(string OutputString)
@@ -172,15 +161,15 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
                 connectButton.Visible = true;
                 connectedToMinecraft(0); // false
                 connectedLabel.Visible = false;
-                detach();
                 if (this.OverlayForm.Handle != IntPtr.Zero && this.Handle != IntPtr.Zero)
                 {
                     try
                     {
                         if (!this.OverlayForm.IsDisposed) this.OverlayForm.BeginInvoke(new MethodInvoker(this.OverlayForm.Close));
                     }
-                    catch (Exception) { };
+                    catch (InvalidOperationException) { };
                 }
+                detach();
             }
         }
 
@@ -269,14 +258,19 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             mod_zoom_setAmount(FOVAmount);
             Coutln("try set amt to " + FOVAmount);
         }
+
+        public bool IsToggleSprint = false;
+
         void ToggleSprint(int _Val)
         {
             bool Val = _Val == 1;
             if (_Val < 2)
             {
-                //this.toggleSprintCheckbox.Checked = Val;
                 setEnabled(3, Val);
             }
+            
+            if (_Val == 1) IsToggleSprint = true;
+            else if (_Val == 0) IsToggleSprint = false;
             this.OverlayForm.ToggleSprint(_Val);
         }
 
@@ -291,16 +285,16 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             {
                 if (moduleWorker.CancellationPending) break;
                 loop();
-                if (toggleSprintCheckbox.Checked)
+                if (toggleSprintCheckbox.Checked && connectedToMinecraft())
                 {   
                     if ((Overlay.GetKeyState((int)ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
                     {
-                        if (FocusedOnMinecraft()) this.ToggleSprint(1);
+                        if (!OverlayForm.IsEditing && FocusedOnMinecraft() && (getCurrentGui() == 0)) this.ToggleSprint(1);
                         ToggleSprintBindOn = true;
                     }
                     else if ((Overlay.GetKeyState((int)ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
                     {
-                        if (FocusedOnMinecraft()) this.ToggleSprint(0);
+                        if (!OverlayForm.IsEditing && FocusedOnMinecraft() && (getCurrentGui() == 0)) this.ToggleSprint(0);
                         ToggleSprintBindOn = false;
                     }
                 }
@@ -368,7 +362,12 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
 
         private void toggleSprintCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            //this.ToggleSprint(toggleSprintCheckbox.Checked ? 1:0);
+            if (!(this.toggleSprintCheckbox.Checked))
+            {
+                // unchecked
+                this.OverlayForm.ToggleSprint(0);
+                this.ToggleSprint(0);
+            }
         }
 
         public char StringToBind(string s)
@@ -377,8 +376,8 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             if (SetStr.ToLower() == "lctrl") return (char)0xA2;
             else if (SetStr.ToLower() == "lshift") return (char)0xA0;
             else if (SetStr.ToLower() == "enter" || SetStr.ToLower() == "return") return '\r';
-            else if (SetStr.ToLower() == "shift") return (char)0x10;
-            else if (SetStr.ToLower() == "ctrl") return (char)0x11;
+            else if (SetStr.ToLower() == "rshift") return (char)0xA1;
+            else if (SetStr.ToLower() == "rctrl") return (char)0xA3;
             if (SetStr.Length > 0) return SetStr[0];
             return '\0';
         }
@@ -386,12 +385,6 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
         private void toggleSprintBind_TextChanged(object sender, EventArgs e)
         {
             ToggleSprintBind = StringToBind(toggleSprintBind.Text);
-        }
-
-        private void posDisplayCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (connectedToMinecraft())
-                this.OverlayForm.SetGuiDisplay(0, posDisplayCheck.Checked);
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -418,19 +411,32 @@ extern "C" LATITE_API void mod_zoom_setAmount(float amount);
             System.Diagnostics.Process.Start("https://github.com/Imrglop/Latite/releases/latest");
         }
 
-        bool ToggleEditing = true;
+        public bool ToggleEditing = false;
 
-        private void toggleEditing()
+        public void toggleEditing()
         {
+            ToggleEditing = !ToggleEditing;
             this.OverlayForm.SetDraggableItems(ToggleEditing);
             this.toggleEditingButton.FlatAppearance.BorderColor = (ToggleEditing ? Color.Aqua : Color.Gray);
-            ToggleEditing = !ToggleEditing;
         }
 
         private void toggleEditingButton_Click(object sender, EventArgs e)
         {
             if (connectedToMinecraft())
                 this.toggleEditing();
+        }
+
+        private void shortcutToggleEditing_TextChanged(object sender, EventArgs e)
+        {
+            if (connectedToMinecraft())
+            {
+                this.OverlayForm.EditingBind = StringToBind(shortcutToggleEditing.Text);
+            }
+        }
+
+        private void fullbrightCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            setEnabled(5, fullbrightCheckBox.Checked);
         }
     }
 }

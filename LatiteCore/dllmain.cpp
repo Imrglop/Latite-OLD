@@ -157,6 +157,11 @@ float LPGetZPos()
     return pos;
 }
 
+int* LPGetLookAtBlock()
+{
+    return LocalPlayer::getLookAtBlock();
+}
+
 void settingsConfigSet(cstring k, cstring v)
 {
     settings.set(k, v);
@@ -246,6 +251,13 @@ void loop()
         {
             Mod::tickModules();
             //log << LocalPlayer::getUIState() << " = state\n";
+
+            /*auto blockCoords = LocalPlayer::getLookAtBlock();
+            if (blockCoords != NULL) {
+                log << "[test] x block: " << blockCoords[0] << '\n';
+                log << "[test] y block: " << blockCoords[1] << '\n';
+                log << "[test] z block: " << blockCoords[2] << '\n';
+            }*/
         }
     }
 }
@@ -287,6 +299,11 @@ void setEnabled(unsigned int modId, bool enabled)
             getTimeChangerModule().onDisable();
         else
             getTimeChangerModule().onEnable(timeChangerSetting);
+    case 5:
+        if (enabled)
+            getFullbrightModule().onEnable();
+        else
+            getFullbrightModule().onDisable();
     }
 }
 

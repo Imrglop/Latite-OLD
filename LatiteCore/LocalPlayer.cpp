@@ -81,7 +81,7 @@ bool LocalPlayer::isInGame()
 {
 	// check if the Y position address is initialized
 	ADDRESS yAddy = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_Y_BASEADDY), ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-	if ((void*)yAddy == nullptr) return false;
+	if (yAddy == 0) return false;
 	return true;
 }
 
@@ -127,4 +127,29 @@ std::string LocalPlayer::getUIState()
 
 bool LocalPlayer::UIOpen() {
 	return getUIState() != "hud_screen";
+}
+
+int* LocalPlayer::getLookAtBlock()
+{
+	if (!isInGame()) return NULL;
+	ADDRESS addy = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_LOOKAT_BASEADDY), ADDRESS_LOOKAT_OFFSETS) + ADDRESS_LOOKAT_LAST_OFFSET;
+	if (addy == 0) return NULL;
+	int* ints = new int[3];
+	int written = ReadProcessMemory(getHProcess(), (void*)addy, &ints[0], sizeof(int) * 3, NULL);
+	if (written != 1) return NULL;
+	return ints;
+}
+
+float LocalPlayer::getBrightness()
+{
+	ADDRESS addy = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_BRIGHTNESS_BASEADDY), ADDRESS_BRIGHTNESS_OFFSETS) + ADDRESS_BRIGHTNESS_LAST_OFFSET;
+	float bright = 0.f;
+	ReadProcessMemory(getHProcess(), (void*)addy, &bright, sizeof(bright), NULL);
+	return bright;
+}
+
+void LocalPlayer::setBrightness(float bright)
+{
+	ADDRESS addy = memory::GetMLPtrAddy((void*)(currentModuleBase() + ADDRESS_BRIGHTNESS_BASEADDY), ADDRESS_BRIGHTNESS_OFFSETS) + ADDRESS_BRIGHTNESS_LAST_OFFSET;
+	WriteProcessMemory(getHProcess(), (void*)addy, &bright, sizeof(bright), NULL);
 }

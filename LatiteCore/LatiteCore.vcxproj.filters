@@ -66,6 +66,9 @@
     <ClInclude Include="AppStorage\utils.hh">
       <Filter>Source Files\AppStorage</Filter>
     </ClInclude>
+    <ClInclude Include="Fullbright.h">
+      <Filter>Source Files\Mods</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -106,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="AppStorage\main.cpp">
       <Filter>Source Files\AppStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="Fullbright.cpp">
+      <Filter>Source Files\Mods</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

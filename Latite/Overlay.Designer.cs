@@ -57,6 +57,25 @@ namespace Latite
             this.xPosLabel = new System.Windows.Forms.Label();
             this.motionTopLabel = new System.Windows.Forms.Label();
             this.toggleSprintLabel = new System.Windows.Forms.Label();
+            this.settingsCheckBox = new System.Windows.Forms.CheckBox();
+            this.settingsTabControl = new System.Windows.Forms.TabControl();
+            this.keystrokesTabPage = new System.Windows.Forms.TabPage();
+            this.keystrokesCheckBox = new System.Windows.Forms.CheckBox();
+            this.keystrokesSettingsPanel = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.keystrokesBlueTrackbar = new System.Windows.Forms.TrackBar();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.keystrokesGreenTrackbar = new System.Windows.Forms.TrackBar();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.keystrokesRedTrackbar = new System.Windows.Forms.TrackBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.posDisplayCheckbox = new System.Windows.Forms.CheckBox();
+            this.blockCoordsTabPage = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.blockCoordsCheckbox = new System.Windows.Forms.CheckBox();
+            this.blockDisplayText = new System.Windows.Forms.Label();
+            this.chatBlockCheckbox = new System.Windows.Forms.CheckBox();
             this.keystrokesPanel.SuspendLayout();
             this.spaceBarPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spaceBarBox)).BeginInit();
@@ -67,6 +86,14 @@ namespace Latite
             this.keyStrokes_S.SuspendLayout();
             this.keyStrokes_W.SuspendLayout();
             this.posPanel.SuspendLayout();
+            this.settingsTabControl.SuspendLayout();
+            this.keystrokesTabPage.SuspendLayout();
+            this.keystrokesSettingsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.keystrokesBlueTrackbar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keystrokesGreenTrackbar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keystrokesRedTrackbar)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            this.blockCoordsTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // keystrokesPanel
@@ -110,15 +137,15 @@ namespace Latite
             this.Keystrokes_RMB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
             this.Keystrokes_RMB.Controls.Add(this.RMBCounter);
             this.Keystrokes_RMB.Controls.Add(this.RMBLabel);
-            this.Keystrokes_RMB.Location = new System.Drawing.Point(129, 217);
+            this.Keystrokes_RMB.Location = new System.Drawing.Point(126, 219);
             this.Keystrokes_RMB.Name = "Keystrokes_RMB";
-            this.Keystrokes_RMB.Size = new System.Drawing.Size(91, 55);
+            this.Keystrokes_RMB.Size = new System.Drawing.Size(95, 55);
             this.Keystrokes_RMB.TabIndex = 2;
             // 
             // RMBCounter
             // 
             this.RMBCounter.AutoSize = true;
-            this.RMBCounter.Location = new System.Drawing.Point(18, 30);
+            this.RMBCounter.Location = new System.Drawing.Point(22, 30);
             this.RMBCounter.Name = "RMBCounter";
             this.RMBCounter.Size = new System.Drawing.Size(53, 23);
             this.RMBCounter.TabIndex = 2;
@@ -129,7 +156,7 @@ namespace Latite
             // 
             this.RMBLabel.AutoSize = true;
             this.RMBLabel.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RMBLabel.Location = new System.Drawing.Point(15, 2);
+            this.RMBLabel.Location = new System.Drawing.Point(19, 2);
             this.RMBLabel.Name = "RMBLabel";
             this.RMBLabel.Size = new System.Drawing.Size(60, 29);
             this.RMBLabel.TabIndex = 2;
@@ -141,15 +168,15 @@ namespace Latite
             this.Keystrokes_LMB.Controls.Add(this.LMBCounter);
             this.Keystrokes_LMB.Controls.Add(this.LMBLabel);
             this.Keystrokes_LMB.Controls.Add(this.LMB);
-            this.Keystrokes_LMB.Location = new System.Drawing.Point(27, 217);
+            this.Keystrokes_LMB.Location = new System.Drawing.Point(28, 219);
             this.Keystrokes_LMB.Name = "Keystrokes_LMB";
-            this.Keystrokes_LMB.Size = new System.Drawing.Size(86, 55);
+            this.Keystrokes_LMB.Size = new System.Drawing.Size(91, 55);
             this.Keystrokes_LMB.TabIndex = 1;
             // 
             // LMBCounter
             // 
             this.LMBCounter.AutoSize = true;
-            this.LMBCounter.Location = new System.Drawing.Point(16, 30);
+            this.LMBCounter.Location = new System.Drawing.Point(20, 30);
             this.LMBCounter.Name = "LMBCounter";
             this.LMBCounter.Size = new System.Drawing.Size(53, 23);
             this.LMBCounter.TabIndex = 2;
@@ -159,7 +186,7 @@ namespace Latite
             // LMBLabel
             // 
             this.LMBLabel.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LMBLabel.Location = new System.Drawing.Point(15, 2);
+            this.LMBLabel.Location = new System.Drawing.Point(19, 2);
             this.LMBLabel.Name = "LMBLabel";
             this.LMBLabel.Size = new System.Drawing.Size(68, 28);
             this.LMBLabel.TabIndex = 1;
@@ -282,7 +309,7 @@ namespace Latite
             this.posPanel.Controls.Add(this.motionTopLabel);
             this.posPanel.Controls.Add(this.motionLabel);
             this.posPanel.Controls.Add(this.motionYLabel);
-            this.posPanel.Location = new System.Drawing.Point(12, 340);
+            this.posPanel.Location = new System.Drawing.Point(14, 367);
             this.posPanel.Name = "posPanel";
             this.posPanel.Size = new System.Drawing.Size(155, 155);
             this.posPanel.TabIndex = 4;
@@ -345,6 +372,227 @@ namespace Latite
             this.toggleSprintLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.toggleSprintLabel_MouseDown);
             this.toggleSprintLabel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.toggleSprintLabel_MouseMove);
             // 
+            // settingsCheckBox
+            // 
+            this.settingsCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.settingsCheckBox.AutoSize = true;
+            this.settingsCheckBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.settingsCheckBox.Location = new System.Drawing.Point(414, 14);
+            this.settingsCheckBox.Name = "settingsCheckBox";
+            this.settingsCheckBox.Size = new System.Drawing.Size(171, 27);
+            this.settingsCheckBox.TabIndex = 6;
+            this.settingsCheckBox.Text = "Settings and Mods";
+            this.settingsCheckBox.UseVisualStyleBackColor = false;
+            this.settingsCheckBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // settingsTabControl
+            // 
+            this.settingsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.settingsTabControl.Controls.Add(this.keystrokesTabPage);
+            this.settingsTabControl.Controls.Add(this.tabPage2);
+            this.settingsTabControl.Controls.Add(this.blockCoordsTabPage);
+            this.settingsTabControl.Location = new System.Drawing.Point(273, 58);
+            this.settingsTabControl.Name = "settingsTabControl";
+            this.settingsTabControl.SelectedIndex = 0;
+            this.settingsTabControl.Size = new System.Drawing.Size(529, 626);
+            this.settingsTabControl.TabIndex = 2;
+            // 
+            // keystrokesTabPage
+            // 
+            this.keystrokesTabPage.AutoScroll = true;
+            this.keystrokesTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.keystrokesTabPage.Controls.Add(this.keystrokesCheckBox);
+            this.keystrokesTabPage.Controls.Add(this.keystrokesSettingsPanel);
+            this.keystrokesTabPage.ForeColor = System.Drawing.Color.White;
+            this.keystrokesTabPage.Location = new System.Drawing.Point(4, 32);
+            this.keystrokesTabPage.Name = "keystrokesTabPage";
+            this.keystrokesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.keystrokesTabPage.Size = new System.Drawing.Size(521, 590);
+            this.keystrokesTabPage.TabIndex = 0;
+            this.keystrokesTabPage.Text = "Keystrokes";
+            // 
+            // keystrokesCheckBox
+            // 
+            this.keystrokesCheckBox.AutoSize = true;
+            this.keystrokesCheckBox.Checked = true;
+            this.keystrokesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.keystrokesCheckBox.Location = new System.Drawing.Point(6, 7);
+            this.keystrokesCheckBox.Name = "keystrokesCheckBox";
+            this.keystrokesCheckBox.Size = new System.Drawing.Size(90, 27);
+            this.keystrokesCheckBox.TabIndex = 2;
+            this.keystrokesCheckBox.Text = "Enabled";
+            this.keystrokesCheckBox.UseVisualStyleBackColor = true;
+            this.keystrokesCheckBox.CheckedChanged += new System.EventHandler(this.keystrokesCheckBox_CheckedChanged);
+            // 
+            // keystrokesSettingsPanel
+            // 
+            this.keystrokesSettingsPanel.Controls.Add(this.panel3);
+            this.keystrokesSettingsPanel.Controls.Add(this.keystrokesBlueTrackbar);
+            this.keystrokesSettingsPanel.Controls.Add(this.panel2);
+            this.keystrokesSettingsPanel.Controls.Add(this.keystrokesGreenTrackbar);
+            this.keystrokesSettingsPanel.Controls.Add(this.panel1);
+            this.keystrokesSettingsPanel.Controls.Add(this.keystrokesRedTrackbar);
+            this.keystrokesSettingsPanel.Controls.Add(this.label2);
+            this.keystrokesSettingsPanel.Location = new System.Drawing.Point(6, 34);
+            this.keystrokesSettingsPanel.Name = "keystrokesSettingsPanel";
+            this.keystrokesSettingsPanel.Size = new System.Drawing.Size(465, 232);
+            this.keystrokesSettingsPanel.TabIndex = 1;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.panel3.Location = new System.Drawing.Point(23, 150);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(25, 25);
+            this.panel3.TabIndex = 7;
+            // 
+            // keystrokesBlueTrackbar
+            // 
+            this.keystrokesBlueTrackbar.Location = new System.Drawing.Point(13, 179);
+            this.keystrokesBlueTrackbar.Maximum = 64;
+            this.keystrokesBlueTrackbar.Name = "keystrokesBlueTrackbar";
+            this.keystrokesBlueTrackbar.Size = new System.Drawing.Size(214, 45);
+            this.keystrokesBlueTrackbar.TabIndex = 6;
+            this.keystrokesBlueTrackbar.Value = 64;
+            this.keystrokesBlueTrackbar.Scroll += new System.EventHandler(this.keystrokesBlueTrackbar_Scroll);
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.panel2.Location = new System.Drawing.Point(23, 88);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(25, 25);
+            this.panel2.TabIndex = 5;
+            // 
+            // keystrokesGreenTrackbar
+            // 
+            this.keystrokesGreenTrackbar.Location = new System.Drawing.Point(13, 117);
+            this.keystrokesGreenTrackbar.Maximum = 64;
+            this.keystrokesGreenTrackbar.Name = "keystrokesGreenTrackbar";
+            this.keystrokesGreenTrackbar.Size = new System.Drawing.Size(214, 45);
+            this.keystrokesGreenTrackbar.TabIndex = 4;
+            this.keystrokesGreenTrackbar.Value = 64;
+            this.keystrokesGreenTrackbar.Scroll += new System.EventHandler(this.keystrokesGreenTrackbar_Scroll);
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.panel1.Location = new System.Drawing.Point(23, 29);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(25, 25);
+            this.panel1.TabIndex = 3;
+            // 
+            // keystrokesRedTrackbar
+            // 
+            this.keystrokesRedTrackbar.Location = new System.Drawing.Point(13, 58);
+            this.keystrokesRedTrackbar.Maximum = 64;
+            this.keystrokesRedTrackbar.Name = "keystrokesRedTrackbar";
+            this.keystrokesRedTrackbar.Size = new System.Drawing.Size(214, 45);
+            this.keystrokesRedTrackbar.TabIndex = 2;
+            this.keystrokesRedTrackbar.Value = 64;
+            this.keystrokesRedTrackbar.Scroll += new System.EventHandler(this.keystrokesRedTrackbar_Scroll);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(19, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(85, 23);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Text Color";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.AutoScroll = true;
+            this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.tabPage2.Controls.Add(this.posDisplayCheckbox);
+            this.tabPage2.Location = new System.Drawing.Point(4, 32);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(521, 590);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Position";
+            // 
+            // posDisplayCheckbox
+            // 
+            this.posDisplayCheckbox.AutoSize = true;
+            this.posDisplayCheckbox.Checked = true;
+            this.posDisplayCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.posDisplayCheckbox.Location = new System.Drawing.Point(7, 10);
+            this.posDisplayCheckbox.Name = "posDisplayCheckbox";
+            this.posDisplayCheckbox.Size = new System.Drawing.Size(90, 27);
+            this.posDisplayCheckbox.TabIndex = 0;
+            this.posDisplayCheckbox.Text = "Enabled";
+            this.posDisplayCheckbox.UseVisualStyleBackColor = true;
+            this.posDisplayCheckbox.CheckedChanged += new System.EventHandler(this.posDisplayCheckbox_CheckedChanged);
+            // 
+            // blockCoordsTabPage
+            // 
+            this.blockCoordsTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.blockCoordsTabPage.Controls.Add(this.chatBlockCheckbox);
+            this.blockCoordsTabPage.Controls.Add(this.label1);
+            this.blockCoordsTabPage.Controls.Add(this.blockCoordsCheckbox);
+            this.blockCoordsTabPage.Location = new System.Drawing.Point(4, 32);
+            this.blockCoordsTabPage.Name = "blockCoordsTabPage";
+            this.blockCoordsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.blockCoordsTabPage.Size = new System.Drawing.Size(521, 590);
+            this.blockCoordsTabPage.TabIndex = 2;
+            this.blockCoordsTabPage.Text = "Block Coords";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label1.Location = new System.Drawing.Point(4, 44);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(420, 23);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Shows the coordinates of the block you\'re looking at. ";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // blockCoordsCheckbox
+            // 
+            this.blockCoordsCheckbox.AutoSize = true;
+            this.blockCoordsCheckbox.Location = new System.Drawing.Point(7, 10);
+            this.blockCoordsCheckbox.Name = "blockCoordsCheckbox";
+            this.blockCoordsCheckbox.Size = new System.Drawing.Size(90, 27);
+            this.blockCoordsCheckbox.TabIndex = 0;
+            this.blockCoordsCheckbox.Text = "Enabled";
+            this.blockCoordsCheckbox.UseVisualStyleBackColor = true;
+            this.blockCoordsCheckbox.CheckedChanged += new System.EventHandler(this.blockCoordsCheckbox_CheckedChanged);
+            // 
+            // blockDisplayText
+            // 
+            this.blockDisplayText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.blockDisplayText.AutoSize = true;
+            this.blockDisplayText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(60)))), ((int)(((byte)(70)))));
+            this.blockDisplayText.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.blockDisplayText.Location = new System.Drawing.Point(17, 590);
+            this.blockDisplayText.Name = "blockDisplayText";
+            this.blockDisplayText.Size = new System.Drawing.Size(35, 29);
+            this.blockDisplayText.TabIndex = 0;
+            this.blockDisplayText.Text = "??";
+            this.blockDisplayText.MouseDown += new System.Windows.Forms.MouseEventHandler(this.blockDisplayText_MouseDown);
+            this.blockDisplayText.MouseMove += new System.Windows.Forms.MouseEventHandler(this.blockDisplayText_MouseMove);
+            // 
+            // chatBlockCheckbox
+            // 
+            this.chatBlockCheckbox.AutoSize = true;
+            this.chatBlockCheckbox.Checked = true;
+            this.chatBlockCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chatBlockCheckbox.Location = new System.Drawing.Point(7, 71);
+            this.chatBlockCheckbox.Name = "chatBlockCheckbox";
+            this.chatBlockCheckbox.Size = new System.Drawing.Size(185, 27);
+            this.chatBlockCheckbox.TabIndex = 2;
+            this.chatBlockCheckbox.Text = "Display while in chat";
+            this.chatBlockCheckbox.UseVisualStyleBackColor = true;
+            // 
             // Overlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
@@ -352,7 +600,10 @@ namespace Latite
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImage = global::Latite.Properties.Resources.transparentimg;
-            this.ClientSize = new System.Drawing.Size(969, 730);
+            this.ClientSize = new System.Drawing.Size(1001, 730);
+            this.Controls.Add(this.blockDisplayText);
+            this.Controls.Add(this.settingsTabControl);
+            this.Controls.Add(this.settingsCheckBox);
             this.Controls.Add(this.toggleSprintLabel);
             this.Controls.Add(this.posPanel);
             this.Controls.Add(this.keystrokesPanel);
@@ -382,6 +633,18 @@ namespace Latite
             this.keyStrokes_W.PerformLayout();
             this.posPanel.ResumeLayout(false);
             this.posPanel.PerformLayout();
+            this.settingsTabControl.ResumeLayout(false);
+            this.keystrokesTabPage.ResumeLayout(false);
+            this.keystrokesTabPage.PerformLayout();
+            this.keystrokesSettingsPanel.ResumeLayout(false);
+            this.keystrokesSettingsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.keystrokesBlueTrackbar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keystrokesGreenTrackbar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keystrokesRedTrackbar)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.blockCoordsTabPage.ResumeLayout(false);
+            this.blockCoordsTabPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -417,5 +680,24 @@ namespace Latite
         private System.Windows.Forms.Label RMBCounter;
         private System.Windows.Forms.Panel spaceBarPanel;
         private System.Windows.Forms.PictureBox spaceBarBox;
+        private System.Windows.Forms.CheckBox settingsCheckBox;
+        private System.Windows.Forms.TabControl settingsTabControl;
+        private System.Windows.Forms.TabPage keystrokesTabPage;
+        private System.Windows.Forms.CheckBox keystrokesCheckBox;
+        private System.Windows.Forms.Panel keystrokesSettingsPanel;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TrackBar keystrokesBlueTrackbar;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TrackBar keystrokesGreenTrackbar;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TrackBar keystrokesRedTrackbar;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox posDisplayCheckbox;
+        private System.Windows.Forms.TabPage blockCoordsTabPage;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox blockCoordsCheckbox;
+        private System.Windows.Forms.Label blockDisplayText;
+        private System.Windows.Forms.CheckBox chatBlockCheckbox;
     }
 }

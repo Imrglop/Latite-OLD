@@ -72,7 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Mod.cs" />
     <Compile Include="DragUtils.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LatiteForm.cs">
@@ -131,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Latite.ico" />
+    <None Include="Resources\test.bmp" />
     <None Include="transparentimg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

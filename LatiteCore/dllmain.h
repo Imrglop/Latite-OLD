@@ -64,6 +64,8 @@ extern "C" {
 	LATITE_API float LPGetYPos();
 	LATITE_API float LPGetZPos();
 
+	LATITE_API int* LPGetLookAtBlock();
+
 	// Config
 	LATITE_API void settingsConfigSet(cstring k, cstring v);
 	LATITE_API void settingsConfigGet(cstring k, LPWSTR* os);
@@ -103,20 +105,34 @@ extern "C" {
 #define ADDRESS_STATIC_SPRINT_CODE 0x1618D8F
 
 // pointer to time of day client side
+// [1.16.201]
 #define ADDRESS_TIME_BASEADDY 0x036A1FB0
 #define ADDRESS_TIME_OFFSETS { 0x0, 0x8F0, 0x28, 0x10, 0x7F8, 0x0 }
 #define ADDRESS_TIME_LAST_OFFSET 0x5D0
 
 // pointer to server IP
+// [1.16.201]
 #define ADDRESS_SERVER_BASEADDY 0x36A1FB0
 #define ADDRESS_SERVER_OFFSETS { 0x0, 0x518, 0x10, 0x0, 0x1E8, 0x380 }
 #define ADDRESS_SERVER_LAST_OFFSET 0x0
 
 // pointer to the (address near) GUI opened
+// [1.16.201]
 #define ADDRESS_GUI_BASEADDY 0x03653A48
 //#define ADDRESS_GUI_OFFSETS
 #define ADDRESS_GUI_OFFSET 0xAEBC
 #define ADDRESS_GUI_STRING_OFFSET 1048
+
+// pointer to lookat block
+// [1.16.201]
+#define ADDRESS_LOOKAT_BASEADDY 0x03699028
+#define ADDRESS_LOOKAT_OFFSETS { 0x10, 0x1F0, 0x0, 0x138, 0x358 }
+#define ADDRESS_LOOKAT_LAST_OFFSET 0x9A0
+
+// pointer to brightness
+#define ADDRESS_BRIGHTNESS_BASEADDY 0x0369BD40
+#define ADDRESS_BRIGHTNESS_OFFSETS { 0x20, 0xFF0, 0x1D8, 0x8, 0x138 }
+#define ADDRESS_BRIGHTNESS_LAST_OFFSET 0x1E8
 
 // functions
 

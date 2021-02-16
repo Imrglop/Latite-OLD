@@ -10,6 +10,7 @@
 #include "../LookBehind.h"
 #include "../ToggleSprint.h"
 #include "../TimeChanger.h"
+#include "../Fullbright.h"
 
 class Mod {
 //	void onEnable();
@@ -24,5 +25,6 @@ Zoom getZoomModule();
 LookBehind getLookBehindModule();
 ToggleSprint getToggleSprintModule();
 TimeChanger getTimeChangerModule();
+Fullbright getFullbrightModule();
 
 #endif

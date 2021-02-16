@@ -84,5 +84,5 @@ void Zoom::onTick()
 		keyPressed = false;
 		if (zoomEnabled) unzoom();
 	}
-	if (LocalPlayer::UIOpen()) unzoom();
+	if (zooming && LocalPlayer::UIOpen()) unzoom();
 }
