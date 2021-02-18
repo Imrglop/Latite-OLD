@@ -25,11 +25,13 @@ void Fullbright::onEnable()
 
 void Fullbright::onTick()
 {
-	if (this->tick % 20 == 0 && !mds) {
-		LocalPlayer::setBrightness(1000);
+	if (this->enabled) {
+		if (this->tick % 20 == 0 && !mds) {
+			LocalPlayer::setBrightness(1000);
+		}
+		else if (this->tick % 20 == 0 && mds) {
+			this->onDisable();
+		}
+		this->tick++;
 	}
-	else if (this->tick % 20 == 0 && mds) {
-		this->onDisable();
-	}
-	this->tick++;
 }

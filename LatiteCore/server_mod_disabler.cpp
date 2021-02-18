@@ -6,10 +6,6 @@ Config serverConfig("servers.txt", "# If you are seeing this, that means you did
 
 bool moduleDisabledOnServer(string server, string mod)
 {
-	//auto servers = serverConfig.getKeys();
-	//for (std::string server : servers)
-	//{
-
 	if (!serverConfig.loaded) { 
 		std::cout << "loading servers.txt\n";
 		serverConfig.load();
@@ -20,13 +16,11 @@ bool moduleDisabledOnServer(string server, string mod)
 	auto list = utils::splitString(serverConfig.getString(server), ',');
 	for (unsigned int i = 0; i < list.size(); i++)
 	{
-		//std::cout << "Comparing " << list[i] << " to " << mod << "...\n";
 		if (list[i] == mod)
 		{
 			std::cout << "Match!\n";
 			return true;
 		}
 	}
-	//}
 	return false;
 }

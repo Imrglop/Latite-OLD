@@ -250,14 +250,6 @@ void loop()
         if (GetForegroundWindow() == FindWindowA(NULL, "Minecraft"))
         {
             Mod::tickModules();
-            //log << LocalPlayer::getUIState() << " = state\n";
-
-            /*auto blockCoords = LocalPlayer::getLookAtBlock();
-            if (blockCoords != NULL) {
-                log << "[test] x block: " << blockCoords[0] << '\n';
-                log << "[test] y block: " << blockCoords[1] << '\n';
-                log << "[test] z block: " << blockCoords[2] << '\n';
-            }*/
         }
     }
 }

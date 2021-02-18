@@ -6,14 +6,9 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 
@@ -21,33 +16,6 @@ namespace Latite
 {
     public partial class LatiteForm : Form
     {
-        [DllImport("LatiteCore.dll")]
-        static extern void setEnabled(uint modId, bool enabled);
-        [DllImport("LatiteCore.dll")]
-        static extern void consoleMain();
-        [DllImport("LatiteCore.dll")]
-        static extern uint attach();
-        [DllImport("LatiteCore.dll")]
-        public static extern bool connectedToMinecraft(int type = 2);
-        [DllImport("LatiteCore.dll")]
-        static extern void detach();
-        [DllImport("LatiteCore.dll")]
-        static extern void loop();
-
-        [DllImport("LatiteCore.dll")]
-        static extern void mod_zoom_setBind(char bind);
-        [DllImport("LatiteCore.dll")]
-        static extern void mod_zoom_setAmount(float amount);
-        [DllImport("LatiteCore.dll")]
-        static extern void mod_lookBehind_setBind(char bind);
-        [DllImport("LatiteCore.dll")]
-        static extern void setTimeChangerSetting(int setting);
-
-        [DllImport("LatiteCore.dll")]
-        static extern void settingsConfigSet(string k, string v);
-        [DllImport("LatiteCore.dll")]
-        public static extern int getCurrentGui();
-
         public LatiteForm()
         {
             InitializeComponent();
@@ -74,17 +42,17 @@ namespace Latite
         {
             try
             {
-                if (!connectedToMinecraft())
+                if (!LatiteCore.connectedToMinecraft())
                 {
                     if (!IsConsole && settingsUseConsole.Checked)
                     {
-                        consoleMain();
+                        LatiteCore.consoleMain();
                         IsConsole = true;
                     }
                     uint Status = 0;
                     try
                     {
-                        Status = attach();
+                        Status = LatiteCore.attach();
                     } catch (Exception e)
                     {
                         var Result = MessageBox.Show("Couldn't attach to Minecraft!\n\n" + e.ToString(), "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
@@ -99,7 +67,7 @@ namespace Latite
                     if (Status == 0)
                     {
                         connectButton.Visible = false;
-                        connectedToMinecraft(1); // true
+                        LatiteCore.connectedToMinecraft(1); // true
                         connectedLabel.Visible = true;
                         moduleWorker.RunWorkerAsync();
                         disconnectButton.Visible = true;
@@ -151,7 +119,7 @@ namespace Latite
 
         public void DisconnectFromMc()
         {
-            if (connectedToMinecraft())
+            if (LatiteCore.connectedToMinecraft())
             {
                 if (moduleWorker.IsBusy)
                 {
@@ -159,7 +127,7 @@ namespace Latite
                 }
                 disconnectButton.Visible = false;
                 connectButton.Visible = true;
-                connectedToMinecraft(0); // false
+                LatiteCore.connectedToMinecraft(0); // false
                 connectedLabel.Visible = false;
                 if (this.OverlayForm.Handle != IntPtr.Zero && this.Handle != IntPtr.Zero)
                 {
@@ -169,7 +137,7 @@ namespace Latite
                     }
                     catch (InvalidOperationException) { };
                 }
-                detach();
+                LatiteCore.detach();
             }
         }
 
@@ -255,7 +223,7 @@ namespace Latite
         {
             var FOVAmount = (zaSlider.Value + 2) * 5;
             zaSliderLabel.Text = $"Amount ({FOVAmount})";
-            mod_zoom_setAmount(FOVAmount);
+            LatiteCore.mod_zoom_setAmount(FOVAmount);
             Coutln("try set amt to " + FOVAmount);
         }
 
@@ -266,7 +234,7 @@ namespace Latite
             bool Val = _Val == 1;
             if (_Val < 2)
             {
-                setEnabled(3, Val);
+                LatiteCore.setEnabled(3, Val);
             }
             
             if (_Val == 1) IsToggleSprint = true;
@@ -276,7 +244,7 @@ namespace Latite
 
         public bool FocusedOnMinecraft()
         {
-            return Overlay.GetForegroundWindow() == Overlay.FindWindowA(null, "Minecraft");
+            return User32.GetForegroundWindow() == User32.FindWindowA(null, "Minecraft");
         }
 
         private void moduleWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -284,17 +252,17 @@ namespace Latite
             while (true)
             {
                 if (moduleWorker.CancellationPending) break;
-                loop();
-                if (toggleSprintCheckbox.Checked && connectedToMinecraft())
+                LatiteCore.loop();
+                if (toggleSprintCheckbox.Checked && LatiteCore.connectedToMinecraft())
                 {   
-                    if ((Overlay.GetKeyState((int)ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
+                    if ((User32.GetKeyState((int)ToggleSprintBind) & 1) != 0 && !this.ToggleSprintBindOn)
                     {
-                        if (!OverlayForm.IsEditing && FocusedOnMinecraft() && (getCurrentGui() == 0)) this.ToggleSprint(1);
+                        if (!OverlayForm.IsEditing && FocusedOnMinecraft() && (LatiteCore.getCurrentGui() == 0)) this.ToggleSprint(1);
                         ToggleSprintBindOn = true;
                     }
-                    else if ((Overlay.GetKeyState((int)ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
+                    else if ((User32.GetKeyState((int)ToggleSprintBind) & 1) == 0 && this.ToggleSprintBindOn)
                     {
-                        if (!OverlayForm.IsEditing && FocusedOnMinecraft() && (getCurrentGui() == 0)) this.ToggleSprint(0);
+                        if (!OverlayForm.IsEditing && FocusedOnMinecraft() && (LatiteCore.getCurrentGui() == 0)) this.ToggleSprint(0);
                         ToggleSprintBindOn = false;
                     }
                 }
@@ -315,8 +283,7 @@ namespace Latite
         private void zoomBindBox_TextChanged(object sender, EventArgs e)
         {
             string SetStr = zoomBindBox.Text.ToUpper();
-            if (SetStr.Length > 0)
-                mod_zoom_setBind(SetStr[0]);
+            if (SetStr.Length > 0) LatiteCore.mod_zoom_setBind(SetStr[0]);
         }
 
         private void LatiteForm_Load(object sender, EventArgs e)
@@ -326,7 +293,7 @@ namespace Latite
 
         private void transparentOverlayToggle_CheckedChanged(object sender, EventArgs e)
         {
-            if (connectedToMinecraft())
+            if (LatiteCore.connectedToMinecraft())
                 this.OverlayForm.TransparentPanels(transparentOverlayToggle.Checked); ;
         }
 
@@ -337,24 +304,24 @@ namespace Latite
 
         private void zoomCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            setEnabled(1, zoomCheckbox.Checked);
+            LatiteCore.setEnabled(1, zoomCheckbox.Checked);
         }
 
         private void lookBehindEnabled_CheckedChanged(object sender, EventArgs e)
         {
-            setEnabled(2, lookBehindEnabled.Checked);
+            LatiteCore.setEnabled(2, lookBehindEnabled.Checked);
         }
 
         private void lookBehindBind_TextChanged(object sender, EventArgs e)
         {
             string SetStr = zoomBindBox.Text.ToUpper();
             if (SetStr.Length > 0)
-                mod_lookBehind_setBind(SetStr[0]);
+                LatiteCore.mod_lookBehind_setBind(SetStr[0]);
         }
 
         private void opacitySlider_Scroll(object sender, EventArgs e)
         {
-            if (!connectedToMinecraft()) return;
+            if (!LatiteCore.connectedToMinecraft()) return;
             double val = opacitySlider.Value * 4;
             opacityDisplayLabel.Text = (opacitySlider.Value * 4) + "";
             this.OverlayForm.SetOpacity(val / 100);
@@ -390,9 +357,9 @@ namespace Latite
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             int Val = timeChangerTrackBar.Value * 2500;
-            setTimeChangerSetting(Val);
-            if (connectedToMinecraft())
-                setEnabled(4, checkBox1.Checked);
+            LatiteCore.setTimeChangerSetting(Val);
+            if (LatiteCore.connectedToMinecraft())
+                LatiteCore.setEnabled(4, checkBox1.Checked);
         }
 
         private void timeChangerTrackBar_Scroll(object sender, EventArgs e)
@@ -422,13 +389,13 @@ namespace Latite
 
         private void toggleEditingButton_Click(object sender, EventArgs e)
         {
-            if (connectedToMinecraft())
+            if (LatiteCore.connectedToMinecraft())
                 this.toggleEditing();
         }
 
         private void shortcutToggleEditing_TextChanged(object sender, EventArgs e)
         {
-            if (connectedToMinecraft())
+            if (LatiteCore.connectedToMinecraft())
             {
                 this.OverlayForm.EditingBind = StringToBind(shortcutToggleEditing.Text);
             }
@@ -436,7 +403,7 @@ namespace Latite
 
         private void fullbrightCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            setEnabled(5, fullbrightCheckBox.Checked);
+            LatiteCore.setEnabled(5, fullbrightCheckBox.Checked);
         }
     }
 }

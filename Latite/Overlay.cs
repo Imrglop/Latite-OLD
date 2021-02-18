@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Latite
@@ -15,58 +10,14 @@ namespace Latite
     // overlay for minecraft needed for Latite
     public partial class Overlay : Form
     {
-        bool W_Pressed, A_Pressed, S_Pressed, D_Pressed, LMB_Pressed, RMB_Pressed, Space_Pressed;
+        bool[] KeysPressed = new bool[7];
         int lcps, rcps = 0;
         private int OldStyle = 0;
 
         LatiteForm latiteForm;
         DragUtils dragUtils;
 
-        [DllImport("LatiteCore.dll")]
-        static extern float LPGetYMotion();
-        [DllImport("LatiteCore.dll")]
-        static extern float LPGetXPos();
-        [DllImport("LatiteCore.dll")]
-        static extern float LPGetYPos();
-        [DllImport("LatiteCore.dll")]
-        static extern float LPGetZPos();
-
-        [DllImport("LatiteCore.dll")]
-        static extern float LPGetMotion();
-
-        [DllImport("user32.dll")]
-        public static extern short GetKeyState(int nVirtKey);
-        // winuser.h
-        [DllImport("user32.dll")]
-        // LPCSTR lpClassName, LPCSTR lpWindowName
-        public static extern IntPtr FindWindowA(string IpClassName, string IpWindowName);
-        [DllImport("user32.dll")]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        // needed for size of minecraft window, pos, etc.
-        public static extern bool GetWindowRect(IntPtr hwnd, out RECT IpRect);
-        [DllImport("user32.dll")]
-        public static extern IntPtr GetForegroundWindow(); // get the window on the foreground
-
-        [DllImport("user32.dll")]
-        public static extern short GetAsyncKeyState(int vKey);
-
-        [DllImport("user32.dll")]
-        public static extern int SetForegroundWindow(IntPtr hWnd);
-
-        public static IntPtr hWnd = FindWindowA(null, "Minecraft"); // find minecraft 
-        public static RECT rect;
-        [DllImport("LatiteCore.dll")]
-        public static extern IntPtr LPGetLookAtBlock();
-
-
-        public struct RECT
-        {
-            public int left, top, right, bottom;
-        }
+        public static IntPtr hWnd = User32.FindWindowA(null, "Minecraft"); // find minecraft 
 
         public void TransparentPanels(bool b)
         {
@@ -101,7 +52,7 @@ namespace Latite
         readonly string ToggleSprintTextOn = "[Sprinting (Toggled)]";
         public void ToggleSprint(int val)
         {
-            if (LatiteForm.getCurrentGui() != 0) return;
+            if (LatiteCore.getCurrentGui() != 0) return;
             if (val == 1)
             {
                 toggleSprintLabel.Text = ToggleSprintTextOn;
@@ -201,7 +152,7 @@ namespace Latite
         {
             if (Draggable)
             {
-                SetWindowLong(this.Handle, -20, OldStyle);
+                User32.SetWindowLong(this.Handle, -20, OldStyle);
                 OldSprintText = toggleSprintLabel.Text;
                 settingsCheckBox.Visible = true;
                 settingsCheckBox.Checked = false;
@@ -210,7 +161,7 @@ namespace Latite
             {
                 settingsTabControl.Visible = false;
                 settingsCheckBox.Visible = false;
-                SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
+                User32.SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
                 toggleSprintLabel.Text = OldSprintText;
             }
             IsEditing = !IsEditing;
@@ -295,8 +246,8 @@ namespace Latite
             TopMost = true; // appear ontop of other apps, needed for mc
 
             // able to click on mc
-            this.OldStyle = GetWindowLong(this.Handle, -20);
-            SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
+            this.OldStyle = User32.GetWindowLong(this.Handle, -20);
+            User32.SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
             // run constant running loop asynch so it matches mc window without freezing
             backgroundWorker1.RunWorkerAsync();
             secondRunner.RunWorkerAsync();
@@ -307,55 +258,26 @@ namespace Latite
             blockDisplayText.Visible = false;
         }
 
-        private void UpdateKeystrokes()
+        private void ProcKeystroke(Panel panel, int Key)
         {
-            
             int[] NotPressedColor = { 50, 60, 70 };
             int[] PressedColor = { NotPressedColor[0] + 10, NotPressedColor[1] + 10, NotPressedColor[2] + 10 };
-            if (W_Pressed)
-            {
-                var Col = keyStrokes_W.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            } else
-            {
-                var Col = keyStrokes_W.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
-            }
 
-            if (A_Pressed)
-            {
-                var Col = keyStrokes_A.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            }
-            else
-            {
-                var Col = keyStrokes_A.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
-            }
+            if (KeysPressed[Key]) panel.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
+            else panel.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
+        }
 
-            if (S_Pressed)
-            {
-                var Col = keyStrokes_S.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            }
-            else
-            {
-                var Col = keyStrokes_S.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
-            }
+        private void UpdateKeystrokes()
+        {
+            ProcKeystroke(keyStrokes_W, 0);
+            ProcKeystroke(keyStrokes_A, 1);
+            ProcKeystroke(keyStrokes_S, 2);
+            ProcKeystroke(keyStrokes_D, 3);
 
-            if (D_Pressed)
-            {
-                var Col = keyStrokes_D.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            }
-            else
-            {
-                var Col = keyStrokes_D.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
-            }
+            ProcKeystroke(Keystrokes_LMB, 4);
+            ProcKeystroke(Keystrokes_RMB, 5);
 
-            if (LMB_Pressed) Keystrokes_LMB.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            else Keystrokes_LMB.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
-
-            if (RMB_Pressed) Keystrokes_RMB.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            else Keystrokes_RMB.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
-            
-            if (Space_Pressed) spaceBarPanel.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
-            else spaceBarPanel.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
-            //MessageBox.Show("Updated kEystrokes");
+            ProcKeystroke(spaceBarPanel, 6);
         }
 
         public void SetGuisVisible(bool val)
@@ -370,7 +292,7 @@ namespace Latite
             }
             if (blockCoordsCheckbox.Checked)
             {
-                if (!val && LatiteForm.getCurrentGui() == 4) return;
+                if (!val && LatiteCore.getCurrentGui() == 4) return;
                 SetGuiDisplay(2, val);
             }
             if (!val && !IsEditing)
@@ -385,7 +307,7 @@ namespace Latite
         }
         public int[] GetBlockCoords()
         {
-            IntPtr ptr = LPGetLookAtBlock();
+            IntPtr ptr = LatiteCore.LocalPlayer.GetLookAtBlock();
             int[] coords = new int[3];
             Marshal.Copy(ptr, coords, 0, 3);
             return coords;
@@ -396,30 +318,30 @@ namespace Latite
             while (true)
             {
                 Thread.Sleep(10); // Cooldown
-                if (!IsEditing && LatiteForm.getCurrentGui() != 0) SetGuisVisible(false);
-                if (IsEditing || LatiteForm.getCurrentGui() == 0) SetGuisVisible(true);
+                if (!IsEditing && LatiteCore.getCurrentGui() != 0) SetGuisVisible(false);
+                if (IsEditing || LatiteCore.getCurrentGui() == 0) SetGuisVisible(true);
 
-                if (this.latiteForm.FocusedOnMinecraft() || GetForegroundWindow() == this.Handle)
+                if (this.latiteForm.FocusedOnMinecraft() || User32.GetForegroundWindow() == this.Handle)
                 {
 
-                    if ((GetAsyncKeyState(EditingBind) & 1) != 0) // rshift
+                    if ((User32.GetAsyncKeyState(EditingBind) & 1) != 0) // rshift
                     {
                         this.latiteForm.toggleEditing();
-                        SetForegroundWindow(this.Handle);
+                        User32.SetForegroundWindow(this.Handle);
                     }
                 }
-                if (LatiteForm.connectedToMinecraft())
+                if (LatiteCore.connectedToMinecraft())
                 {
-                    xPosLabel.Text = Math.Round(LPGetXPos(), 2) + "";
-                    yPosLabel.Text = Math.Round(LPGetYPos(), 2) + "";
-                    zPosLabel.Text = Math.Round(LPGetZPos(), 2) + "";
-                    motionLabel.Text = Math.Round(LPGetMotion(), 3) + "";
-                    motionYLabel.Text = Math.Round(LPGetYMotion(), 3) + "";
+                    xPosLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetXPos(), 2) + "";
+                    yPosLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetYPos(), 2) + "";
+                    zPosLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetZPos(), 2) + "";
+                    motionLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetMotion(), 3) + "";
+                    motionYLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetYMotion(), 3) + "";
                 }
 
-                if (GetForegroundWindow() != hWnd)
+                if (User32.GetForegroundWindow() != hWnd)
                 {
-                    IntPtr hWnd = FindWindowA(null, "Minecraft");
+                    IntPtr hWnd = User32.FindWindowA(null, "Minecraft");
                     if (hWnd == (IntPtr)0)
                     {
                         this.latiteForm.DisconnectFromMc();
@@ -429,32 +351,33 @@ namespace Latite
                 {
                     this.TopMost = true;
                 }
-                W_Pressed = ((GetKeyState((int)'W') & kh) == kh);
-                A_Pressed = ((GetKeyState((int)'A') & kh) == kh);
-                S_Pressed = ((GetKeyState((int)'S') & kh) == kh);
-                D_Pressed = ((GetKeyState((int)'D') & kh) == kh);
-                Space_Pressed = ((GetKeyState(0x20) & kh) == kh);
+                KeysPressed[0] = ((User32.GetKeyState((int)'W') & kh) == kh);
+                KeysPressed[1] = ((User32.GetKeyState((int)'A') & kh) == kh);
+                KeysPressed[2] = ((User32.GetKeyState((int)'S') & kh) == kh);
+                KeysPressed[3] = ((User32.GetKeyState((int)'D') & kh) == kh);
+                
+                KeysPressed[6] = ((User32.GetKeyState(0x20) & kh) == kh); // Space Bar
 
-                if ((GetKeyState(0x01) & kh) == kh) {
-                    if (!LMB_Pressed) { lcps++; };
-                    LMB_Pressed = true;
+                if ((User32.GetKeyState(0x01) & kh) == kh) {
+                    if (!KeysPressed[4]) { lcps++; };
+                    KeysPressed[4] = true; // LMB
                 }
-                else LMB_Pressed = false;
+                else KeysPressed[4] = false;
 
-                if ((GetKeyState(0x02) & kh) == kh)
+                if ((User32.GetKeyState(0x02) & kh) == kh)
                 {
-                    if (!RMB_Pressed) rcps++;
-                    RMB_Pressed = true;
+                    if (!KeysPressed[5]) rcps++;
+                    KeysPressed[5] = true; // RMB
                 }
-                else RMB_Pressed = false;
+                else KeysPressed[5] = false;
                 UpdateKeystrokes();
-                GetWindowRect(hWnd, out rect);
-                this.Size = new Size(rect.right - rect.left,
-                    rect.bottom - rect.top);
+                User32.GetWindowRect(hWnd, out User32.rect);
+                this.Size = new Size(User32.rect.right - User32.rect.left,
+                    User32.rect.bottom - User32.rect.top);
 
                 // Set the position of the form
-                this.Left = rect.left;
-                this.Top = rect.top;
+                this.Left = User32.rect.left;
+                this.Top = User32.rect.top;
 
                 if (this.blockDisplayText.Visible)
                 {
@@ -462,6 +385,5 @@ namespace Latite
                 }
             }
         }
-
     }
 }

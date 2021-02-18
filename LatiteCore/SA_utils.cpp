@@ -11,7 +11,6 @@ int utils::indexOf(std::string str, char ch, int ignore) {
     {
         if (str[i] == ch) {
             if (i <= ignore) {
-                //std::cout << "I: " << i << "\nIgnore: " << ignore <<"\n"; 
                 continue;
             };
             return i;
