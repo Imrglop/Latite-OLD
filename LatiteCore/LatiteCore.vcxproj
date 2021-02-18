@@ -142,6 +142,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\vs\Latite\LatiteCore\Depends\SilverBin\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,10 +150,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\vs\Latite\LatiteCore\Depends\SilverBin\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(SolutionDir)LatiteCore\Depends\SilverBin\lib\Silver.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AppStorage\utils.hh" />
     <ClInclude Include="Config\Config.h" />
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="Mods\Fullbright.h" />
@@ -167,7 +169,6 @@
     <ClInclude Include="Mods\ToggleSprint.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AppStorage\main.cpp" />
     <ClCompile Include="Config\Config.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Mods\Fullbright.cpp" />
@@ -187,6 +188,9 @@
   <ItemGroup>
     <Text Include="Config\settings.txt" />
     <Text Include="Resources\info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Depends\SilverBin\lib\Silver.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

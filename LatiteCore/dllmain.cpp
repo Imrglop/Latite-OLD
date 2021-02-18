@@ -12,6 +12,7 @@
 #include "./Mods/Zoom.h"
 #include <stdlib.h>
 #include "Utils/memory.h"
+#include "SilverBinaryFile.h"
 
 #include "./Config/Config.h"
 
@@ -24,6 +25,7 @@ HANDLE hProcess;
 
 int timeChangerSetting = 0;
 Config settings("settings.txt", SETTINGS_TXT_DEFAULT);
+SilverBinaryFile storage("data.bin");
 
 HANDLE GetProcessByName(const char* processName)
 {
@@ -184,6 +186,46 @@ int getCurrentGui()
     return -1;
 }
 
+int SilverNextInt(bool* status)
+{
+    return storage.next<int>(status);
+}
+
+byte SilverNextByte(bool* status)
+{
+    return storage.next<byte>(status);
+}
+
+double SilverNextDouble(bool* status)
+{
+    return storage.next<double>(status);
+}
+
+void SilverClear()
+{
+    storage.clearPosition();
+}
+
+void SilverJump(unsigned int pos)
+{
+    storage.jump((size_t)pos);
+}
+
+void SilverInsertInt(int val)
+{
+    storage.insert(val);
+}
+
+void SilverInsertByte(byte val)
+{
+    storage.insert(val);
+}
+
+void SilverInsertDouble(double val)
+{
+    storage.insert(val);
+}
+
 void mod_zoom_setAmount(float amount)
 {
     getZoomModule().setFovAmount(amount);
@@ -219,10 +261,6 @@ bool connectedToMinecraft(int type)
     return false;
 }
 
-int test() {
-    return 21394;
-}
-
 DWORD attach() {
     // attach to Minecraft
     hProcess = GetProcessByName("Minecraft.Windows.exe");
@@ -233,7 +271,10 @@ DWORD attach() {
     log << "Module Base: " << (void*)moduleBase << '\n';
     if (moduleBase == 0ui64) return GetLastError();
     log << "[test] Server player in: " << LocalPlayer::getServer() << '\n';
-    
+    bool status = true;
+    int testInt = storage.next<int>(&status);
+    log << "[test] status: " << status << "\n int: " << testInt << '\n';
+    storage.clearPosition();
     settings.load();
     if (settings.getBool("console")) {
         consoleMain();

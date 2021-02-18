@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
     <Compile Include="DragUtils.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="LatiteCore.cs" />

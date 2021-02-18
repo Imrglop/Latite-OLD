@@ -30,9 +30,6 @@
     <ClInclude Include="dllmain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppStorage\utils.hh">
-      <Filter>Source Files\AppStorage</Filter>
-    </ClInclude>
     <ClInclude Include="Config\Config.h">
       <Filter>Source Files\Tools</Filter>
     </ClInclude>
@@ -70,9 +67,6 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AppStorage\main.cpp">
-      <Filter>Source Files\AppStorage</Filter>
     </ClCompile>
     <ClCompile Include="Config\Config.cpp">
       <Filter>Source Files\Tools</Filter>
@@ -120,5 +114,8 @@
     <None Include="Resources\servers.txt">
       <Filter>Source Files\Config</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Depends\SilverBin\lib\Silver.lib" />
   </ItemGroup>
 </Project>

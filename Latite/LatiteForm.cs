@@ -32,10 +32,12 @@ namespace Latite
         public void Cout(string OutputString)
         {
             consoleOutput.Text += OutputString;
+            Console.Write(OutputString);
         }
         public void Coutln(string OutputString)
         {
             consoleOutput.Text += (OutputString + "\r\n");
+            Console.WriteLine(OutputString);
         }
 
         private void ConnectToMc(bool show = true)
@@ -74,6 +76,12 @@ namespace Latite
                         Coutln("Connected to Minecraft!");
                         this.OverlayForm = new Overlay(this);
                         this.OverlayForm.Show();
+                        bool RStatus;
+                        int TestInt = Storage.NextInt(out RStatus);
+                        Coutln("Int test: " + TestInt);
+                        Storage.Jump(1);
+                        byte TestByte = Storage.NextByte(out RStatus);
+                        Coutln("Byte Test: " + TestByte);
                         if (show)
                             MessageBox.Show("Connected to Minecraft!");
                     }
@@ -92,7 +100,7 @@ namespace Latite
                 }
             } catch (DllNotFoundException e)
             {
-                var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll.\nPlease also make sure you have Microsoft Visual C++ 2019 installed.\nPress retry to download VC redist 2019 and that could fix the issue.", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
+                var Result = MessageBox.Show("Could not connect! You may be missing LatiteCore.dll.\nPlease also make sure you have Microsoft Visual C++ 2019 installed and Silver.dll.\nPress retry to download VC redist 2019 and that could fix the issue.", "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Hand);
                 Coutln("DllNotFoundException occured while attempting to import LatiteCore.dll, or any of the dependancies!\nPlease make sure you have Microsoft Visual C++ 2019 installed.");
                 Coutln("Error: " + e.ToString());
                 if (Result == DialogResult.Retry)

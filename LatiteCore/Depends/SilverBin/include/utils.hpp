@@ -1,8 +1,9 @@
+#pragma once
 #include <vector>
 using std::vector;
 typedef unsigned char byte;
 
-namespace utils {
+namespace parseUtils {
     template <typename T>
     T getItemFromBytes(byte* bytes) { return *((T*)bytes); };
 

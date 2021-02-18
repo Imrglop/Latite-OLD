@@ -71,6 +71,16 @@ extern "C" {
 	LATITE_API void settingsConfigGet(cstring k, LPWSTR* os);
 
 	LATITE_API int getCurrentGui();
+
+	// Silver Link (data.bin)
+	LATITE_API int SilverNextInt(bool* status = 0);
+	LATITE_API byte SilverNextByte(bool* status = 0);
+	LATITE_API double SilverNextDouble(bool* status = 0);
+	LATITE_API void SilverClear();
+	LATITE_API void SilverJump(unsigned int pos = 1);
+	LATITE_API void SilverInsertInt(int val);
+	LATITE_API void SilverInsertByte(byte val);
+	LATITE_API void SilverInsertDouble(double val);
 }
 
 // code

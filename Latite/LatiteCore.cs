@@ -36,11 +36,11 @@ namespace Latite
         {
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetYMotion")]
             public static extern float GetYMotion();
-            [DllImport("LatiteCore.dll", EntryPoint = "LPGetYMotion")]
-            public static extern float GetXPos();
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetXPos")]
-            public static extern float GetYPos();
+            public static extern float GetXPos();
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetYPos")]
+            public static extern float GetYPos();
+            [DllImport("LatiteCore.dll", EntryPoint = "LPGetZPos")]
             public static extern float GetZPos();
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetMotion")]
             public static extern float GetMotion();
