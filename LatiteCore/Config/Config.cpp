@@ -3,7 +3,7 @@
 #include "Config.h"
 #include <fstream>
 #include <iostream>
-#include "SA_utils.h"
+#include "../Utils/SA_utils.h"
 
 #define log std::cout<<"[Config] "
 #define CONFIG_DEBUG false

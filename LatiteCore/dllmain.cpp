@@ -11,9 +11,9 @@
 #include "Mods/ModManager.h"
 #include "./Mods/Zoom.h"
 #include <stdlib.h>
-#include "memory.h"
+#include "Utils/memory.h"
 
-#include "Config.h"
+#include "./Config/Config.h"
 
 bool connected;
 

@@ -1,7 +1,7 @@
 #include "Zoom.h"
-#include "../LocalPlayer.h"
+#include "../Utils/LocalPlayer.h"
 #include "ModManager.h"
-#include "../server_mod_disabler.h"
+#include "../Utils/server_mod_disabler.h"
 
 float pastFOV;
 float pastSens;

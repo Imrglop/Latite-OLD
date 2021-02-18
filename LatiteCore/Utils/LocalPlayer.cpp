@@ -1,5 +1,5 @@
 #include "LocalPlayer.h"
-#include "dllmain.h"
+#include "../dllmain.h"
 #include "memory.h"
 
 float LocalPlayer::getFOV() 

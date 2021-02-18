@@ -1,4 +1,4 @@
 #pragma once
-#include "Config.h"
+#include "../Config/Config.h"
 
 bool moduleDisabledOnServer(string server, string mod);

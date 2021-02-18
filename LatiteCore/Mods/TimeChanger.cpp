@@ -1,7 +1,7 @@
 #include "TimeChanger.h"
-#include "memory.h"
-#include "dllmain.h"
-#include "server_mod_disabler.h"
+#include "../Utils/memory.h"
+#include "../dllmain.h"
+#include "../Utils/server_mod_disabler.h"
 
 unsigned int tick = 0;
 int timeSet = 0;

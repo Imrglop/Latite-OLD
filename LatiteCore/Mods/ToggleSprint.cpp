@@ -1,8 +1,8 @@
 #include "ToggleSprint.h"
-#include "dllmain.h"
-#include "memory.h"
-#include "server_mod_disabler.h"
-#include "LocalPlayer.h"
+#include "../dllmain.h"
+#include "../Utils/memory.h"
+#include "../Utils/server_mod_disabler.h"
+#include "../Utils/LocalPlayer.h"
 
 int tick = 0;
 #define tsDisabledByServer moduleDisabledOnServer(LocalPlayer::getServer(), "toggle_sprint")

@@ -7,10 +7,10 @@
 
 #include "../dllmain.h"
 #include "Zoom.h"
-#include "../LookBehind.h"
-#include "../ToggleSprint.h"
-#include "../TimeChanger.h"
-#include "../Fullbright.h"
+#include "./LookBehind.h"
+#include "./ToggleSprint.h"
+#include "./TimeChanger.h"
+#include "./Fullbright.h"
 
 class Mod {
 //	void onEnable();

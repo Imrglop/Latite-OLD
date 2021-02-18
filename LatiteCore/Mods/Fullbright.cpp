@@ -1,6 +1,6 @@
 #include "Fullbright.h"
-#include "server_mod_disabler.h"
-#include "LocalPlayer.h"
+#include "../Utils/server_mod_disabler.h"
+#include "../Utils/LocalPlayer.h"
 
 #define mds moduleDisabledOnServer(LocalPlayer::getServer(), this->nid)
 

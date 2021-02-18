@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dllmain.h"
+#include "../dllmain.h"
 
 struct LocalPlayer
 {

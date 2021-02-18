@@ -1,5 +1,5 @@
 #pragma once
-#include "dllmain.h"
+#include "../dllmain.h"
 namespace memory 
 {
 	// Gets address from a multi-level pointer

@@ -30,100 +30,94 @@
     <ClInclude Include="dllmain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AppStorage\utils.hh">
+      <Filter>Source Files\AppStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Config.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\memory.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\SA_utils.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\server_mod_disabler.h">
+      <Filter>Source Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\Fullbright.h">
+      <Filter>Source Files\Mods</Filter>
+    </ClInclude>
+    <ClInclude Include="Mods\LookBehind.h">
+      <Filter>Source Files\Mods</Filter>
+    </ClInclude>
     <ClInclude Include="Mods\ModManager.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
-    <ClInclude Include="Config.h">
-      <Filter>Source Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="LocalPlayer.h">
-      <Filter>Source Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="LookBehind.h">
+    <ClInclude Include="Mods\TimeChanger.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
-    <ClInclude Include="ToggleSprint.h">
+    <ClInclude Include="Mods\ToggleSprint.h">
       <Filter>Source Files\Mods</Filter>
-    </ClInclude>
-    <ClInclude Include="memory.h">
-      <Filter>Source Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeChanger.h">
-      <Filter>Source Files\Mods</Filter>
-    </ClInclude>
-    <ClInclude Include="server_mod_disabler.h">
-      <Filter>Source Files\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Mods\Zoom.h">
       <Filter>Source Files\Mods</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Utils\LocalPlayer.h">
       <Filter>Source Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="SA_utils.h">
-      <Filter>Source Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="AppStorage\utils.hh">
-      <Filter>Source Files\AppStorage</Filter>
-    </ClInclude>
-    <ClInclude Include="Fullbright.h">
-      <Filter>Source Files\Mods</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AppStorage\main.cpp">
+      <Filter>Source Files\AppStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Config.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\memory.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\SA_utils.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\server_mod_disabler.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\Fullbright.cpp">
+      <Filter>Source Files\Mods</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\LookBehind.cpp">
+      <Filter>Source Files\Mods</Filter>
+    </ClCompile>
     <ClCompile Include="Mods\ModManager.cpp">
+      <Filter>Source Files\Mods</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\TimeChanger.cpp">
+      <Filter>Source Files\Mods</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\ToggleSprint.cpp">
       <Filter>Source Files\Mods</Filter>
     </ClCompile>
     <ClCompile Include="Mods\Zoom.cpp">
       <Filter>Source Files\Mods</Filter>
     </ClCompile>
-    <ClCompile Include="Config.cpp">
+    <ClCompile Include="Utils\LocalPlayer.cpp">
       <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="LocalPlayer.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="LookBehind.cpp">
-      <Filter>Source Files\Mods</Filter>
-    </ClCompile>
-    <ClCompile Include="ToggleSprint.cpp">
-      <Filter>Source Files\Mods</Filter>
-    </ClCompile>
-    <ClCompile Include="memory.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeChanger.cpp">
-      <Filter>Source Files\Mods</Filter>
-    </ClCompile>
-    <ClCompile Include="server_mod_disabler.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="SA_utils.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="AppStorage\main.cpp">
-      <Filter>Source Files\AppStorage</Filter>
-    </ClCompile>
-    <ClCompile Include="Fullbright.cpp">
-      <Filter>Source Files\Mods</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="info.txt">
-      <Filter>Source Files\Config</Filter>
-    </Text>
     <Text Include="Config\settings.txt">
       <Filter>Source Files\Config</Filter>
     </Text>
+    <Text Include="Resources\info.txt">
+      <Filter>Source Files\Config</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\readme.txt">
+    <None Include="Resources\servers.txt">
       <Filter>Source Files\Config</Filter>
     </None>
   </ItemGroup>

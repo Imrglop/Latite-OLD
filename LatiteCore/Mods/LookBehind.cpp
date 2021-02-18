@@ -1,7 +1,7 @@
 #include "LookBehind.h"
-#include "LocalPlayer.h"
-#include "dllmain.h"
-#include "server_mod_disabler.h"
+#include "../Utils/LocalPlayer.h"
+#include "../dllmain.h"
+#include "../Utils/server_mod_disabler.h"
 
 char lbBind_;
 unsigned char oldView;
