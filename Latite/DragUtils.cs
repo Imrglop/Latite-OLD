@@ -26,12 +26,13 @@ namespace Latite
         }
 
         #region drag utils
-        public void StartDrag(MouseEventArgs e)
+        public void StartDrag(MouseEventArgs e, bool o = false)
         {
             if (e.Button == MouseButtons.Left)
             {
                 MouseLocation = e.Location;
             }
+            o = true;
         }
 
         public void DragProc(Control c, MouseEventArgs e)

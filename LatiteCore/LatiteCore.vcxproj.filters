@@ -115,7 +115,4 @@
       <Filter>Source Files\Config</Filter>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="Depends\SilverBin\lib\Silver.lib" />
-  </ItemGroup>
 </Project>

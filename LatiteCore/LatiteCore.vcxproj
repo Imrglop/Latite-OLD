@@ -189,9 +189,6 @@
     <Text Include="Config\settings.txt" />
     <Text Include="Resources\info.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="Depends\SilverBin\lib\Silver.lib" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

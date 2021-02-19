@@ -81,6 +81,7 @@ extern "C" {
 	LATITE_API void SilverInsertInt(int val);
 	LATITE_API void SilverInsertByte(byte val);
 	LATITE_API void SilverInsertDouble(double val);
+	LATITE_API unsigned __int64 SilverGetFileSize();
 }
 
 // code

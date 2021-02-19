@@ -41,7 +41,7 @@ namespace Latite
             this.panel1 = new System.Windows.Forms.Panel();
             this.timeChangerTrackBarLabel = new System.Windows.Forms.Label();
             this.timeChangerTrackBar = new System.Windows.Forms.TrackBar();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.timeChangerCheckbox = new System.Windows.Forms.CheckBox();
             this.toggleSprintLabel = new System.Windows.Forms.Label();
             this.lookBehindDesc = new System.Windows.Forms.Label();
             this.lookBehindLabel = new System.Windows.Forms.Label();
@@ -63,6 +63,9 @@ namespace Latite
             this.lookBehindEnabled = new System.Windows.Forms.CheckBox();
             this.zoomLabel = new System.Windows.Forms.Label();
             this.optionsTabControl = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.shortcutToggleEditing = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -71,8 +74,6 @@ namespace Latite
             this.opacityDisplayLabel = new System.Windows.Forms.Label();
             this.opacityLabel = new System.Windows.Forms.Label();
             this.opacitySlider = new System.Windows.Forms.TrackBar();
-            this.transparentOverlayToggle = new System.Windows.Forms.CheckBox();
-            this.settingsUseConsole = new System.Windows.Forms.CheckBox();
             this.consoleTab = new System.Windows.Forms.TabPage();
             this.cinGo = new System.Windows.Forms.Button();
             this.consoleInput = new System.Windows.Forms.TextBox();
@@ -217,7 +218,7 @@ namespace Latite
             // 
             this.panel1.Controls.Add(this.timeChangerTrackBarLabel);
             this.panel1.Controls.Add(this.timeChangerTrackBar);
-            this.panel1.Controls.Add(this.checkBox1);
+            this.panel1.Controls.Add(this.timeChangerCheckbox);
             this.panel1.Location = new System.Drawing.Point(312, 307);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 137);
@@ -240,19 +241,19 @@ namespace Latite
             this.timeChangerTrackBar.Size = new System.Drawing.Size(147, 45);
             this.timeChangerTrackBar.TabIndex = 8;
             this.timeChangerTrackBar.Value = 1;
-            this.timeChangerTrackBar.Scroll += new System.EventHandler(this.timeChangerTrackBar_Scroll);
+            this.timeChangerTrackBar.ValueChanged += new System.EventHandler(this.timeChangerTrackBar_ValueChanged);
             // 
-            // checkBox1
+            // timeChangerCheckbox
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.ForeColor = System.Drawing.Color.White;
-            this.checkBox1.Location = new System.Drawing.Point(25, 12);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(99, 30);
-            this.checkBox1.TabIndex = 7;
-            this.checkBox1.Text = "Enabled";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.timeChangerCheckbox.AutoSize = true;
+            this.timeChangerCheckbox.ForeColor = System.Drawing.Color.White;
+            this.timeChangerCheckbox.Location = new System.Drawing.Point(25, 12);
+            this.timeChangerCheckbox.Name = "timeChangerCheckbox";
+            this.timeChangerCheckbox.Size = new System.Drawing.Size(99, 30);
+            this.timeChangerCheckbox.TabIndex = 7;
+            this.timeChangerCheckbox.Text = "Enabled";
+            this.timeChangerCheckbox.UseVisualStyleBackColor = true;
+            this.timeChangerCheckbox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // toggleSprintLabel
             // 
@@ -393,7 +394,7 @@ namespace Latite
             this.zaSlider.TabIndex = 1;
             this.zaSlider.TickFrequency = 2;
             this.zaSlider.Value = 7;
-            this.zaSlider.Scroll += new System.EventHandler(this.zaSlider_Scroll);
+            this.zaSlider.ValueChanged += new System.EventHandler(this.zaSlider_ValueChanged);
             // 
             // zoomCheckbox
             // 
@@ -465,6 +466,9 @@ namespace Latite
             // 
             this.optionsTabControl.AutoScroll = true;
             this.optionsTabControl.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.optionsTabControl.Controls.Add(this.label7);
+            this.optionsTabControl.Controls.Add(this.button2);
+            this.optionsTabControl.Controls.Add(this.button1);
             this.optionsTabControl.Controls.Add(this.label4);
             this.optionsTabControl.Controls.Add(this.shortcutToggleEditing);
             this.optionsTabControl.Controls.Add(this.label2);
@@ -473,20 +477,65 @@ namespace Latite
             this.optionsTabControl.Controls.Add(this.opacityDisplayLabel);
             this.optionsTabControl.Controls.Add(this.opacityLabel);
             this.optionsTabControl.Controls.Add(this.opacitySlider);
-            this.optionsTabControl.Controls.Add(this.transparentOverlayToggle);
-            this.optionsTabControl.Controls.Add(this.settingsUseConsole);
-            this.optionsTabControl.Location = new System.Drawing.Point(4, 22);
+            this.optionsTabControl.Location = new System.Drawing.Point(4, 35);
             this.optionsTabControl.Name = "optionsTabControl";
             this.optionsTabControl.Padding = new System.Windows.Forms.Padding(3);
-            this.optionsTabControl.Size = new System.Drawing.Size(587, 437);
+            this.optionsTabControl.Size = new System.Drawing.Size(587, 424);
             this.optionsTabControl.TabIndex = 1;
             this.optionsTabControl.Text = "Options";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(205, 176);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(187, 72);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "Restore the GUI positions \r\n(keystrokes, pos, etc.)\r\nfrom the last time you exite" +
+    "d\r\nor detached.\r\n";
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(90)))), ((int)(((byte)(130)))));
+            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
+            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(232, 108);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(114, 50);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Load UI Pos";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(90)))), ((int)(((byte)(130)))));
+            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(56)))), ((int)(((byte)(56)))), ((int)(((byte)(56)))));
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(96)))), ((int)(((byte)(96)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(208, 339);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(114, 50);
+            this.button1.TabIndex = 15;
+            this.button1.Text = "Open Extra";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(67, 266);
+            this.label4.Location = new System.Drawing.Point(59, 176);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(64, 18);
             this.label4.TabIndex = 19;
@@ -494,7 +543,7 @@ namespace Latite
             // 
             // shortcutToggleEditing
             // 
-            this.shortcutToggleEditing.Location = new System.Drawing.Point(70, 287);
+            this.shortcutToggleEditing.Location = new System.Drawing.Point(62, 197);
             this.shortcutToggleEditing.Name = "shortcutToggleEditing";
             this.shortcutToggleEditing.Size = new System.Drawing.Size(59, 33);
             this.shortcutToggleEditing.TabIndex = 18;
@@ -505,7 +554,7 @@ namespace Latite
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(27, 240);
+            this.label2.Location = new System.Drawing.Point(19, 150);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(161, 18);
             this.label2.TabIndex = 17;
@@ -521,7 +570,7 @@ namespace Latite
             this.toggleEditingButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.toggleEditingButton.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleEditingButton.ForeColor = System.Drawing.Color.White;
-            this.toggleEditingButton.Location = new System.Drawing.Point(50, 162);
+            this.toggleEditingButton.Location = new System.Drawing.Point(42, 72);
             this.toggleEditingButton.Name = "toggleEditingButton";
             this.toggleEditingButton.Size = new System.Drawing.Size(100, 62);
             this.toggleEditingButton.TabIndex = 16;
@@ -533,7 +582,7 @@ namespace Latite
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(44, 101);
+            this.label1.Location = new System.Drawing.Point(36, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(120, 33);
             this.label1.TabIndex = 7;
@@ -542,7 +591,7 @@ namespace Latite
             // opacityDisplayLabel
             // 
             this.opacityDisplayLabel.AutoSize = true;
-            this.opacityDisplayLabel.Location = new System.Drawing.Point(454, 139);
+            this.opacityDisplayLabel.Location = new System.Drawing.Point(400, 57);
             this.opacityDisplayLabel.Name = "opacityDisplayLabel";
             this.opacityDisplayLabel.Size = new System.Drawing.Size(34, 26);
             this.opacityDisplayLabel.TabIndex = 4;
@@ -551,7 +600,7 @@ namespace Latite
             // opacityLabel
             // 
             this.opacityLabel.AutoSize = true;
-            this.opacityLabel.Location = new System.Drawing.Point(311, 107);
+            this.opacityLabel.Location = new System.Drawing.Point(257, 25);
             this.opacityLabel.Name = "opacityLabel";
             this.opacityLabel.Size = new System.Drawing.Size(78, 26);
             this.opacityLabel.TabIndex = 3;
@@ -559,34 +608,13 @@ namespace Latite
             // 
             // opacitySlider
             // 
-            this.opacitySlider.Location = new System.Drawing.Point(246, 139);
+            this.opacitySlider.Location = new System.Drawing.Point(192, 57);
             this.opacitySlider.Maximum = 25;
             this.opacitySlider.Name = "opacitySlider";
             this.opacitySlider.Size = new System.Drawing.Size(202, 45);
             this.opacitySlider.TabIndex = 2;
             this.opacitySlider.Value = 20;
-            this.opacitySlider.Scroll += new System.EventHandler(this.opacitySlider_Scroll);
-            // 
-            // transparentOverlayToggle
-            // 
-            this.transparentOverlayToggle.AutoSize = true;
-            this.transparentOverlayToggle.Location = new System.Drawing.Point(23, 57);
-            this.transparentOverlayToggle.Name = "transparentOverlayToggle";
-            this.transparentOverlayToggle.Size = new System.Drawing.Size(377, 30);
-            this.transparentOverlayToggle.TabIndex = 1;
-            this.transparentOverlayToggle.Text = "Transparent Overlay (not recommended)";
-            this.transparentOverlayToggle.UseVisualStyleBackColor = true;
-            this.transparentOverlayToggle.CheckedChanged += new System.EventHandler(this.transparentOverlayToggle_CheckedChanged);
-            // 
-            // settingsUseConsole
-            // 
-            this.settingsUseConsole.AutoSize = true;
-            this.settingsUseConsole.Location = new System.Drawing.Point(23, 21);
-            this.settingsUseConsole.Name = "settingsUseConsole";
-            this.settingsUseConsole.Size = new System.Drawing.Size(165, 30);
-            this.settingsUseConsole.TabIndex = 0;
-            this.settingsUseConsole.Text = "Pop Up Console";
-            this.settingsUseConsole.UseVisualStyleBackColor = true;
+            this.opacitySlider.ValueChanged += new System.EventHandler(this.opacitySlider_ValueChanged);
             // 
             // consoleTab
             // 
@@ -594,10 +622,10 @@ namespace Latite
             this.consoleTab.Controls.Add(this.cinGo);
             this.consoleTab.Controls.Add(this.consoleInput);
             this.consoleTab.Controls.Add(this.consoleOutput);
-            this.consoleTab.Location = new System.Drawing.Point(4, 22);
+            this.consoleTab.Location = new System.Drawing.Point(4, 35);
             this.consoleTab.Name = "consoleTab";
             this.consoleTab.Padding = new System.Windows.Forms.Padding(3);
-            this.consoleTab.Size = new System.Drawing.Size(587, 437);
+            this.consoleTab.Size = new System.Drawing.Size(587, 424);
             this.consoleTab.TabIndex = 2;
             this.consoleTab.Text = "Console";
             // 
@@ -621,6 +649,7 @@ namespace Latite
             // 
             // consoleInput
             // 
+            this.consoleInput.AcceptsReturn = true;
             this.consoleInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.consoleInput.ForeColor = System.Drawing.Color.White;
             this.consoleInput.Location = new System.Drawing.Point(7, 378);
@@ -647,10 +676,10 @@ namespace Latite
             this.infoTabPage.Controls.Add(this.updateButton);
             this.infoTabPage.Controls.Add(this.GithubButton);
             this.infoTabPage.Controls.Add(this.infoRichTextBox);
-            this.infoTabPage.Location = new System.Drawing.Point(4, 22);
+            this.infoTabPage.Location = new System.Drawing.Point(4, 35);
             this.infoTabPage.Name = "infoTabPage";
             this.infoTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.infoTabPage.Size = new System.Drawing.Size(587, 437);
+            this.infoTabPage.Size = new System.Drawing.Size(587, 424);
             this.infoTabPage.TabIndex = 3;
             this.infoTabPage.Text = "Info";
             // 
@@ -944,7 +973,6 @@ namespace Latite
         private System.Windows.Forms.RichTextBox consoleOutput;
         private System.Windows.Forms.TextBox consoleInput;
         private System.Windows.Forms.Button cinGo;
-        private System.Windows.Forms.CheckBox settingsUseConsole;
         private System.Windows.Forms.CheckBox zoomCheckbox;
         private System.Windows.Forms.Label zoomLabel;
         private System.Windows.Forms.Panel zoomPanel;
@@ -956,7 +984,6 @@ namespace Latite
         private System.Windows.Forms.TextBox zoomBindBox;
         private System.ComponentModel.BackgroundWorker moduleWorker;
         private System.Windows.Forms.Button disconnectButton;
-        private System.Windows.Forms.CheckBox transparentOverlayToggle;
         private System.Windows.Forms.Button launchButton;
         private System.Windows.Forms.Label lookBehindDesc;
         private System.Windows.Forms.Label lookBehindLabel;
@@ -977,7 +1004,7 @@ namespace Latite
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label timeChangerTrackBarLabel;
         private System.Windows.Forms.TrackBar timeChangerTrackBar;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox timeChangerCheckbox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage infoTabPage;
         private System.Windows.Forms.RichTextBox infoRichTextBox;
@@ -990,6 +1017,9 @@ namespace Latite
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox fullbrightCheckBox;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label7;
     }
 }
 

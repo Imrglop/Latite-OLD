@@ -226,6 +226,11 @@ void SilverInsertDouble(double val)
     storage.insert(val);
 }
 
+unsigned __int64 SilverGetFileSize()
+{
+    return storage.currentBytes.size();
+}
+
 void mod_zoom_setAmount(float amount)
 {
     getZoomModule().setFovAmount(amount);
@@ -271,9 +276,6 @@ DWORD attach() {
     log << "Module Base: " << (void*)moduleBase << '\n';
     if (moduleBase == 0ui64) return GetLastError();
     log << "[test] Server player in: " << LocalPlayer::getServer() << '\n';
-    bool status = true;
-    int testInt = storage.next<int>(&status);
-    log << "[test] status: " << status << "\n int: " << testInt << '\n';
     storage.clearPosition();
     settings.load();
     if (settings.getBool("console")) {

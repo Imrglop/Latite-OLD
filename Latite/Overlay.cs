@@ -16,24 +16,15 @@ namespace Latite
 
         LatiteForm latiteForm;
         DragUtils dragUtils;
+        public bool LoadedGuiPositions = false;
 
         public static IntPtr hWnd = User32.FindWindowA(null, "Minecraft"); // find minecraft 
-
-        public void TransparentPanels(bool b)
-        {
-            if (b)
-            {
-                posPanel.BackColor = Color.Transparent;
-            } else
-            {
-                posPanel.BackColor = Color.FromArgb(50, 60, 70);
-            }
-        }
 
         private void secondRunner_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
+                if (secondRunner.CancellationPending) break;
                 Thread.Sleep(1000);
                 // CPS counter
                 // todo not proper cps counter
@@ -76,7 +67,7 @@ namespace Latite
         private void keystrokesPanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (!IsEditing) return;
-            dragUtils.StartDrag(e);
+            dragUtils.StartDrag(e, this.LoadedGuiPositions);
         }
 
         private void keystrokesPanel_MouseMove(object sender, MouseEventArgs e)
@@ -85,24 +76,62 @@ namespace Latite
             dragUtils.DragProc(keystrokesPanel, e);
         }
 
-        private void Overlay_FormClosing(object sender, FormClosingEventArgs e)
+        public void SaveData()
         {
             // save data
+            Data.Keystrokes.Enabled = keystrokesCheckBox.Checked;
+            Data.PosDisplay.Enabled = posDisplayCheckbox.Checked;
+            Data.BlockPosDisplay.Enabled = blockCoordsCheckbox.Checked;
+
+            if (LoadedGuiPositions)
+            {
+                Data.Keystrokes.Position[0] = keystrokesPanel.Location.X;
+                Data.Keystrokes.Position[1] = keystrokesPanel.Location.Y;
+                Data.Keystrokes.Anchor = (int)keystrokesPanel.Anchor;
+                Data.PosDisplay.Position[0] = posPanel.Location.X;
+                Data.PosDisplay.Position[1] = posPanel.Location.Y;
+                Data.PosDisplay.Anchor = (int)posPanel.Anchor;
+                Data.BlockPosDisplay.Position[0] = blockDisplayText.Location.X;
+                Data.BlockPosDisplay.Position[1] = blockDisplayText.Location.Y;
+                Data.BlockPosDisplay.Anchor = (int)blockDisplayText.Anchor;
+                Data.ToggleSprint.Position[0] = toggleSprintLabel.Left;
+                Data.ToggleSprint.Position[1] = toggleSprintLabel.Location.Y;
+                Data.ToggleSprint.Anchor = (int)toggleSprintLabel.Anchor;
+            }
+
+            Data.Save();
         }
 
-        public void SetGuiDisplay(uint gui, bool display)
+        private void Overlay_FormClosing(object sender, FormClosingEventArgs e)
         {
+        }
+
+        public void SetGuiDisplay(uint gui, bool display, int anchor = -1, int[] position = null)
+        {
+            Control control = null;
             switch(gui)
             {
                 case 0:
-                    keystrokesPanel.Visible = display;
+                    control = keystrokesPanel;
                     break;
                 case 1:
-                    posPanel.Visible = display;
+                    control = posPanel;
                     break;
                 case 2:
-                    blockDisplayText.Visible = display;
+                    control = blockDisplayText;
                     break;
+                case 3:
+                    control = toggleSprintLabel;
+                    break;
+            }
+            if (control != null)
+            {
+                control.Visible = display;
+                control.Anchor = (anchor != -1) ? (AnchorStyles)anchor : control.Anchor;
+                if (position != null)
+                {
+                    control.Location = new Point(position[0], position[1]);
+                }
             }
         }
 
@@ -113,7 +142,7 @@ namespace Latite
 
         private void posPanel_MouseDown(object sender, MouseEventArgs e)
         {
-            dragUtils.StartDrag(e);
+            dragUtils.StartDrag(e, this.LoadedGuiPositions);
         }
 
         private void posPanel_MouseMove(object sender, MouseEventArgs e)
@@ -123,7 +152,7 @@ namespace Latite
 
         private void toggleSprintLabel_MouseDown(object sender, MouseEventArgs e)
         {
-            dragUtils.StartDrag(e);
+            dragUtils.StartDrag(e, this.LoadedGuiPositions);
         }
 
         private void toggleSprintLabel_MouseMove(object sender, MouseEventArgs e)
@@ -152,6 +181,7 @@ namespace Latite
         {
             if (Draggable)
             {
+                IsEditing = true;
                 User32.SetWindowLong(this.Handle, -20, OldStyle);
                 OldSprintText = toggleSprintLabel.Text;
                 settingsCheckBox.Visible = true;
@@ -159,12 +189,12 @@ namespace Latite
                 toggleSprintLabel.Text = "[Sprinting (Editing)]";
             } else
             {
+                IsEditing = false;
                 settingsTabControl.Visible = false;
                 settingsCheckBox.Visible = false;
                 User32.SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
                 toggleSprintLabel.Text = OldSprintText;
             }
-            IsEditing = !IsEditing;
         }
         private void UpdateTextColorK()
         {
@@ -175,6 +205,7 @@ namespace Latite
                 {
                     ColorSet[i] = 0xFF;
                 }
+                Data.Keystrokes.RGB[i] = (byte)ColorSet[i];
             }
             foreach (Control parentControl in keystrokesPanel.Controls)
             {
@@ -212,7 +243,7 @@ namespace Latite
 
         private void blockDisplayText_MouseDown(object sender, MouseEventArgs e)
         {
-            dragUtils.StartDrag(e);
+            dragUtils.StartDrag(e, this.LoadedGuiPositions);
         }
 
         private void blockDisplayText_MouseMove(object sender, MouseEventArgs e)
@@ -225,13 +256,41 @@ namespace Latite
             UpdateTextColorK();
         }
 
-        private void copyBlockButton_Click(object sender, EventArgs e)
+        public void LoadGuiPos()
         {
-            Clipboard.SetText(string.Join(" ", GetBlockCoords()));
+            this.keystrokesPanel.Anchor = AnchorStyles.None;
+            keystrokesPanel.Location = new Point(Data.Keystrokes.Position[0],
+                    Data.Keystrokes.Position[1]);
+            this.keystrokesPanel.Anchor = (AnchorStyles)Data.Keystrokes.Anchor;
+
+            this.posPanel.Anchor = AnchorStyles.None;
+            this.posPanel.Location = new Point(Data.PosDisplay.Position[0], Data.PosDisplay.Position[1]);
+            this.posPanel.Anchor = (AnchorStyles)Data.PosDisplay.Anchor;
+            
+            this.blockDisplayText.Anchor = AnchorStyles.None;
+            this.blockDisplayText.Location = new Point(Data.BlockPosDisplay.Position[0], Data.BlockPosDisplay.Position[1]);
+            this.blockDisplayText.Anchor = (AnchorStyles)Data.BlockPosDisplay.Anchor;
+
+            this.toggleSprintLabel.Anchor = AnchorStyles.None;
+            this.toggleSprintLabel.Location = new Point(Data.ToggleSprint.Position[0], Data.ToggleSprint.Position[1]);
+            this.toggleSprintLabel.Anchor = (AnchorStyles)Data.ToggleSprint.Anchor;
+
+            LoadedGuiPositions = true;
         }
 
-        public static readonly Point nullpoint = new Point(0, 0);
-        public static readonly AnchorStyles nullanchor = (AnchorStyles)(-1);
+        public void OnDataInit()
+        {
+            // restore saved settings
+            this.keystrokesCheckBox.Checked = Data.Keystrokes.Enabled;
+
+            keystrokesRedTrackbar.Value = Data.Keystrokes.RGB[0] / 4;
+            keystrokesGreenTrackbar.Value = Data.Keystrokes.RGB[1] / 4;
+            keystrokesBlueTrackbar.Value = Data.Keystrokes.RGB[2] / 4;
+            UpdateTextColorK();
+
+            this.blockCoordsCheckbox.Checked = Data.BlockPosDisplay.Enabled;
+            this.blockDisplayText.Visible = Data.BlockPosDisplay.Enabled;
+        }
 
         private void Overlay_Load(object sender, EventArgs e)
         {
@@ -255,7 +314,6 @@ namespace Latite
             this.toggleSprintLabel.Text = "";
             settingsCheckBox.Visible = false;
             settingsTabControl.Visible = false;
-            blockDisplayText.Visible = false;
         }
 
         private void ProcKeystroke(Panel panel, int Key)
@@ -292,7 +350,10 @@ namespace Latite
             }
             if (blockCoordsCheckbox.Checked)
             {
-                if (!val && LatiteCore.getCurrentGui() == 4) return;
+                if (chatBlockCheckbox.Checked)
+                {
+                    if (!val && LatiteCore.getCurrentGui() == 4) return;
+                }
                 SetGuiDisplay(2, val);
             }
             if (!val && !IsEditing)
@@ -324,7 +385,7 @@ namespace Latite
                 if (this.latiteForm.FocusedOnMinecraft() || User32.GetForegroundWindow() == this.Handle)
                 {
 
-                    if ((User32.GetAsyncKeyState(EditingBind) & 1) != 0) // rshift
+                    if ((LatiteCore.getCurrentGui() != 4) && (User32.GetAsyncKeyState(EditingBind) & 1) != 0) // rshift
                     {
                         this.latiteForm.toggleEditing();
                         User32.SetForegroundWindow(this.Handle);

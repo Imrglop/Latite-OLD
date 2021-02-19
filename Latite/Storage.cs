@@ -25,5 +25,7 @@ namespace Latite
 		public static extern void InsertByte(byte val);
 		[DllImport("LatiteCore.dll", EntryPoint = "SilverInsertDouble")]
 		public static extern void InsertDouble(double val);
+		[DllImport("LatiteCore.dll", EntryPoint = "SilverGetFileSize")]
+		public static extern ulong GetFileSize();
 	}
 }
