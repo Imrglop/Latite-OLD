@@ -3,11 +3,11 @@
 namespace memory 
 {
 	// Gets address from a multi-level pointer
-	ADDRESS GetMLPtrAddy(void* addy, vector<DWORD> offsets);
+	ADDRESS GetMLPtrAddy(void* addy, std::vector<DWORD> offsets);
 	// Designed to write static assembly code to Minecraft
-	void WriteBytes(ADDRESS address, vector<unsigned char> bytes);
+	void WriteBytes(ADDRESS address, std::vector<unsigned char> bytes);
 	// Reads raw array of byte
-	vector<unsigned char> ReadMemoryRaw(ADDRESS address, unsigned long long size);
+	std::vector<unsigned char> ReadMemoryRaw(ADDRESS address, unsigned long long size);
 	// read 4 byte float
 	float ReadFloat(ADDRESS address);
 	byte ReadByte(ADDRESS address);

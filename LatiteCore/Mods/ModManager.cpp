@@ -5,6 +5,7 @@ LookBehind lookBehind;
 ToggleSprint toggleSprint;
 TimeChanger timeChanger;
 Fullbright fullBright;
+Freelook freelook;
 
 void Mod::disableAll()
 {
@@ -15,24 +16,25 @@ void Mod::disableAll()
 	toggleSprint.enabled = false;
 	toggleSprint.onDisable();
 	timeChanger.onDisable();
+	freelook.onDisable();
 }
 
 void Mod::initialize()
 {
 	log << "Initializing mods\n";
-	zoom.onEnable();
-	lookBehind.onEnable();
 	zoom.enabled = true;
 	lookBehind.enabled = true;
 }
 
 void Mod::tickModules()
 {
-	zoom.onTick();
-	lookBehind.onTick();
+	if (zoom.enabled) zoom.onTick();
+	if (lookBehind.enabled) lookBehind.onTick();
 	//toggleSprint.onTick(); - not needed
-	timeChanger.onTick();
+	if (timeChanger.enabled) timeChanger.onTick();
+	//freelook.onTick();
 	fullBright.onTick();
+	freelook.onTick();
 }
 
 Zoom getZoomModule()
@@ -58,4 +60,9 @@ TimeChanger getTimeChangerModule()
 Fullbright getFullbrightModule()
 {
 	return fullBright;
+}
+
+Freelook getFreelookModule() 
+{
+	return freelook;
 }

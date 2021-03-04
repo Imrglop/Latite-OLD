@@ -1,5 +1,7 @@
 #include "memory.h"
 
+using std::vector;
+
 vector<unsigned char> memory::ReadMemoryRaw(ADDRESS address, unsigned long long size)
 {
     vector<unsigned char> retVal = { 0 };
@@ -53,7 +55,7 @@ void memory::Nop(ADDRESS address, unsigned long long amt)
     memory::WriteBytes(address, bytes);
 }
 
-ADDRESS memory::GetMLPtrAddy(void* addy, vector<DWORD> offsets)
+ADDRESS memory::GetMLPtrAddy(void* addy, std::vector<DWORD> offsets)
 {
     ADDRESS ptrPoint = 0;
 
@@ -68,7 +70,7 @@ ADDRESS memory::GetMLPtrAddy(void* addy, vector<DWORD> offsets)
     return 0;
 }
 
-void memory::WriteBytes(ADDRESS address, vector<unsigned char> bytes)
+void memory::WriteBytes(ADDRESS address, std::vector<unsigned char> bytes)
 {
     DWORD oldVp;
     auto hProcess = getHProcess();

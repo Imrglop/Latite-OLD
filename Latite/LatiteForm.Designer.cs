@@ -34,6 +34,10 @@ namespace Latite
             this.consoleButton = new System.Windows.Forms.Button();
             this.modsControl = new System.Windows.Forms.TabControl();
             this.modsTabPage = new System.Windows.Forms.TabPage();
+            this.freelookBindBox = new System.Windows.Forms.TextBox();
+            this.freelookCheckbox = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.fullbrightCheckBox = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -156,6 +160,10 @@ namespace Latite
             // 
             this.modsTabPage.AutoScroll = true;
             this.modsTabPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.modsTabPage.Controls.Add(this.freelookBindBox);
+            this.modsTabPage.Controls.Add(this.freelookCheckbox);
+            this.modsTabPage.Controls.Add(this.label9);
+            this.modsTabPage.Controls.Add(this.label8);
             this.modsTabPage.Controls.Add(this.fullbrightCheckBox);
             this.modsTabPage.Controls.Add(this.label6);
             this.modsTabPage.Controls.Add(this.label5);
@@ -174,6 +182,45 @@ namespace Latite
             this.modsTabPage.Size = new System.Drawing.Size(587, 424);
             this.modsTabPage.TabIndex = 0;
             this.modsTabPage.Text = "Mods";
+            // 
+            // freelookBindBox
+            // 
+            this.freelookBindBox.Location = new System.Drawing.Point(352, 524);
+            this.freelookBindBox.Name = "freelookBindBox";
+            this.freelookBindBox.Size = new System.Drawing.Size(51, 33);
+            this.freelookBindBox.TabIndex = 9;
+            this.freelookBindBox.Text = "F";
+            this.freelookBindBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // freelookCheckbox
+            // 
+            this.freelookCheckbox.AutoSize = true;
+            this.freelookCheckbox.ForeColor = System.Drawing.Color.White;
+            this.freelookCheckbox.Location = new System.Drawing.Point(298, 490);
+            this.freelookCheckbox.Name = "freelookCheckbox";
+            this.freelookCheckbox.Size = new System.Drawing.Size(99, 30);
+            this.freelookCheckbox.TabIndex = 17;
+            this.freelookCheckbox.Text = "Enabled";
+            this.freelookCheckbox.UseVisualStyleBackColor = true;
+            this.freelookCheckbox.CheckedChanged += new System.EventHandler(this.freelookCheckbox_CheckedChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(296, 527);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(50, 26);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Bind";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(275, 462);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(183, 26);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Freelook (360 View)";
             // 
             // fullbrightCheckBox
             // 
@@ -477,10 +524,10 @@ namespace Latite
             this.optionsTabControl.Controls.Add(this.opacityDisplayLabel);
             this.optionsTabControl.Controls.Add(this.opacityLabel);
             this.optionsTabControl.Controls.Add(this.opacitySlider);
-            this.optionsTabControl.Location = new System.Drawing.Point(4, 35);
+            this.optionsTabControl.Location = new System.Drawing.Point(4, 22);
             this.optionsTabControl.Name = "optionsTabControl";
             this.optionsTabControl.Padding = new System.Windows.Forms.Padding(3);
-            this.optionsTabControl.Size = new System.Drawing.Size(587, 424);
+            this.optionsTabControl.Size = new System.Drawing.Size(587, 437);
             this.optionsTabControl.TabIndex = 1;
             this.optionsTabControl.Text = "Options";
             // 
@@ -622,10 +669,10 @@ namespace Latite
             this.consoleTab.Controls.Add(this.cinGo);
             this.consoleTab.Controls.Add(this.consoleInput);
             this.consoleTab.Controls.Add(this.consoleOutput);
-            this.consoleTab.Location = new System.Drawing.Point(4, 35);
+            this.consoleTab.Location = new System.Drawing.Point(4, 22);
             this.consoleTab.Name = "consoleTab";
             this.consoleTab.Padding = new System.Windows.Forms.Padding(3);
-            this.consoleTab.Size = new System.Drawing.Size(587, 424);
+            this.consoleTab.Size = new System.Drawing.Size(587, 437);
             this.consoleTab.TabIndex = 2;
             this.consoleTab.Text = "Console";
             // 
@@ -676,10 +723,10 @@ namespace Latite
             this.infoTabPage.Controls.Add(this.updateButton);
             this.infoTabPage.Controls.Add(this.GithubButton);
             this.infoTabPage.Controls.Add(this.infoRichTextBox);
-            this.infoTabPage.Location = new System.Drawing.Point(4, 35);
+            this.infoTabPage.Location = new System.Drawing.Point(4, 22);
             this.infoTabPage.Name = "infoTabPage";
             this.infoTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.infoTabPage.Size = new System.Drawing.Size(587, 424);
+            this.infoTabPage.Size = new System.Drawing.Size(587, 437);
             this.infoTabPage.TabIndex = 3;
             this.infoTabPage.Text = "Info";
             // 
@@ -1020,6 +1067,10 @@ namespace Latite
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox freelookCheckbox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox freelookBindBox;
+        private System.Windows.Forms.Label label9;
     }
 }
 

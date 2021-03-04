@@ -63,6 +63,9 @@
     <ClInclude Include="Utils\LocalPlayer.h">
       <Filter>Source Files\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Mods\Freelook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -100,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="Utils\LocalPlayer.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Mods\Freelook.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

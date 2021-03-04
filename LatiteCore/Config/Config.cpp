@@ -10,9 +10,9 @@
 
 using std::string;
 using std::fstream;
+using std::vector;
 
 char splitChar = '=';
-
 
 // constructor
 Config::Config(const char* filePath, const char* defaults)
@@ -45,20 +45,24 @@ bool Config::load()
 		return false;
 	}
 	// file is good
-
 	string line = "";
 	for (string currentLine; std::getline(file, line);)
 	{
+		log << "Ln: " << line << '\n';
 		std::istringstream toSplit(line);
 		if (line[0] == '#' || line[0] == '!') { // comment
+			log << "Comment\n";
 			continue;
 		}
 		std::vector<string> sl;
 		for (std::string each; std::getline(toSplit, each, splitChar);) {
 			sl.push_back(each);
 		};
+		log << "-";
 		if (sl.size() < 2) continue; // empty line
+		log << "-\n";
 		vars.insert({ sl[0], sl[1] });
+		log << "insert '" << sl[0] << "', " << sl[1] << "\n";
 	}
 	file.close();
 	this->loaded = true;
@@ -120,7 +124,7 @@ float Config::getNumber(string key)
 {
 	try {
 		auto fli = vars.find(key);
-		if (fli == vars.end()) return false;
+		if (fli == vars.end()) return 0.0f;
 		return std::stof(fli->second);
 	}
 	catch (std::exception e) {
@@ -156,6 +160,14 @@ std::vector<string> Config::getKeys()
 string Config::getString(string key)
 {
 	auto fli = vars.find(key);
+	auto keys = getKeys();
+	/*log << "Keys: [ ";
+	for (int i = 0; i < keys.size(); i++) {
+		std::cout << keys[i] << " ";
+	}
+	std::cout << "]\n";*/
+	//log << "Get: '" << key << "'\n";
+	//log << "FLI: '" << fli->second << "'\n";
 	if (fli != vars.end()) return fli->second;
 	return "null";
 }

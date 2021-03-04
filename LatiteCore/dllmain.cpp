@@ -18,6 +18,8 @@
 
 bool connected;
 
+using std::vector;
+
 DWORD pID;
 
 ADDRESS moduleBase;
@@ -236,6 +238,11 @@ void mod_zoom_setAmount(float amount)
     getZoomModule().setFovAmount(amount);
 }
 
+void mod_freelook_setBind(char bind) 
+{
+    getFreelookModule().setBind(bind);
+}
+
 ADDRESS currentModuleBase()
 {
     return moduleBase;
@@ -334,11 +341,19 @@ void setEnabled(unsigned int modId, bool enabled)
             getTimeChangerModule().onDisable();
         else
             getTimeChangerModule().onEnable(timeChangerSetting);
+        break;
     case 5:
         if (enabled)
             getFullbrightModule().onEnable();
         else
             getFullbrightModule().onDisable();
+        break;
+    case 6:
+        if (enabled)
+            getFreelookModule().onEnable();
+        else
+            getFreelookModule().onDisable();
+        break;
     }
 }
 

@@ -9,6 +9,7 @@
 # in a Minecraft server called example.com
 
 play.nethergames.org=toggle_sprint
+geo.hivebedrock.network=freelook
 
 ! --------------------------------------------
 # If you want a server added here by default,

@@ -7,9 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-
-using std::vector;
-
+#define assert(x) if (!(x)) return
 // Macros / Types
 
 // 64 Bit unsigned integer
@@ -53,6 +51,7 @@ extern "C" {
 	LATITE_API void mod_zoom_setBind(char bind);
 	LATITE_API void mod_zoom_setAmount(float amount);
 	LATITE_API void mod_lookBehind_setBind(char bind);
+	LATITE_API void mod_freelook_setBind(char bind);
 
 	LATITE_API void setTimeChangerSetting(int setting);
 
@@ -144,6 +143,12 @@ extern "C" {
 #define ADDRESS_BRIGHTNESS_BASEADDY 0x0369BD40
 #define ADDRESS_BRIGHTNESS_OFFSETS { 0x20, 0xFF0, 0x1D8, 0x8, 0x138 }
 #define ADDRESS_BRIGHTNESS_LAST_OFFSET 0x1E8
+
+#define ADDRESS_STATIC_FREELOOK_CODE 0x1AB7E57
+#define ADDRESS_STATIC_FREELOOK_CONTENT { 0x89, 0x01 }
+
+#define ADDRESS_STATIC_FREELOOK2_CODE 0x1ab7e62
+#define ADDRESS_STATIC_FREELOOK2_CONTENT { 0x89, 0x87, 0x20, 0x01, 0x00, 0x00 }
 
 // functions
 

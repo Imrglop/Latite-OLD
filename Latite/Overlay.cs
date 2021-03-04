@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -10,29 +11,38 @@ namespace Latite
     // overlay for minecraft needed for Latite
     public partial class Overlay : Form
     {
-        bool[] KeysPressed = new bool[7];
-        int lcps, rcps = 0;
+        private struct KeyDisplay
+        {
+            public static bool[] KeysPressed = new bool[7];
+            public static int Left = 0;
+            public static int Right = 0;
+            public static List<long> Clicks = new List<long>();
+            public static List<long> RightClicks = new List<long>();
+            public static long LastClick = 0;
+        }
         private int OldStyle = 0;
+
 
         LatiteForm latiteForm;
         DragUtils dragUtils;
         public bool LoadedGuiPositions = false;
+        readonly string ToggleSprintTextOn = "[Sprinting (Toggled)]";
 
         public static IntPtr hWnd = User32.FindWindowA(null, "Minecraft"); // find minecraft 
 
         private void secondRunner_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (true)
+            /*while (true)
             {
                 if (secondRunner.CancellationPending) break;
                 Thread.Sleep(1000);
                 // CPS counter
                 // todo not proper cps counter
-                LMBCounter.Text = lcps + " CPS";
-                RMBCounter.Text = rcps + " CPS";
-                lcps = 0;
-                rcps = 0;
-            }
+                LMBCounter.Text = KeyDisplay.Left + " CPS";
+                RMBCounter.Text = KeyDisplay.Right + " CPS";
+                KeyDisplay.Left = 0;
+                KeyDisplay.Right = 0;
+            }*/
         }
 
         public void SetOpacity(double Opacity)
@@ -40,7 +50,6 @@ namespace Latite
             this.Opacity = Opacity;
         }
 
-        readonly string ToggleSprintTextOn = "[Sprinting (Toggled)]";
         public void ToggleSprint(int val)
         {
             if (LatiteCore.getCurrentGui() != 0) return;
@@ -63,7 +72,7 @@ namespace Latite
             this.dragUtils = new DragUtils(this);
             InitializeComponent();
         }
-
+        #region Drag
         private void keystrokesPanel_MouseDown(object sender, MouseEventArgs e)
         {
             if (!IsEditing) return;
@@ -75,7 +84,7 @@ namespace Latite
             if (!IsEditing) return;
             dragUtils.DragProc(keystrokesPanel, e);
         }
-
+        #endregion Drag
         public void SaveData()
         {
             // save data
@@ -105,7 +114,6 @@ namespace Latite
         private void Overlay_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
-
         public void SetGuiDisplay(uint gui, bool display, int anchor = -1, int[] position = null)
         {
             Control control = null;
@@ -134,12 +142,14 @@ namespace Latite
                 }
             }
         }
-
+        
         string OldSprintText = "";
         // Key Held
         int kh = 0x8000;
         public char EditingBind = (char)0xA1;
+        public bool IsEditing = false;
 
+        #region Dragging
         private void posPanel_MouseDown(object sender, MouseEventArgs e)
         {
             dragUtils.StartDrag(e, this.LoadedGuiPositions);
@@ -159,8 +169,13 @@ namespace Latite
         {
             dragUtils.DragProc(toggleSprintLabel, e);
         }
+        #endregion Dragging
+        #region Mod Checkbox
 
-        public bool IsEditing = false;
+        private void blockCoordsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            SetGuiDisplay(2, blockCoordsCheckbox.Checked);
+        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -176,7 +191,7 @@ namespace Latite
         {
             SetGuiDisplay(1, posDisplayCheckbox.Checked);
         }
-
+        #endregion Mod Checkbox
         public void SetDraggableItems(bool Draggable)
         {
             if (Draggable)
@@ -226,7 +241,13 @@ namespace Latite
                 }
             }
         }
+        #region RGB
         private void keystrokesRedTrackbar_Scroll(object sender, EventArgs e)
+        {
+            UpdateTextColorK();
+        }
+
+        private void keystrokesBlueTrackbar_Scroll(object sender, EventArgs e)
         {
             UpdateTextColorK();
         }
@@ -235,11 +256,8 @@ namespace Latite
         {
             UpdateTextColorK();
         }
-
-        private void blockCoordsCheckbox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetGuiDisplay(2, blockCoordsCheckbox.Checked);
-        }
+        #endregion RGB
+        #region Dragging
 
         private void blockDisplayText_MouseDown(object sender, MouseEventArgs e)
         {
@@ -250,12 +268,7 @@ namespace Latite
         {
             dragUtils.DragProc(blockDisplayText, e);
         }
-
-        private void keystrokesBlueTrackbar_Scroll(object sender, EventArgs e)
-        {
-            UpdateTextColorK();
-        }
-
+        #endregion Dragging
         public void LoadGuiPos()
         {
             this.keystrokesPanel.Anchor = AnchorStyles.None;
@@ -321,7 +334,7 @@ namespace Latite
             int[] NotPressedColor = { 50, 60, 70 };
             int[] PressedColor = { NotPressedColor[0] + 10, NotPressedColor[1] + 10, NotPressedColor[2] + 10 };
 
-            if (KeysPressed[Key]) panel.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
+            if (KeyDisplay.KeysPressed[Key]) panel.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
             else panel.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
         }
 
@@ -374,11 +387,26 @@ namespace Latite
             return coords;
         }
 
+        private int GetClicks(bool Right = false)
+        {
+            List<long> Array = Right ? KeyDisplay.RightClicks : KeyDisplay.Clicks;
+            long Time = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            for (int i = 0; i < Array.Count; i++)
+            {
+                if (Array[0] + 1000L < Time)
+                {
+                    Array.RemoveAt(i);
+                }
+            }
+            return Array.Count;
+        }
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
             {
                 Thread.Sleep(10); // Cooldown
+                #region Edit Mode Shortcut
                 if (!IsEditing && LatiteCore.getCurrentGui() != 0) SetGuisVisible(false);
                 if (IsEditing || LatiteCore.getCurrentGui() == 0) SetGuisVisible(true);
 
@@ -391,6 +419,8 @@ namespace Latite
                         User32.SetForegroundWindow(this.Handle);
                     }
                 }
+                #endregion Edit Mode Shortcut
+                #region Pos Display
                 if (LatiteCore.connectedToMinecraft())
                 {
                     xPosLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetXPos(), 2) + "";
@@ -412,26 +442,36 @@ namespace Latite
                 {
                     this.TopMost = true;
                 }
-                KeysPressed[0] = ((User32.GetKeyState((int)'W') & kh) == kh);
-                KeysPressed[1] = ((User32.GetKeyState((int)'A') & kh) == kh);
-                KeysPressed[2] = ((User32.GetKeyState((int)'S') & kh) == kh);
-                KeysPressed[3] = ((User32.GetKeyState((int)'D') & kh) == kh);
+                #endregion Pos Display
+                #region Keystrokes
+                KeyDisplay.KeysPressed[0] = ((User32.GetKeyState((int)'W') & kh) == kh);
+                KeyDisplay.KeysPressed[1] = ((User32.GetKeyState((int)'A') & kh) == kh);
+                KeyDisplay.KeysPressed[2] = ((User32.GetKeyState((int)'S') & kh) == kh);
+                KeyDisplay.KeysPressed[3] = ((User32.GetKeyState((int)'D') & kh) == kh);
                 
-                KeysPressed[6] = ((User32.GetKeyState(0x20) & kh) == kh); // Space Bar
+                KeyDisplay.KeysPressed[6] = ((User32.GetKeyState(0x20) & kh) == kh); // Space Bar
 
                 if ((User32.GetKeyState(0x01) & kh) == kh) {
-                    if (!KeysPressed[4]) { lcps++; };
-                    KeysPressed[4] = true; // LMB
+                    if (!KeyDisplay.KeysPressed[4]) 
+                    {
+                        KeyDisplay.Clicks.Add(DateTimeOffset.Now.ToUnixTimeMilliseconds());
+                    };
+                    KeyDisplay.KeysPressed[4] = true; // LMB
                 }
-                else KeysPressed[4] = false;
+                else KeyDisplay.KeysPressed[4] = false;
 
                 if ((User32.GetKeyState(0x02) & kh) == kh)
                 {
-                    if (!KeysPressed[5]) rcps++;
-                    KeysPressed[5] = true; // RMB
+                    if (!KeyDisplay.KeysPressed[5])
+                    {
+                        KeyDisplay.RightClicks.Add(DateTimeOffset.Now.ToUnixTimeMilliseconds());
+                    }
+                    KeyDisplay.KeysPressed[5] = true; // RMB
                 }
-                else KeysPressed[5] = false;
+                else KeyDisplay.KeysPressed[5] = false;
                 UpdateKeystrokes();
+                #endregion
+                #region Window Pos
                 User32.GetWindowRect(hWnd, out User32.rect);
                 this.Size = new Size(User32.rect.right - User32.rect.left,
                     User32.rect.bottom - User32.rect.top);
@@ -444,6 +484,11 @@ namespace Latite
                 {
                     this.blockDisplayText.Text = string.Join(", ", GetBlockCoords());
                 }
+                #endregion Window Pos
+                #region CPS
+                LMBCounter.Text = GetClicks() + " CPS";
+                RMBCounter.Text = GetClicks(true) + " CPS";
+                #endregion CPS
             }
         }
     }

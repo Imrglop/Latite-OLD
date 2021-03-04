@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Config\Config.h" />
     <ClInclude Include="dllmain.h" />
+    <ClInclude Include="Mods\Freelook.h" />
     <ClInclude Include="Mods\Fullbright.h" />
     <ClInclude Include="Utils\LocalPlayer.h" />
     <ClInclude Include="Mods\LookBehind.h" />
@@ -171,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="Config\Config.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Mods\Freelook.cpp" />
     <ClCompile Include="Mods\Fullbright.cpp" />
     <ClCompile Include="Utils\LocalPlayer.cpp" />
     <ClCompile Include="Mods\LookBehind.cpp" />

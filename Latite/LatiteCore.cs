@@ -47,5 +47,7 @@ namespace Latite
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetLookAtBlock")]
             public static extern IntPtr GetLookAtBlock();
         }
+        [DllImport("LatiteCore.dll")]
+        public static extern void mod_freelook_setBind(char bind);
     }
 }

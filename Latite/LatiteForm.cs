@@ -57,7 +57,7 @@ namespace Latite
                 lookBehindBind.Text = BindToString(Data.LookBehind.Bind);
                 lookBehindEnabled.Checked = Data.LookBehind.Enabled;
 
-                timeChangerTrackBar.Value = Data.TimeChanger.TimeOfDay;
+                //timeChangerTrackBar.Value = Data.TimeChanger.TimeOfDay;
                 timeChangerCheckbox.Checked = Data.TimeChanger.Enabled;
 
                 opacitySlider.Value = Data.Options.Opacity;
@@ -468,6 +468,12 @@ namespace Latite
             double val = opacitySlider.Value * 4;
             opacityDisplayLabel.Text = (opacitySlider.Value * 4) + "";
             this.OverlayForm.SetOpacity(val / 100);
+        }
+
+        private void freelookCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            LatiteCore.mod_freelook_setBind(StringToBind(freelookBindBox.Text));
+            LatiteCore.setEnabled(6, freelookCheckbox.Checked);
         }
     }
 }

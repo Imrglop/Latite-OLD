@@ -1,5 +1,8 @@
 #include "SA_utils.h"
 
+using std::vector;
+using std::string;
+
 std::vector<std::string> utils::splitString(std::string str, char delim) {
     vector<std::string> retVal = {};
     std::istringstream split(str);

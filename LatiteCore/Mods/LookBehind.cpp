@@ -60,5 +60,5 @@ void LookBehind::onTick()
 		if (lbEnabled)
 			goBack();
 	}
-	if (lookingBehind && LocalPlayer::UIOpen()) goBack();
+	if (lbKeyPressed && lookingBehind && LocalPlayer::UIOpen()) goBack();
 }

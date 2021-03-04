@@ -1,4 +1,4 @@
 #pragma once
 #include "../Config/Config.h"
 
-bool moduleDisabledOnServer(string server, string mod);
+bool moduleDisabledOnServer(std::string server, std::string mod);

@@ -11,6 +11,7 @@
 #include "./ToggleSprint.h"
 #include "./TimeChanger.h"
 #include "./Fullbright.h"
+#include "./Freelook.h"
 
 class Mod {
 //	void onEnable();
@@ -26,5 +27,6 @@ LookBehind getLookBehindModule();
 ToggleSprint getToggleSprintModule();
 TimeChanger getTimeChangerModule();
 Fullbright getFullbrightModule();
+Freelook getFreelookModule();
 
 #endif

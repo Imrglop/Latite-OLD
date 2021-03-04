@@ -8,27 +8,25 @@
 #include <string>
 #include <map>
 
-using std::string;
-
 class Config
 {
 private:
 	const char* filePath = "exampleConfig.txt";
 	const char* fileDefault = "# Example Default\n";
-	std::map<string, string> vars;
+	std::map<std::string, std::string> vars;
 public:
 	bool loaded = false;
 	Config(const char* filePath, const char* defaults);
 	bool load();
-	std::vector<string> getKeys();
-	std::string getString(string key);
-	void set(string key, string value, bool reload = false);
-	float getNumber(string key);
-	unsigned char getByte(string key);
-	bool getBool(string key);
-	int getInteger(string key);
-	std::vector<int> getIntegerList(string key);
-	int findInList(std::vector<string> list, string item);
+	std::vector<std::string> getKeys();
+	std::string getString(std::string key);
+	void set(std::string key, std::string value, bool reload = false);
+	float getNumber(std::string key);
+	unsigned char getByte(std::string key);
+	bool getBool(std::string key);
+	int getInteger(std::string key);
+	std::vector<int> getIntegerList(std::string key);
+	int findInList(std::vector<std::string> list, std::string item);
 };
 
 #endif
