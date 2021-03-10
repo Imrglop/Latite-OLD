@@ -30,7 +30,6 @@ namespace Latite
         private void InitializeComponent()
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.secondRunner = new System.ComponentModel.BackgroundWorker();
             this.motionLabel = new System.Windows.Forms.Label();
             this.motionYLabel = new System.Windows.Forms.Label();
             this.posPanel = new System.Windows.Forms.Panel();
@@ -76,6 +75,7 @@ namespace Latite
             this.spaceBarPanel = new System.Windows.Forms.Panel();
             this.spaceBarBox = new System.Windows.Forms.PictureBox();
             this.keystrokesPanel = new System.Windows.Forms.Panel();
+            this.gameUpdateRunner = new System.ComponentModel.BackgroundWorker();
             this.posPanel.SuspendLayout();
             this.settingsTabControl.SuspendLayout();
             this.keystrokesTabPage.SuspendLayout();
@@ -100,11 +100,6 @@ namespace Latite
             // 
             this.backgroundWorker1.WorkerSupportsCancellation = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            // 
-            // secondRunner
-            // 
-            this.secondRunner.WorkerSupportsCancellation = true;
-            this.secondRunner.DoWork += new System.ComponentModel.DoWorkEventHandler(this.secondRunner_DoWork);
             // 
             // motionLabel
             // 
@@ -620,6 +615,10 @@ namespace Latite
             this.keystrokesPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.keystrokesPanel_MouseDown);
             this.keystrokesPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.keystrokesPanel_MouseMove);
             // 
+            // gameUpdateRunner
+            // 
+            this.gameUpdateRunner.DoWork += new System.ComponentModel.DoWorkEventHandler(this.gameUpdateRunner_DoWork);
+            // 
             // Overlay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
@@ -641,7 +640,6 @@ namespace Latite
             this.ShowInTaskbar = false;
             this.Text = "Overlay";
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(31)))));
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Overlay_FormClosing);
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.posPanel.ResumeLayout(false);
             this.posPanel.PerformLayout();
@@ -724,6 +722,6 @@ namespace Latite
         private System.Windows.Forms.PictureBox spaceBarBox;
         private System.Windows.Forms.Panel keystrokesPanel;
         public System.ComponentModel.BackgroundWorker backgroundWorker1;
-        public System.ComponentModel.BackgroundWorker secondRunner;
+        private System.ComponentModel.BackgroundWorker gameUpdateRunner;
     }
 }

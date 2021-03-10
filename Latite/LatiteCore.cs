@@ -35,17 +35,14 @@ namespace Latite
         public struct LocalPlayer
         {
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetYMotion")]
-            public static extern float GetYMotion();
-            [DllImport("LatiteCore.dll", EntryPoint = "LPGetXPos")]
-            public static extern float GetXPos();
-            [DllImport("LatiteCore.dll", EntryPoint = "LPGetYPos")]
-            public static extern float GetYPos();
-            [DllImport("LatiteCore.dll", EntryPoint = "LPGetZPos")]
-            public static extern float GetZPos();
+            public static extern float getYMotion();
+
+            [DllImport("LatiteCore.dll", EntryPoint = "LPGetPos")]
+            public static extern IntPtr getPosition(); // float[3]
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetMotion")]
-            public static extern float GetMotion();
+            public static extern float getMotion();
             [DllImport("LatiteCore.dll", EntryPoint = "LPGetLookAtBlock")]
-            public static extern IntPtr GetLookAtBlock();
+            public static extern IntPtr getLookAtBlock();
         }
         [DllImport("LatiteCore.dll")]
         public static extern void mod_freelook_setBind(char bind);

@@ -38,16 +38,25 @@ namespace Latite
             consoleOutput.Text += (OutputString + "\r\n");
             Console.WriteLine(OutputString);
         }
-
+        void DynamicUpdateData()
+        {
+            zaSlider_ValueChanged();
+            zoomCheckbox_CheckedChanged();
+            toggleSprintCheckbox_CheckedChanged();
+            lookBehindBind_TextChanged();
+            lookBehindEnabled_CheckedChanged();
+            fullbrightCheckBox_CheckedChanged();
+            timeChanger_CheckedChanged();
+        }
         private void DataInit()
         {
             bool ConfigLoaded = Data.Load();
             if (ConfigLoaded)
             {
                 zoomCheckbox.Checked = Data.Zoom.Enabled;
+
                 zoomBindBox.Text = BindToString(Data.Zoom.Bind);
                 zaSlider.Value = (int)Data.Zoom.Amount;
-                Coutln("DZA value: " + Data.Zoom.Amount);
 
                 toggleSprintCheckbox.Checked = Data.ToggleSprint.Enabled;
                 toggleSprintBind.Text = BindToString(Data.ToggleSprint.Bind);
@@ -58,9 +67,11 @@ namespace Latite
                 lookBehindEnabled.Checked = Data.LookBehind.Enabled;
 
                 //timeChangerTrackBar.Value = Data.TimeChanger.TimeOfDay;
-                timeChangerCheckbox.Checked = Data.TimeChanger.Enabled;
+                timeChangerCheckBox.Checked = Data.TimeChanger.Enabled;
 
                 opacitySlider.Value = Data.Options.Opacity;
+
+                DynamicUpdateData();
             }
             else
             {
@@ -160,14 +171,13 @@ namespace Latite
                 connectedLabel.Visible = false;
                 this.OverlayForm.SaveData();
                 this.OverlayForm.backgroundWorker1.CancelAsync();
-                this.OverlayForm.secondRunner.CancelAsync();
                 if (this.OverlayForm.IsEditing) this.toggleEditing();
                 if (!this.OverlayForm.IsDisposed) this.OverlayForm.BeginInvoke(new MethodInvoker(this.OverlayForm.Close));
                 LatiteCore.detach();
             }
         }
 
-        private void connectButton_Click(object sender, EventArgs e)
+        private void connectButton_Click(object sender = null, EventArgs e = null)
         {
             ConnectToMc();
         }
@@ -178,11 +188,6 @@ namespace Latite
             {
                 DispatchCommand(consoleInput.Text);
             }
-        }
-
-        private char GetBind(string Str)
-        {
-            return Str.ToUpper()[0];
         }
 
         private void DispatchCommand(string Command)
@@ -220,31 +225,31 @@ namespace Latite
             }
         }
 
-        private void cinGo_Click(object sender, EventArgs e)
+        private void cinGo_Click(object sender = null, EventArgs e = null)
         {
             DispatchCommand(consoleInput.Text);
         }
 
-        private void DRPButton_Click(object sender, EventArgs e)
+        private void DRPButton_Click(object sender = null, EventArgs e = null)
         {
             System.Diagnostics.Process.Start("https://discord.gg/DfYUSJspcn");
         }
-
-        private void optionsButton_Click(object sender, EventArgs e)
+        #region Tabs
+        private void optionsButton_Click(object sender = null, EventArgs e = null)
         {
             modsControl.SelectedTab = optionsTabControl;
         }
 
-        private void modsButton_Click(object sender, EventArgs e)
+        private void modsButton_Click(object sender = null, EventArgs e = null)
         {
             modsControl.SelectedTab = modsTabPage;
         }
 
-        private void consoleButton_Click(object sender, EventArgs e)
+        private void consoleButton_Click(object sender = null, EventArgs e = null)
         {
             modsControl.SelectedTab = consoleTab;
         }
-
+        #endregion Tabs
         public bool IsToggleSprint = false;
 
         void ToggleSprint(int _Val)
@@ -295,12 +300,12 @@ namespace Latite
             Data.Save();
         }
 
-        private void disconnectButton_Click(object sender, EventArgs e)
+        private void disconnectButton_Click(object sender = null, EventArgs e = null)
         {
             DisconnectFromMc();
         }
 
-        private void zoomBindBox_TextChanged(object sender, EventArgs e)
+        private void zoomBindBox_TextChanged(object sender = null, EventArgs e = null)
         {
             string SetStr = zoomBindBox.Text;
             byte Bind = (byte)StringToBind(SetStr);
@@ -308,36 +313,36 @@ namespace Latite
             if (SetStr.Length > 0) LatiteCore.mod_zoom_setBind((char)Bind);
         }
 
-        private void LatiteForm_Load(object sender, EventArgs e)
+        private void LatiteForm_Load(object sender = null, EventArgs e = null)
         {
             ConnectToMc(false); // silently connect on launch
         }
 
-        private void launchButton_Click(object sender, EventArgs e)
+        private void launchButton_Click(object sender = null, EventArgs e = null)
         {
             System.Diagnostics.Process.Start("minecraft://");
         }
 
-        private void zoomCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void zoomCheckbox_CheckedChanged(object sender = null, EventArgs e = null)
         {
             Data.Zoom.Enabled = zoomCheckbox.Checked;
             LatiteCore.setEnabled(1, zoomCheckbox.Checked);
         }
 
-        private void lookBehindEnabled_CheckedChanged(object sender, EventArgs e)
+        private void lookBehindEnabled_CheckedChanged(object sender = null, EventArgs e = null)
         {
             Data.LookBehind.Enabled = lookBehindEnabled.Checked;
             LatiteCore.setEnabled(2, lookBehindEnabled.Checked);
         }
 
-        private void lookBehindBind_TextChanged(object sender, EventArgs e)
+        private void lookBehindBind_TextChanged(object sender = null, EventArgs e = null)
         {
             string SetStr = zoomBindBox.Text.ToUpper();
             if (SetStr.Length > 0)
                 LatiteCore.mod_lookBehind_setBind(SetStr[0]);
         }
 
-        private void toggleSprintCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void toggleSprintCheckbox_CheckedChanged(object sender = null, EventArgs e = null)
         {
             if (!(this.toggleSprintCheckbox.Checked))
             {
@@ -355,7 +360,7 @@ namespace Latite
             else if (SetStr.ToLower() == "enter" || SetStr.ToLower() == "return") return '\r';
             else if (SetStr.ToLower() == "rshift") return (char)0xA1;
             else if (SetStr.ToLower() == "rctrl") return (char)0xA3;
-            if (SetStr.Length > 0) return SetStr[0];
+            if (SetStr.Length > 0) return (SetStr.ToUpper())[0];
             return '\0';
         }
 
@@ -375,27 +380,17 @@ namespace Latite
             return ((char)bind).ToString();
         }
 
-        private void toggleSprintBind_TextChanged(object sender, EventArgs e)
+        private void toggleSprintBind_TextChanged(object sender = null, EventArgs e = null)
         {
             ToggleSprintBind = StringToBind(toggleSprintBind.Text);
         }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            int Val = timeChangerTrackBar.Value * 2500;
-            LatiteCore.setTimeChangerSetting(Val);
-            Data.TimeChanger.Enabled = timeChangerCheckbox.Checked;
-            Data.TimeChanger.TimeOfDay = Val;
-            if (LatiteCore.connectedToMinecraft())
-                LatiteCore.setEnabled(4, timeChangerCheckbox.Checked);
-        }
         
-        private void GithubButton_Click(object sender, EventArgs e)
+        private void GithubButton_Click(object sender = null, EventArgs e = null)
         {
             System.Diagnostics.Process.Start("https://github.com/Imrglop/Latite");
         }
 
-        private void updateButton_Click(object sender, EventArgs e)
+        private void updateButton_Click(object sender = null, EventArgs e = null)
         {
             System.Diagnostics.Process.Start("https://github.com/Imrglop/Latite/releases/latest");
         }
@@ -409,13 +404,13 @@ namespace Latite
             this.toggleEditingButton.FlatAppearance.BorderColor = (ToggleEditing ? Color.Aqua : Color.Gray);
         }
 
-        private void toggleEditingButton_Click(object sender, EventArgs e)
+        private void toggleEditingButton_Click(object sender = null, EventArgs e = null)
         {
             if (LatiteCore.connectedToMinecraft())
                 this.toggleEditing();
         }
 
-        private void shortcutToggleEditing_TextChanged(object sender, EventArgs e)
+        private void shortcutToggleEditing_TextChanged(object sender = null, EventArgs e = null)
         {
             if (LatiteCore.connectedToMinecraft())
             {
@@ -423,18 +418,18 @@ namespace Latite
             }
         }
 
-        private void fullbrightCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void fullbrightCheckBox_CheckedChanged(object sender = null, EventArgs e = null)
         {
             Data.Fullbright.Enabled = fullbrightCheckBox.Checked;
             LatiteCore.setEnabled(5, fullbrightCheckBox.Checked);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender = null, EventArgs e = null)
         {
             System.Diagnostics.Process.Start("settings.txt");
         }
 
-        private void zaSlider_ValueChanged(object sender, EventArgs e)
+        private void zaSlider_ValueChanged(object sender = null, EventArgs e = null)
         {
             var FOVAmount = (zaSlider.Value + 2) * 5;
             zaSliderLabel.Text = $"Amount ({FOVAmount})";
@@ -443,14 +438,14 @@ namespace Latite
             Coutln("try set amt to " + FOVAmount);
         }
 
-        private void timeChangerTrackBar_ValueChanged(object sender, EventArgs e)
+        private void timeChangerTrackBar_ValueChanged(object sender = null, EventArgs e = null)
         {
             Data.TimeChanger.TimeOfDay = timeChangerTrackBar.Value;
             int Val = timeChangerTrackBar.Value * 2500;
             timeChangerTrackBarLabel.Text = Val + "";
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender = null, EventArgs e = null)
         {
             if (LatiteCore.connectedToMinecraft())
             {
@@ -461,7 +456,7 @@ namespace Latite
             }
         }
 
-        private void opacitySlider_ValueChanged(object sender, EventArgs e)
+        private void opacitySlider_ValueChanged(object sender = null, EventArgs e = null)
         {
             if (!LatiteCore.connectedToMinecraft()) return;
             Data.Options.Opacity = opacitySlider.Value;
@@ -470,10 +465,20 @@ namespace Latite
             this.OverlayForm.SetOpacity(val / 100);
         }
 
-        private void freelookCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void freelookCheckbox_CheckedChanged(object sender = null, EventArgs e = null)
         {
             LatiteCore.mod_freelook_setBind(StringToBind(freelookBindBox.Text));
             LatiteCore.setEnabled(6, freelookCheckbox.Checked);
+        }
+
+        private void timeChanger_CheckedChanged(object sender = null, EventArgs e = null)
+        {
+            int Val = timeChangerTrackBar.Value * 2500;
+            LatiteCore.setTimeChangerSetting(Val);
+            Data.TimeChanger.Enabled = timeChangerCheckBox.Checked;
+            Data.TimeChanger.TimeOfDay = Val;
+            if (LatiteCore.connectedToMinecraft())
+                LatiteCore.setEnabled(4, timeChangerCheckBox.Checked);
         }
     }
 }

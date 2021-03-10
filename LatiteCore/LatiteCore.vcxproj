@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -159,6 +159,7 @@
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="Mods\Freelook.h" />
     <ClInclude Include="Mods\Fullbright.h" />
+    <ClInclude Include="Utils\HookDef.h" />
     <ClInclude Include="Utils\LocalPlayer.h" />
     <ClInclude Include="Mods\LookBehind.h" />
     <ClInclude Include="Utils\memory.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Mods\ToggleSprint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="Resources\servers.txt" />
   </ItemGroup>
   <ItemGroup>

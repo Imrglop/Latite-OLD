@@ -24,17 +24,6 @@ typedef unsigned long long ADDRESS;
 
 #define SETTINGS_TXT_DEFAULT "#\n# Settings File\n#\n\n# (For debugging) this will determine if console will be enabled every time \n# you attach launch. Can also be edited in the GUI/app itself but this one\n# will save\n\nconsole=false\n\n# This area is setting for offsets. you should leave enabled to false\n# if u want it to work on the latest version every update. But if you\n# are on a different version, place the offsets for your version here.\n\n# Warning: If you mess with those, it can crash the game or cause unexpected\n# behavior.\n\n# COMING SOON\noffsets_enabled=false\noffests=0,0,0,0,0"
 
-// Exports
-
-struct Settings {
-public:
-	int __ANCHORS[3];
-
-	int __LOCATION_KEYSTROKES[2] = { 0, 0 };
-	int __LOCATION_POSITION[2] = { 0, 0 };
-	int __LOCATION_TOGGLE_SPRINT[2] = { 0, 0 };
-};
-
 // Api Functions
 
 extern "C" {
@@ -47,31 +36,27 @@ extern "C" {
 
 	LATITE_API void setEnabled(unsigned int modId, bool enabled);
 
-	// this should be namespace if c# is good with that
+#pragma region Mods
 	LATITE_API void mod_zoom_setBind(char bind);
 	LATITE_API void mod_zoom_setAmount(float amount);
 	LATITE_API void mod_lookBehind_setBind(char bind);
 	LATITE_API void mod_freelook_setBind(char bind);
-
+#pragma endregion
 	LATITE_API void setTimeChangerSetting(int setting);
-
-	// Local Player
+#pragma region LocalPlayer
 	LATITE_API float LPGetYMotion();
 	LATITE_API float LPGetMotion();
 
-	LATITE_API float LPGetXPos();
-	LATITE_API float LPGetYPos();
-	LATITE_API float LPGetZPos();
+	LATITE_API float* LPGetPos();
 
 	LATITE_API int* LPGetLookAtBlock();
-
-	// Config
+	LATITE_API int getCurrentGui();
+#pragma endregion
+#pragma region Settings/Config
 	LATITE_API void settingsConfigSet(cstring k, cstring v);
 	LATITE_API void settingsConfigGet(cstring k, LPWSTR* os);
-
-	LATITE_API int getCurrentGui();
-
-	// Silver Link (data.bin)
+#pragma endregion
+#pragma region SilverWrapper
 	LATITE_API int SilverNextInt(bool* status = 0);
 	LATITE_API byte SilverNextByte(bool* status = 0);
 	LATITE_API double SilverNextDouble(bool* status = 0);
@@ -81,37 +66,44 @@ extern "C" {
 	LATITE_API void SilverInsertByte(byte val);
 	LATITE_API void SilverInsertDouble(double val);
 	LATITE_API unsigned __int64 SilverGetFileSize();
+#pragma endregion
 }
 
-// code
-
+#pragma region Offsets
 // these are to be updated every Minecraft update
+// TODO: Make 1 pointer to the Actor/local player, so no need to get a pointer for every thing
 
 // pointer to fov
+// [1.16.201]
 #define ADDRESS_FOV_BASEADDY 0x0369BD40
 #define ADDRESS_FOV_SEMI_OFFSETS { 0x20, 0xC98, 0x68, 0x08, 0x1A0, 0x120 }
 
 // pointer to sensitivity
+// [1.16.201]
 #define ADDRESS_FSENS_BASEADDY 0x0369BD40
 #define ADDRESS_FSENS_SEMI_OFFSETS { 0x20, 0xFA0, 0x1A8, 0xC78, 0x200, 0x48 }
 #define ADDRESS_FSENS_LAST_OFFSET 0x14
 
 // pointer to hide hand
+// [1.16.201]
 #define ADDRESS_FHH_BASEADDY 0x0369BD40
 #define ADDRESS_FHH_SEMI_OFFSETS { 0x20, 0x9F8, 0x1D8, 0x08, 0xD10 }
 #define ADDRESS_FHH_LAST_OFFSET 0x1E0
 
 // pointer to Y lower coordinate
+// [1.16.201]
 #define ADDRESS_Y_BASEADDY 0x03699238
 #define ADDRESS_Y_SEMI_OFFSETS { 0x10, 0x128, 0x0, 0x138, 0x490, 0xc0 }
 #define ADDRESS_Y_LAST_OFFSET 0x49C
 
 // pointer to F3 prespective
+// [1.16.201]
 #define ADDRESS_PRESPECTIVE_BASEADDY 0x0369BD40
 #define ADDRESS_PRESPECTIVE_OFFSETS { 0x20, 0xE88, 0x1D8, 0x08, 0x20 }
 #define ADDRESS_PRESPECTIVE_LAST_OFFSET 0x1E8
 
 // address to assembly code that checks if you're holding CTRL before sprinting
+// [1.16.201]
 #define ADDRESS_STATIC_SPRINT_CODE 0x1618D8F
 
 // pointer to time of day client side
@@ -140,15 +132,19 @@ extern "C" {
 #define ADDRESS_LOOKAT_LAST_OFFSET 0x9A0
 
 // pointer to brightness
+// [1.16.201]
 #define ADDRESS_BRIGHTNESS_BASEADDY 0x0369BD40
 #define ADDRESS_BRIGHTNESS_OFFSETS { 0x20, 0xFF0, 0x1D8, 0x8, 0x138 }
-#define ADDRESS_BRIGHTNESS_LAST_OFFSET 0x1E8
+#define ADDRESS_BRIGHTNESS_LAST_OFFSET 0x1E8\
 
+// [1.16.201]
 #define ADDRESS_STATIC_FREELOOK_CODE 0x1AB7E57
 #define ADDRESS_STATIC_FREELOOK_CONTENT { 0x89, 0x01 }
 
+// [1.16.201]
 #define ADDRESS_STATIC_FREELOOK2_CODE 0x1ab7e62
 #define ADDRESS_STATIC_FREELOOK2_CONTENT { 0x89, 0x87, 0x20, 0x01, 0x00, 0x00 }
+#pragma endregion
 
 // functions
 

@@ -77,7 +77,7 @@ ADDRESS GetModuleBase(DWORD pID, wchar_t* moduleName)
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, pID);
     if (hSnapshot != INVALID_HANDLE_VALUE)
     {
-        MODULEENTRY32W moduleEntry32;
+        MODULEENTRY32W moduleEntry32{};
         moduleEntry32.dwSize = sizeof(MODULEENTRY32W);
         if (Module32FirstW(hSnapshot, &moduleEntry32)) {
             do {
@@ -92,7 +92,7 @@ ADDRESS GetModuleBase(DWORD pID, wchar_t* moduleName)
     }
     else {
         _err = GetLastError();
-        log << "CreateTH32Snapshot failed! error: " << _err << '\n';
+        log << "CreateToolhelp32Snapshot failed! error: " << _err << '\n';
     }
     return _moduleBase;
 }
@@ -132,32 +132,14 @@ float LPGetYMotion()
     return yVel;
 }
 
-float LPGetYPos()
-{
-    ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
-        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    float pos = 0.f;
-    ReadProcessMemory(hProcess, (void*)addy, &pos, sizeof(pos), 0);
-    return pos;
-}
+float pos[3];
 
-float LPGetXPos()
+float* LPGetPos()
 {
     ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
         ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
     addy -= 4; // 1 float value (4 bytes) right before to the y position
-    float pos = 0.f;
-    ReadProcessMemory(hProcess, (void*)addy, &pos, sizeof(pos), 0);
-    return pos;
-}
-
-float LPGetZPos()
-{
-    ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
-        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    addy += 4; // 1 float value (4 bytes) right after to the y position
-    float pos = 0.f;
-    ReadProcessMemory(hProcess, (void*)addy, &pos, sizeof(pos), 0);
+    ReadProcessMemory(hProcess, (void*)addy, pos, 12, 0);
     return pos;
 }
 
@@ -166,6 +148,7 @@ int* LPGetLookAtBlock()
     return LocalPlayer::getLookAtBlock();
 }
 
+#pragma region Settings Config wrapper
 void settingsConfigSet(cstring k, cstring v)
 {
     settings.set(k, v);
@@ -187,7 +170,8 @@ int getCurrentGui()
     if (name == "chat_screen") return 4;
     return -1;
 }
-
+#pragma endregion
+#pragma region SilverBin wrapper
 int SilverNextInt(bool* status)
 {
     return storage.next<int>(status);
@@ -227,6 +211,7 @@ void SilverInsertDouble(double val)
 {
     storage.insert(val);
 }
+#pragma endregion
 
 unsigned __int64 SilverGetFileSize()
 {
@@ -292,7 +277,6 @@ DWORD attach() {
     return 0;
 }
 
-
 void loop()
 {
     if (connectedToMinecraft())
@@ -357,14 +341,8 @@ void setEnabled(unsigned int modId, bool enabled)
     }
 }
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
-    if (ul_reason_for_call == DLL_PROCESS_ATTACH)
-    {
-    }
     return TRUE;
 }
 

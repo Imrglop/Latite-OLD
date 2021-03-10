@@ -45,7 +45,7 @@ namespace Latite
             this.panel1 = new System.Windows.Forms.Panel();
             this.timeChangerTrackBarLabel = new System.Windows.Forms.Label();
             this.timeChangerTrackBar = new System.Windows.Forms.TrackBar();
-            this.timeChangerCheckbox = new System.Windows.Forms.CheckBox();
+            this.timeChangerCheckBox = new System.Windows.Forms.CheckBox();
             this.toggleSprintLabel = new System.Windows.Forms.Label();
             this.lookBehindDesc = new System.Windows.Forms.Label();
             this.lookBehindLabel = new System.Windows.Forms.Label();
@@ -265,7 +265,7 @@ namespace Latite
             // 
             this.panel1.Controls.Add(this.timeChangerTrackBarLabel);
             this.panel1.Controls.Add(this.timeChangerTrackBar);
-            this.panel1.Controls.Add(this.timeChangerCheckbox);
+            this.panel1.Controls.Add(this.timeChangerCheckBox);
             this.panel1.Location = new System.Drawing.Point(312, 307);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 137);
@@ -290,17 +290,17 @@ namespace Latite
             this.timeChangerTrackBar.Value = 1;
             this.timeChangerTrackBar.ValueChanged += new System.EventHandler(this.timeChangerTrackBar_ValueChanged);
             // 
-            // timeChangerCheckbox
+            // timeChangerCheckBox
             // 
-            this.timeChangerCheckbox.AutoSize = true;
-            this.timeChangerCheckbox.ForeColor = System.Drawing.Color.White;
-            this.timeChangerCheckbox.Location = new System.Drawing.Point(25, 12);
-            this.timeChangerCheckbox.Name = "timeChangerCheckbox";
-            this.timeChangerCheckbox.Size = new System.Drawing.Size(99, 30);
-            this.timeChangerCheckbox.TabIndex = 7;
-            this.timeChangerCheckbox.Text = "Enabled";
-            this.timeChangerCheckbox.UseVisualStyleBackColor = true;
-            this.timeChangerCheckbox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.timeChangerCheckBox.AutoSize = true;
+            this.timeChangerCheckBox.ForeColor = System.Drawing.Color.White;
+            this.timeChangerCheckBox.Location = new System.Drawing.Point(25, 12);
+            this.timeChangerCheckBox.Name = "timeChangerCheckBox";
+            this.timeChangerCheckBox.Size = new System.Drawing.Size(99, 30);
+            this.timeChangerCheckBox.TabIndex = 7;
+            this.timeChangerCheckBox.Text = "Enabled";
+            this.timeChangerCheckBox.UseVisualStyleBackColor = true;
+            this.timeChangerCheckBox.CheckedChanged += new System.EventHandler(this.timeChanger_CheckedChanged);
             // 
             // toggleSprintLabel
             // 
@@ -1051,7 +1051,7 @@ namespace Latite
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label timeChangerTrackBarLabel;
         private System.Windows.Forms.TrackBar timeChangerTrackBar;
-        private System.Windows.Forms.CheckBox timeChangerCheckbox;
+        private System.Windows.Forms.CheckBox timeChangerCheckBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TabPage infoTabPage;
         private System.Windows.Forms.RichTextBox infoRichTextBox;

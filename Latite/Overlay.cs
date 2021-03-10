@@ -21,35 +21,17 @@ namespace Latite
             public static long LastClick = 0;
         }
         private int OldStyle = 0;
-
-
         LatiteForm latiteForm;
         DragUtils dragUtils;
         public bool LoadedGuiPositions = false;
         readonly string ToggleSprintTextOn = "[Sprinting (Toggled)]";
 
+        // TODO a better way to find the window, from minecraft.windows.exe?
         public static IntPtr hWnd = User32.FindWindowA(null, "Minecraft"); // find minecraft 
-
-        private void secondRunner_DoWork(object sender, DoWorkEventArgs e)
-        {
-            /*while (true)
-            {
-                if (secondRunner.CancellationPending) break;
-                Thread.Sleep(1000);
-                // CPS counter
-                // todo not proper cps counter
-                LMBCounter.Text = KeyDisplay.Left + " CPS";
-                RMBCounter.Text = KeyDisplay.Right + " CPS";
-                KeyDisplay.Left = 0;
-                KeyDisplay.Right = 0;
-            }*/
-        }
-
         public void SetOpacity(double Opacity)
         {
             this.Opacity = Opacity;
         }
-
         public void ToggleSprint(int val)
         {
             if (LatiteCore.getCurrentGui() != 0) return;
@@ -109,10 +91,6 @@ namespace Latite
             }
 
             Data.Save();
-        }
-
-        private void Overlay_FormClosing(object sender, FormClosingEventArgs e)
-        {
         }
         public void SetGuiDisplay(uint gui, bool display, int anchor = -1, int[] position = null)
         {
@@ -290,7 +268,6 @@ namespace Latite
 
             LoadedGuiPositions = true;
         }
-
         public void OnDataInit()
         {
             // restore saved settings
@@ -302,9 +279,9 @@ namespace Latite
             UpdateTextColorK();
 
             this.blockCoordsCheckbox.Checked = Data.BlockPosDisplay.Enabled;
+            this.posDisplayCheckbox.Checked = Data.PosDisplay.Enabled;
             this.blockDisplayText.Visible = Data.BlockPosDisplay.Enabled;
         }
-
         private void Overlay_Load(object sender, EventArgs e)
         {
             this.Opacity = 0.90;
@@ -322,13 +299,11 @@ namespace Latite
             User32.SetWindowLong(this.Handle, -20, OldStyle | 0x8000 /*WS_EX_LAYERED*/ | 0x20 /* WS_EX_TRANSPARENT*/);
             // run constant running loop asynch so it matches mc window without freezing
             backgroundWorker1.RunWorkerAsync();
-            secondRunner.RunWorkerAsync();
 
             this.toggleSprintLabel.Text = "";
             settingsCheckBox.Visible = false;
             settingsTabControl.Visible = false;
         }
-
         private void ProcKeystroke(Panel panel, int Key)
         {
             int[] NotPressedColor = { 50, 60, 70 };
@@ -337,7 +312,6 @@ namespace Latite
             if (KeyDisplay.KeysPressed[Key]) panel.BackColor = Color.FromArgb(PressedColor[0], PressedColor[1], PressedColor[2]);
             else panel.BackColor = Color.FromArgb(NotPressedColor[0], NotPressedColor[1], NotPressedColor[2]);
         }
-
         private void UpdateKeystrokes()
         {
             ProcKeystroke(keyStrokes_W, 0);
@@ -350,7 +324,6 @@ namespace Latite
 
             ProcKeystroke(spaceBarPanel, 6);
         }
-
         public void SetGuisVisible(bool val)
         {
             if (keystrokesCheckBox.Checked)
@@ -379,14 +352,29 @@ namespace Latite
                 toggleSprintLabel.Text = (latiteForm.IsToggleSprint) ? this.ToggleSprintTextOn : "";
             }
         }
-        public int[] GetBlockCoords()
+
+        public float[] GetPlayerPos()
         {
-            IntPtr ptr = LatiteCore.LocalPlayer.GetLookAtBlock();
-            int[] coords = new int[3];
+            IntPtr ptr = LatiteCore.LocalPlayer.getPosition();
+            float[] coords = new float[3];
             Marshal.Copy(ptr, coords, 0, 3);
             return coords;
         }
 
+        public float GetVector3Distance(float[] Vector1, float[] Vector2)
+        {
+            return (float)Math.Sqrt(
+                Math.Pow((Vector1[0] - Vector2[0]), 2) + Math.Pow((Vector1[1] - Vector2[1]), 2) + Math.Pow((Vector1[2] - Vector2[2]), 2)
+            );
+        }
+
+        public int[] GetBlockCoords()
+        {
+            IntPtr ptr = LatiteCore.LocalPlayer.getLookAtBlock();
+            int[] coords = new int[3];
+            Marshal.Copy(ptr, coords, 0, 3);
+            return coords;
+        }
         private int GetClicks(bool Right = false)
         {
             List<long> Array = Right ? KeyDisplay.RightClicks : KeyDisplay.Clicks;
@@ -401,11 +389,16 @@ namespace Latite
             return Array.Count;
         }
 
+        private float[] lastDist = { 0, 0, 0 };
+        
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            gameUpdateRunner.RunWorkerAsync();
             while (true)
             {
                 Thread.Sleep(10); // Cooldown
+                if (backgroundWorker1.CancellationPending) break; 
+                
                 #region Edit Mode Shortcut
                 if (!IsEditing && LatiteCore.getCurrentGui() != 0) SetGuisVisible(false);
                 if (IsEditing || LatiteCore.getCurrentGui() == 0) SetGuisVisible(true);
@@ -413,7 +406,7 @@ namespace Latite
                 if (this.latiteForm.FocusedOnMinecraft() || User32.GetForegroundWindow() == this.Handle)
                 {
 
-                    if ((LatiteCore.getCurrentGui() != 4) && (User32.GetAsyncKeyState(EditingBind) & 1) != 0) // rshift
+                    if ((((LatiteCore.getCurrentGui() != 4) || IsEditing) && (User32.GetAsyncKeyState(EditingBind) & 1) == 1)) // rshift
                     {
                         this.latiteForm.toggleEditing();
                         User32.SetForegroundWindow(this.Handle);
@@ -423,24 +416,13 @@ namespace Latite
                 #region Pos Display
                 if (LatiteCore.connectedToMinecraft())
                 {
-                    xPosLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetXPos(), 2) + "";
-                    yPosLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetYPos(), 2) + "";
-                    zPosLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetZPos(), 2) + "";
-                    motionLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetMotion(), 3) + "";
-                    motionYLabel.Text = Math.Round(LatiteCore.LocalPlayer.GetYMotion(), 3) + "";
-                }
-
-                if (User32.GetForegroundWindow() != hWnd)
-                {
-                    IntPtr hWnd = User32.FindWindowA(null, "Minecraft");
-                    if (hWnd == (IntPtr)0)
+                    if (posPanel.Visible)
                     {
-                        this.latiteForm.DisconnectFromMc();
+                        float[] pos = GetPlayerPos();
+                        xPosLabel.Text = Math.Round(pos[0], 2) + "";
+                        yPosLabel.Text = Math.Round(pos[1], 2) + "";
+                        zPosLabel.Text = Math.Round(pos[2], 2) + "";
                     }
-                    this.TopMost = false;
-                } else
-                {
-                    this.TopMost = true;
                 }
                 #endregion Pos Display
                 #region Keystrokes
@@ -471,7 +453,22 @@ namespace Latite
                 else KeyDisplay.KeysPressed[5] = false;
                 UpdateKeystrokes();
                 #endregion
+
                 #region Window Pos
+                if (User32.GetForegroundWindow() != hWnd)
+                {
+                    IntPtr hWnd = User32.FindWindowA(null, "Minecraft");
+                    if (hWnd == (IntPtr)0)
+                    {
+                        this.latiteForm.DisconnectFromMc();
+                    }
+                    this.TopMost = false;
+                }
+                else
+                {
+                    this.TopMost = true;
+                }
+
                 User32.GetWindowRect(hWnd, out User32.rect);
                 this.Size = new Size(User32.rect.right - User32.rect.left,
                     User32.rect.bottom - User32.rect.top);
@@ -479,16 +476,29 @@ namespace Latite
                 // Set the position of the form
                 this.Left = User32.rect.left;
                 this.Top = User32.rect.top;
-
-                if (this.blockDisplayText.Visible)
-                {
-                    this.blockDisplayText.Text = string.Join(", ", GetBlockCoords());
-                }
                 #endregion Window Pos
+
                 #region CPS
                 LMBCounter.Text = GetClicks() + " CPS";
                 RMBCounter.Text = GetClicks(true) + " CPS";
                 #endregion CPS
+                #region Block Display
+                if (this.blockDisplayText.Visible)
+                {
+                    this.blockDisplayText.Text = string.Join(", ", GetBlockCoords());
+                }
+                #endregion Block Display
+            }
+        }
+
+        private void gameUpdateRunner_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (true)
+            {
+                Thread.Sleep(50);
+                float[] pos = GetPlayerPos();
+                motionLabel.Text = Math.Round(GetVector3Distance(lastDist, pos), 3) + "";
+                lastDist = pos;
             }
         }
     }

@@ -2,7 +2,7 @@
 #include "SA_utils.h"
 #include <iostream>
 
-Config serverConfig("servers.txt", "# If you are seeing this, that means you didn't have the servers.txt file.\r\n# Grab the latest from https://github.com/Imrglop/Latite");
+Config serverConfig("servers.txt", SERVER_DEFAULTS);
 
 using std::string;
 

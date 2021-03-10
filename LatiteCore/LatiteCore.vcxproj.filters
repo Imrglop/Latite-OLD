@@ -66,6 +66,9 @@
     <ClInclude Include="Mods\Freelook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\HookDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -120,5 +123,6 @@
     <None Include="Resources\servers.txt">
       <Filter>Source Files\Config</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
