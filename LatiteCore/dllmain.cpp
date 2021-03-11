@@ -112,33 +112,23 @@ void mod_lookBehind_setBind(char bind)
     getLookBehindModule().setBind(bind);
 }
 
+[[deprecated]]
 float LPGetMotion()
 {
-    ADDRESS yAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
-        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    float vel = 0.f;
-    ReadProcessMemory(hProcess, (void*)(yAddy - 0x16C), &vel, sizeof(vel), 0);
-    return vel;
+    return 0.f;
 }
 
+[[deprecated]]
 float LPGetYMotion()
 {
-    // y position address
-    ADDRESS yAddy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
-        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    float yVel = 0.f;
-    ADDRESS yVelAddy = yAddy + 60;
-    ReadProcessMemory(hProcess, (void*)yVelAddy, &yVel, sizeof(yVel), 0);
-    return yVel;
+    return 0.f;
 }
 
 float pos[3];
 
 float* LPGetPos()
 {
-    ADDRESS addy = memory::GetMLPtrAddy((void*)(moduleBase + ADDRESS_Y_BASEADDY),
-        ADDRESS_Y_SEMI_OFFSETS) + ADDRESS_Y_LAST_OFFSET;
-    addy -= 4; // 1 float value (4 bytes) right before to the y position
+    auto addy = LocalPlayer::add(0x4A0);
     ReadProcessMemory(hProcess, (void*)addy, pos, 12, 0);
     return pos;
 }

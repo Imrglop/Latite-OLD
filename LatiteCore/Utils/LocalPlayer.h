@@ -4,6 +4,16 @@
 
 struct LocalPlayer
 {
+	static uintptr_t getPtr();
+	// Add this amount to the local player pointer.
+
+	template <typename T>
+	static T push(uintptr_t offset);
+
+	static uintptr_t add(uintptr_t amount) {
+		return getPtr() + amount;
+	}
+
 	// Get the player's field of view
 	static float getFOV();
 	// Gets in-game display name of player

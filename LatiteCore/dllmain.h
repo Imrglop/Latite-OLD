@@ -11,7 +11,7 @@
 // Macros / Types
 
 // 64 Bit unsigned integer
-typedef unsigned long long ADDRESS;
+typedef uintptr_t ADDRESS;
 #ifndef LATITE_EXPORTS
 #define LATITE_API __declspec(dllexport)
 #else
@@ -19,7 +19,7 @@ typedef unsigned long long ADDRESS;
 #endif
 #define BASE_H
 #define DEBUG_MODE TRUE
-#define log std::cout
+#define log std::cout<<"[Core] "
 #define cstring char*
 
 #define SETTINGS_TXT_DEFAULT "#\n# Settings File\n#\n\n# (For debugging) this will determine if console will be enabled every time \n# you attach launch. Can also be edited in the GUI/app itself but this one\n# will save\n\nconsole=false\n\n# This area is setting for offsets. you should leave enabled to false\n# if u want it to work on the latest version every update. But if you\n# are on a different version, place the offsets for your version here.\n\n# Warning: If you mess with those, it can crash the game or cause unexpected\n# behavior.\n\n# COMING SOON\noffsets_enabled=false\noffests=0,0,0,0,0"
@@ -73,15 +73,20 @@ extern "C" {
 // these are to be updated every Minecraft update
 // TODO: Make 1 pointer to the Actor/local player, so no need to get a pointer for every thing
 
-// pointer to fov
-// [1.16.201]
-#define ADDRESS_FOV_BASEADDY 0x0369BD40
-#define ADDRESS_FOV_SEMI_OFFSETS { 0x20, 0xC98, 0x68, 0x08, 0x1A0, 0x120 }
+
+// pointer to the local player
+// [1.16.210]
+#define GET_LOCALPLAYER() memory::GetMLPtrAddy((void*)(currentModuleBase() + 0x03B5B378), { 0x10, 0x20, 0xC8 })
+
+// pointer to FOV
+// [1.16.210]
+#define ADDRESS_FOV_BASEADDY 0x037CB460
+#define ADDRESS_FOV_SEMI_OFFSETS { 0x18, 0x130, 0x18 }
 
 // pointer to sensitivity
-// [1.16.201]
-#define ADDRESS_FSENS_BASEADDY 0x0369BD40
-#define ADDRESS_FSENS_SEMI_OFFSETS { 0x20, 0xFA0, 0x1A8, 0xC78, 0x200, 0x48 }
+// [1.16.210]
+#define ADDRESS_FSENS_BASEADDY 0x037CB460
+#define ADDRESS_FSENS_SEMI_OFFSETS { 0xAA8, 0x18, 0xC90, 0x30, 0x48 }
 #define ADDRESS_FSENS_LAST_OFFSET 0x14
 
 // pointer to hide hand
@@ -90,17 +95,11 @@ extern "C" {
 #define ADDRESS_FHH_SEMI_OFFSETS { 0x20, 0x9F8, 0x1D8, 0x08, 0xD10 }
 #define ADDRESS_FHH_LAST_OFFSET 0x1E0
 
-// pointer to Y lower coordinate
-// [1.16.201]
-#define ADDRESS_Y_BASEADDY 0x03699238
-#define ADDRESS_Y_SEMI_OFFSETS { 0x10, 0x128, 0x0, 0x138, 0x490, 0xc0 }
-#define ADDRESS_Y_LAST_OFFSET 0x49C
-
-// pointer to F3 prespective
-// [1.16.201]
-#define ADDRESS_PRESPECTIVE_BASEADDY 0x0369BD40
-#define ADDRESS_PRESPECTIVE_OFFSETS { 0x20, 0xE88, 0x1D8, 0x08, 0x20 }
-#define ADDRESS_PRESPECTIVE_LAST_OFFSET 0x1E8
+// pointer to F3 perspective
+// [1.16.210]
+#define ADDRESS_PRESPECTIVE_BASEADDY 0x037CB460
+#define ADDRESS_PRESPECTIVE_OFFSETS { 0x18, 0x30 }
+#define ADDRESS_PRESPECTIVE_LAST_OFFSET 0x18
 
 // address to assembly code that checks if you're holding CTRL before sprinting
 // [1.16.201]
@@ -119,23 +118,23 @@ extern "C" {
 #define ADDRESS_SERVER_LAST_OFFSET 0x0
 
 // pointer to the (address near) GUI opened
-// [1.16.201]
-#define ADDRESS_GUI_BASEADDY 0x03653A48
+// [1.16.210]
+#define ADDRESS_GUI_BASEADDY 0x03787148
 //#define ADDRESS_GUI_OFFSETS
 #define ADDRESS_GUI_OFFSET 0xAEBC
 #define ADDRESS_GUI_STRING_OFFSET 1048
 
 // pointer to lookat block
-// [1.16.201]
-#define ADDRESS_LOOKAT_BASEADDY 0x03699028
-#define ADDRESS_LOOKAT_OFFSETS { 0x10, 0x1F0, 0x0, 0x138, 0x358 }
-#define ADDRESS_LOOKAT_LAST_OFFSET 0x9A0
+// [1.16.210] [FIXME: BROKEN]
+#define ADDRESS_LOOKAT_BASEADDY 0x03B5B328
+#define ADDRESS_LOOKAT_OFFSETS { 0x8, 0x8, 0x18, 0xB8, 0x358 }
+#define ADDRESS_LOOKAT_LAST_OFFSET 0x948
 
 // pointer to brightness
 // [1.16.201]
 #define ADDRESS_BRIGHTNESS_BASEADDY 0x0369BD40
 #define ADDRESS_BRIGHTNESS_OFFSETS { 0x20, 0xFF0, 0x1D8, 0x8, 0x138 }
-#define ADDRESS_BRIGHTNESS_LAST_OFFSET 0x1E8\
+#define ADDRESS_BRIGHTNESS_LAST_OFFSET 0x1E8
 
 // [1.16.201]
 #define ADDRESS_STATIC_FREELOOK_CODE 0x1AB7E57
